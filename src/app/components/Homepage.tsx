@@ -9,24 +9,22 @@ import Footer from "./Footer";
 function Homepage() {
   return (
     <div className="main">
-      <Navbar />
-      {/* <div className="flex justify-center items-center ">
-        <div className="border border-t-1 border-b-1 border-l-0 border-r-0  w-full ">
-          <div className="flex items-center justify-between w-[90%] m-auto">
-            <div className="text-[7em] font-boldml-4 border-r-2 rounded-r-[100px] pr-[80px] pt-4 pb-4">
+      <div className="flex justify-center items-center">
+        <div className="border-y w-full">
+          <div className="flex flex-col md:flex-row items-center justify-between w-[90%] mx-auto py-8">
+            <div className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold md:border-r-2 md:rounded-r-[100px] md:pr-8 pb-4 md:pb-0">
               Send your tokens
             </div>
-
-            <div className="">
-              <Image src={TokenCircles} alt="Token circles" />
+            <div className="mt-4 md:mt-0">
+              <Image src={TokenCircles} alt="Token circles" className="w-full max-w-xs md:max-w-sm" />
             </div>
           </div>
         </div>
       </div>
-      <div>
-        <div className=" p-4 flex items-center  text-[7em] w-[90%] m-auto text-center justify-center">
+      <div className="py-8">
+        <div className="flex flex-col sm:flex-row items-center justify-center text-3xl sm:text-5xl md:text-6xl lg:text-7xl w-[90%] mx-auto text-center space-y-4 sm:space-y-0 sm:space-x-4">
           <span>Tron</span>
-          <div className="">
+          <div className="w-16 sm:w-20 md:w-24">
             <Image src={send} alt="send email" />
           </div>
           <span>email to anyone</span>
@@ -36,12 +34,11 @@ function Homepage() {
         <div className="sec3Bg">
           <div className="s3div">
             <div className="s3subdiv">
-              <button className="send">Send</button>
+              <button className="send px-6 py-3 text-lg sm:text-xl md:text-2xl">Send</button>
             </div>
           </div>
         </div>
-      </div> */}
-      <Footer />
+      </div>
     </div>
   );
 }
