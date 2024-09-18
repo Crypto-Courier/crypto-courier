@@ -1,14 +1,23 @@
+"use client";
 import React from "react";
-import Navbar from "./Navbar";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import TokenCircles from "../assets/token.png";
 import send from "../assets/send.png";
 import "../styles/homepage.css";
+import Navbar from "./Navbar";
 import Footer from "./Footer";
 
 function Homepage() {
+  const router = useRouter();
+
+  const OpenHistory = () => {
+    router.push("/transaction-history"); // Replace "/send" with the route you want to navigate to
+  };
+
   return (
     <div className="main">
+      <Navbar />
       <div className="flex justify-center items-center">
         <div className="border-y w-full">
           <div className="flex flex-col md:flex-row items-center justify-between w-[90%] mx-auto py-8">
@@ -16,7 +25,11 @@ function Homepage() {
               Send your tokens
             </div>
             <div className="mt-4 md:mt-0">
-              <Image src={TokenCircles} alt="Token circles" className="w-full max-w-xs md:max-w-sm" />
+              <Image
+                src={TokenCircles}
+                alt="Token circles"
+                className="w-full max-w-xs md:max-w-sm"
+              />
             </div>
           </div>
         </div>
@@ -34,11 +47,17 @@ function Homepage() {
         <div className="sec3Bg">
           <div className="s3div">
             <div className="s3subdiv">
-              <button className="send px-6 py-3 text-lg sm:text-xl md:text-2xl">Send</button>
+              <button
+                className="send px-6 py-3 text-lg sm:text-xl md:text-2xl"
+                onClick={OpenHistory}
+              >
+                Send
+              </button>
             </div>
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }
