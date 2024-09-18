@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 import "react-toggle/style.css";
-import WalletButtons from "./Connect";
 import { ThemeToggle } from "../components/ThemeToggle";
 import { useTheme } from "next-themes";
 import dLogo from "../assets/dLogo.png";
