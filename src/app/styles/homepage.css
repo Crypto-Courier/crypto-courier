@@ -32,4 +32,6 @@
   border-radius: 100px;
   background: transparent;
   backdrop-filter: blur(15px);
+  position: relative;
+  z-index: 999;
 }
