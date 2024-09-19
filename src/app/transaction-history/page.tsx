@@ -4,9 +4,11 @@ import { useRouter } from "next/navigation";
 import "../styles/History.css";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import { useAccount } from "wagmi";
 
 const TxHistory = () => {
   const router = useRouter();
+  const { address } = useAccount();
 
   const SendToken = () => {
     router.push("/send-token"); // Replace "/send" with the route you want to navigate to
@@ -26,7 +28,7 @@ const TxHistory = () => {
           <div className="flex justify-between items-center mb-6">
             <div className="flex items-center space-x-3">
               <div className="w-10 h-10 bg-gray-300 rounded-full"></div>
-              <span className="font-semibold">User.Name</span>
+              <span className="font-semibold">{ address ? `${address.slice(0, 6)}...${address.slice(-4)}` : "Connect Wallet"}</span>
             </div>
             <div className="text-right">
               <div className="text-sm text-gray-600">your overall balance</div>
