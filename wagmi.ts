@@ -1,7 +1,7 @@
 import { getDefaultConfig, Chain } from "@rainbow-me/rainbowkit";
-import { bitTorrent, sepolia } from "wagmi/chains";
+import { bitTorrent } from "wagmi/chains";
 
-const myCustomChain: Chain = {
+const bttcTestnet: Chain = {
   id: 1029, 
   name: 'BitTorrent Chain Donau',
   nativeCurrency: {
@@ -21,6 +21,6 @@ const myCustomChain: Chain = {
 export const config = getDefaultConfig({
   appName: "RainbowKit demo",
   projectId: "f8a6524307e28135845a9fe5811fcaa2",
-  chains: [sepolia, bitTorrent, myCustomChain],
+  chains: [ bitTorrent, bttcTestnet],
   ssr: true,
 });
