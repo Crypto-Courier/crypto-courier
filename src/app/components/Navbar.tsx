@@ -12,7 +12,7 @@ const Navbar = () => {
   const { theme, setTheme } = useTheme();
 
   return (
-    <div className="pt-5 pb-5 mx-auto w-[90%]">
+    <div className="pt-5  mx-auto w-[90%]">
       <div className="relative flex items-center justify-between">
         <a href="/" aria-label="CRYPTO-COURIER" title="CRYPTO-COURIER">
           {theme === "light" ? (

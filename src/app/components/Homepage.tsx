@@ -16,31 +16,35 @@ function Homepage() {
   };
 
   return (
-    <div className="main">
+    <div className="">
       <Navbar />
       <div className="flex justify-center items-center">
         <div className="border-y w-full">
-          <div className="flex flex-col md:flex-row items-center justify-between w-[90%] mx-auto py-8">
-            <div className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold md:border-r-2 md:rounded-r-[100px] md:pr-8 pb-4 md:pb-0">
+          <div className="flex flex-col md:flex-row items-center justify-between w-[90%] mx-auto  h-max">
+            <div className="flex items-center h-[160px] text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-[600] md:border-r-2 md:rounded-r-[100px] md:pr-8 pb-4 md:pb-0 w-[70%]">
               Send your tokens
             </div>
-            <div className="mt-4 md:mt-0">
+            <div className="mt-4 md:mt-0 h-[160px]">
               <Image
                 src={TokenCircles}
                 alt="Token circles"
-                className="w-full max-w-xs md:max-w-sm"
+                className="h-[160px] max-w-xs md:max-w-sm py-5 w-full"
               />
             </div>
           </div>
         </div>
       </div>
-      <div className="py-8">
-        <div className="flex flex-col sm:flex-row items-center justify-center text-3xl sm:text-5xl md:text-6xl lg:text-7xl w-[90%] mx-auto text-center space-y-4 sm:space-y-0 sm:space-x-4">
-          <span>Tron</span>
-          <div className="w-16 sm:w-20 md:w-24">
-            <Image src={send} alt="send email" />
+      <div className="">
+        <div className="flex flex-col sm:flex-row items-center justify-center text-5xl sm:text-6xl md:text-7xl lg:text-8xl w-[100%] mx-auto text-center space-y-4 sm:space-y-0 sm:space-x-4 font-[600]">
+          <div>Tron</div>
+          <div>
+            <Image
+              src={send}
+              alt="send email"
+              className="w-16 sm:w-20 md:w-24 h-full inline-flex"
+            />
           </div>
-          <span>email to anyone</span>
+          <div>email to anyone</div>
         </div>
       </div>
       <div>
