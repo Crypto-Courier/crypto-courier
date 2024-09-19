@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <div className="">
       {/* <div className="w-full h-full absolute z-20">
-        <Image src={img} alt="" />
+        <Image src={img} alt="" className="w-full h-full" />
       </div> */}
       <Homepage />
     </div>

@@ -3,15 +3,20 @@
   background-repeat: no-repeat;
   background-position: center;
   display: flex;
+  background-size: cover;
   justify-content: center;
-  padding: 30px 60px;
+  padding: 70px 60px;
+  width: 100%;
 }
 .send {
-  background-color: rgba(253, 253, 253, 0.25);
-  padding: 10px 30px;
+  /* background-color: rgba(253, 253, 253, 0.25); */
+  padding: 15px 30px;
+  outline: 0.1px solid rgba(255, 255, 255, 0.823);
+  outline-offset: -0.5px;
+  color: white;
 }
 .s3div {
-  border: 1px solid #ffffff85;
+  border: 0.1px solid rgba(255, 255, 255, 0.485);
   width: 95%;
   display: flex;
   justify-content: center;
@@ -19,8 +24,8 @@
   backdrop-filter: blur(15px);
 }
 .s3subdiv {
-  padding: 60px 40px;
-  border: 1px solid #ffffff85;
+  padding: 50px 40px;
+  border: 0.1px solid rgba(255, 255, 255, 0.485);
   width: 100%;
   display: flex;
   justify-content: center;
