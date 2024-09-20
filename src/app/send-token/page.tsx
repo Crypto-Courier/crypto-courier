@@ -1,20 +1,38 @@
 "use client";
 import React, { useState } from "react";
 import "../styles/History.css";
-import Wallet from "../components/Wallet";
+// import Wallet from "../components/Wallet";
 import { ChevronDown } from "lucide-react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { useAccount } from "wagmi";
-import img from "../assets/darkbg.png";
-import Image from "next/image";
+// import img from "../assets/darkbg.png";
+// import Image from "next/image";
+
+interface LinkedAccount {
+  type: string;
+  address: string;
+  verified_at: number;
+  first_verified_at: number | null;
+  latest_verified_at: number | null;
+}
+
+interface ApiResponse {
+  id: string;
+  created_at: number;
+  linked_accounts: LinkedAccount[];
+  mfa_methods: any[];
+  has_accepted_terms: boolean;
+  is_guest: boolean;
+}
 
 const SendToken = () => {
   const { address } = useAccount();
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  // const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [selectedToken, setSelectedToken] = useState("ETH");
   const [tokenAmount, setTokenAmount] = useState("");
   const [recipientEmail, setRecipientEmail] = useState("");
+  const [recipientWalletAddress, setRecipientWalletAddress] = useState("");
 
   const assets = [
     { name: "ETH", balance: "0.05", value: "$92.54" },
@@ -32,6 +50,35 @@ const SendToken = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedToken(e.target.value);
+  };
+
+  const handleSend = async () => {
+    try {
+      const response = await fetch('/api/create-wallet', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email: recipientEmail }),
+      });
+
+      const data: ApiResponse = await response.json();
+      console.log(data); // Log the full response from the API
+
+      // Extract the wallet address from the response
+      const walletAccount = data.linked_accounts.find(
+        (account: LinkedAccount) => account.type === 'wallet'
+      );
+      if (walletAccount) {
+        const walletAddress = walletAccount.address;
+        setRecipientWalletAddress(walletAddress);
+        console.log("Recipient's wallet address:", walletAddress);
+      } else {
+        console.log("No wallet address found in the response");
+      }
+    } catch (error) {
+      console.error("Error creating wallet:", error);
+    }
   };
 
   return (
@@ -148,7 +195,7 @@ const SendToken = () => {
                     CANCEL
                   </button>
                   <button
-                    onClick={() => setIsPopupOpen(true)}
+                    onClick={handleSend}
                     className="px-6 py-2 rounded-full border border-red-300 text-red-500 font-medium"
                   >
                     SEND
@@ -157,7 +204,11 @@ const SendToken = () => {
               </div>
             </div>
           </div>
-          <Wallet isOpen={isPopupOpen} onClose={() => setIsPopupOpen(false)} />
+          {/* {recipientWalletAddress && (
+            <div className="mt-4 text-sm text-gray-600">
+              Recipient's wallet address: {recipientWalletAddress}
+            </div>
+          )} */}
         </div>
         <Footer />
       </div>
