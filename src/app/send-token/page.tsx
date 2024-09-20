@@ -10,6 +10,22 @@ import token from "../assets/assets.png";
 import Image from "next/image";
 import profile from "../assets/profile.png";
 
+interface LinkedAccount {
+  type: string;
+  address: string;
+  verified_at: number;
+  first_verified_at: number | null;
+  latest_verified_at: number | null;
+}
+interface ApiResponse {
+  id: string;
+  created_at: number;
+  linked_accounts: LinkedAccount[];
+  mfa_methods: any[];
+  has_accepted_terms: boolean;
+  is_guest: boolean;
+}
+
 const SendToken = () => {
   const { address } = useAccount();
   // const [isPopupOpen, setIsPopupOpen] = useState(false);
