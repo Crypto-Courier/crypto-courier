@@ -5,3 +5,23 @@
   background-position: center;
   height: 100vh;
 }
+.scroll{
+  --sb-track-color: linear-gradient(to right, #da619c, #ff844a), #0a11b5;
+  --sb-thumb-color: white;
+  --sb-size: 2px;
+  font-family: "Hellix";
+  scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
+}
+.scroll::-webkit-scrollbar {
+  width: 4px;
+}
+
+.scroll::-webkit-scrollbar-track {
+  background: var(--sb-track-color);
+  border-radius: 10px;
+}
+
+.scroll::-webkit-scrollbar-thumb {
+  background: var(--sb-thumb-color);
+  border-radius: 10px;
+}
