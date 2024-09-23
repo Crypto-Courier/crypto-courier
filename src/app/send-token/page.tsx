@@ -4,13 +4,15 @@ import "../styles/History.css";
 import { ChevronDown } from "lucide-react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import { useAccount } from "wagmi";
+import { useAccount, useSendTransaction } from "wagmi";
+import { parseUnits } from "viem";
 import token from "../assets/assets.png";
 import Image from "next/image";
 import { useTheme } from "next-themes";
 import profile from "../assets/profile.png";
 import defaultTokenImage from "../assets/assets.png"; // Add this import
 import { TokenConfig } from "../../config/tokenConfig";
+import { useRouter } from "next/navigation";
 
 interface LinkedAccount {
   type: string;
@@ -42,6 +44,9 @@ interface NewToken {
 
 const SendToken = () => {
   const { address } = useAccount();
+  const { chain } = useAccount();
+  const router = useRouter();
+  const { data:hash, sendTransaction } = useSendTransaction();
   const [tokens, setTokens] = useState<TokenWithBalance[]>([]);
   const [selectedToken, setSelectedToken] = useState<string>("ETH");
   const [tokenAmount, setTokenAmount] = useState("");
@@ -49,6 +54,11 @@ const SendToken = () => {
   const [recipientWalletAddress, setRecipientWalletAddress] = useState("");
   const [showAddTokenForm, setShowAddTokenForm] = useState(false);
   const { theme } = useTheme();
+  const [isLoading, setIsLoading] = useState(false);
+  // const [txHash, setTxHash] = useState("");
+  const OpenHistory = () => {
+    router.push("/transaction-history"); // Replace "/send" with the route you want to navigate to
+  };
 
   const popupRef = useRef(null); // Reference for the popup element
 
@@ -82,7 +92,7 @@ const SendToken = () => {
     setSelectedToken(e.target.value);
   };
 
-  const handleSend = async () => {
+  const   handleSend = async () => {
     try {
       const response = await fetch("/api/create-wallet", {
         method: "POST",
@@ -102,11 +112,27 @@ const SendToken = () => {
         const walletAddress = walletAccount.address;
         setRecipientWalletAddress(walletAddress);
         console.log("Recipient's wallet address:", walletAddress);
+
+        const selectedTokenData = tokens.find(t => t.contractAddress === selectedToken);
+        console.log("Line no 112:",selectedTokenData);
+        if (!selectedTokenData) {
+          throw new Error("Selected token not found");
+        }
+
+        const amountInWei = parseUnits(tokenAmount, selectedTokenData.decimals);
+        console.log("Line no 118:",amountInWei);
+
+        const tx = await sendTransaction({
+          to: walletAddress as `0x${string}`,
+          value: amountInWei,
+        });
       } else {
         console.log("No wallet address found in the response");
       }
     } catch (error) {
       console.error("Error creating wallet:", error);
+    } finally {
+      setIsLoading(false)
     }
   };
 
@@ -186,8 +212,9 @@ const SendToken = () => {
                     ? "bg-[#FFE500] text-[#363535]"
                     : "bg-[#E265FF] text-white"
                 }`}
+                onClick={OpenHistory}
               >
-                GIFT TOKEN
+               Transaction History
               </button>
             </div>
           </div>
@@ -233,13 +260,13 @@ const SendToken = () => {
                       } flex justify-between items-center bg-opacity-50 rounded-xl shadow-sm py-2 px-5 my-4 mx-4`}
                     >
                       <div className="flex items-center space-x-2">
-                        <Image
+                        {/* <Image
                           src={defaultTokenImage}
                           alt={token.symbol || "Token"}
                           width={32}
                           height={32}
                           className="w-8 h-8 rounded-full"
-                        />
+                        /> */}
                         <span
                           className={` font-bold ${
                             theme === "dark" ? "text-white" : "text-black"
@@ -247,14 +274,15 @@ const SendToken = () => {
                         >
                           {token.symbol}
                         </span>
+                        <span> - {token.name} </span>
                       </div>
                       <div className="text-right">
                         <div className="font-bold">
                           {parseFloat(token.balance).toFixed(4)}
                         </div>
-                        <div className="text-xs text-gray-600">
+                        {/* <div className="text-xs text-gray-600">
                           {token.rawBalance}
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                   ))
@@ -370,11 +398,13 @@ const SendToken = () => {
                 </button>
                 <button
                   onClick={handleSend}
+                  disabled={isLoading}
                   className="px-9 py-3 rounded-full border border-red-300 text-white font-medium bg-[#FF336A]"
                 >
-                  SEND
+                  {isLoading ? 'SENDING...' : 'SEND'}
                 </button>
               </div>
+              {hash && <div> Transaction Hash: {hash} </div>}
             </div>
           </div>
         </div>

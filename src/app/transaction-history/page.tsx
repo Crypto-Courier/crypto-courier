@@ -74,6 +74,7 @@ const TxHistory = () => {
                     ? "bg-[#FFE500] text-[#363535]"
                     : "bg-[#E265FF] text-white"
                 }`}
+                onClick={SendToken}
               >
                 GIFT TOKEN
               </button>
