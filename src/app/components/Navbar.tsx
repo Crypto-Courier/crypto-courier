@@ -7,7 +7,7 @@ import dLogo from "../assets/dLogo.png";
 import lLogo from "../assets/lLogo.png";
 import Image from "next/image";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import "../styles/responsive.css";
+import "../styles/Responsive.css";
 
 const Navbar = () => {
   const { theme } = useTheme();
