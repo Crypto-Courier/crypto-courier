@@ -4,7 +4,7 @@ import "../styles/History.css";
 import { ChevronDown } from "lucide-react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import { useAccount, useSendTransaction } from "wagmi";
+import { useAccount, useSendTransaction, useBalance } from "wagmi";
 import { parseUnits } from "viem";
 import token from "../assets/assets.png";
 import Image from "next/image";
@@ -13,6 +13,8 @@ import profile from "../assets/profile.png";
 import defaultTokenImage from "../assets/assets.png"; // Add this import
 import { TokenConfig } from "../../config/tokenConfig";
 import { useRouter } from "next/navigation";
+import { sendEmail } from "../components/Email/Emailer";
+import Email from "../components/Email/Email";
 
 interface LinkedAccount {
   type: string;
@@ -46,6 +48,7 @@ const SendToken = () => {
   const { address } = useAccount();
   const { chain } = useAccount();
   const router = useRouter();
+  const totalBalance = useBalance({address})
   const { data:hash, sendTransaction } = useSendTransaction();
   const [tokens, setTokens] = useState<TokenWithBalance[]>([]);
   const [selectedToken, setSelectedToken] = useState<string>("ETH");
@@ -74,6 +77,34 @@ const SendToken = () => {
       fetchTokens();
     }
   }, [address]);
+
+  useEffect(() => {
+    if (hash) {
+      const selectedTokenData = tokens.find((t) => t.contractAddress === selectedToken);
+      if (selectedTokenData) {
+        const emailContent = Email({
+          recipientEmail,
+          tokenAmount,
+          tokenSymbol: selectedTokenData.symbol,
+          txnHash: hash,
+        });
+        sendEmail({
+          recipientEmail,
+          subject: "Transaction Confirmation",
+          htmlContent: emailContent,
+        });
+      }
+    }
+  }, [hash]);
+
+  // useEffect(() => {
+  //   if (hash) {
+  //     const selectedTokenData = tokens.find(t => t.contractAddress === selectedToken);
+  //     if (selectedTokenData) {
+  //       sendEmailToRecipient(recipientEmail, tokenAmount, selectedTokenData.symbol);
+  //     }
+  //   }
+  // }, [hash]);
 
   const fetchTokens = async () => {
     try {
@@ -125,7 +156,7 @@ const SendToken = () => {
         const tx = await sendTransaction({
           to: walletAddress as `0x${string}`,
           value: amountInWei,
-        });
+        });        
       } else {
         console.log("No wallet address found in the response");
       }
@@ -202,7 +233,7 @@ const SendToken = () => {
                       : "text-[#E265FF] border border-gray"
                   }`}
                 >
-                  $2230.1044
+                  $1234.56
                 </div>
               </div>
 
@@ -404,7 +435,7 @@ const SendToken = () => {
                   {isLoading ? 'SENDING...' : 'SEND'}
                 </button>
               </div>
-              {hash && <div> Transaction Hash: {hash} </div>}
+              {hash && <div> Txn Hash: { hash } </div>}
             </div>
           </div>
         </div>
