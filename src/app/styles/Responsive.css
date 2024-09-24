@@ -1,0 +1,7 @@
+@media only screen and (max-width: 1024px) {
+}
+@media only screen and (max-width: 425px) {
+  .logo {
+    width: 30px !important;
+  }
+}
