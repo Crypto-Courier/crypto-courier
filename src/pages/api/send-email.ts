@@ -1,11 +1,16 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { Resend } from 'resend';
+import nodemailer from "nodemailer";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.SMTP_USER,
+    pass: process.env.SMTP_PASS
+  }
+});
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  
-    if (req.method !== "POST") {
+  if (req.method !== "POST") {
     return res.status(405).json({ message: "Only POST requests are allowed" });
   }
 
@@ -15,17 +20,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(400).json({ message: "Missing required fields" });
   }
 
-    const { data, error } = await resend.emails.send({
-        from: 'Crypto <onboarding@resend.dev>',
-        to: [ recipientEmail ],
-        subject: subject,
-        html: htmlContent,
-      });
+  try {
+    // Send mail with defined transport object
+    const info = await transporter.sendMail({
+      from: `"CryptoCourier" <${process.env.SMTP_USER}>`,
+      to: recipientEmail,
+      subject: subject,
+      html: htmlContent,
+    });
 
-      if (error) {
-        return res.status(400).json(error);
-      }
-    
-      res.status(200).json(data);
-    
+    console.log("Message sent: %s", info.messageId);
+    res.status(200).json({ message: "Email sent successfully", messageId: info.messageId });
+  } catch (error) {
+    console.error("Error sending email:", error);
+    res.status(500).json({ message: "Error sending email"});
+  }
 }
