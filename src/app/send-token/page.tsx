@@ -65,6 +65,7 @@ const SendToken = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const { theme } = useTheme();
   const [isLoading, setIsLoading] = useState(false);
+  const [maxAmount, setMaxAmount] = useState("");
   // const [txHash, setTxHash] = useState("");
   const OpenHistory = () => {
     router.push("/transaction-history"); // Replace "/send" with the route you want to navigate to
@@ -109,6 +110,19 @@ const SendToken = () => {
     }
   }, [hash]);
 
+  useEffect(() => {
+    if (selectedToken) {
+      updateMaxAmount();
+    }
+  }, [selectedToken, tokens]);
+
+  const updateMaxAmount = () => {
+    const selectedTokenData = tokens.find(t => t.contractAddress === selectedToken);
+    if (selectedTokenData) {
+      setMaxAmount(selectedTokenData.balance);
+    }
+  };
+
   const fetchTokens = async () => {
     try {
       const response = await fetch(`/api/get-tokens?address=${address}`);
@@ -123,9 +137,18 @@ const SendToken = () => {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedToken(e.target.value);
+    const newSelectedToken = e.target.value;
+    setSelectedToken(newSelectedToken);
+    const selectedTokenData = tokens.find(t => t.contractAddress === newSelectedToken);
+    if (selectedTokenData) {
+      setTokenAmount(selectedTokenData.balance);
+    }
   };
 
+  const handleMaxClick = () => {
+    setTokenAmount(maxAmount);
+  };
+  
   const copyToClipboard = () => {
     if (hash) {
       navigator.clipboard.writeText(hash);
@@ -358,6 +381,7 @@ const SendToken = () => {
                         } `}
                     />
                     <button
+                      onClick={handleMaxClick}
                       className={`text-sm border  border-gray rounded-[10px] px-3 py-1 ${theme === "dark" ? "text-[#E265FF]" : "text-[#FF336A]"
                         }`}
                     >
