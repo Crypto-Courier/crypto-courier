@@ -13,7 +13,7 @@ interface TxDetailsProps {
   tokenAmount: string;
   tokenSymbol: string;
   recipientEmail: string;
-  onConfirm: () => void;
+  onConfirm: (walletAddress: string) => void;
 }
 
 const TxDetails: React.FC<TxDetailsProps> = ({ 
@@ -57,7 +57,7 @@ const TxDetails: React.FC<TxDetailsProps> = ({
   };
 
   const handleConfirm = () => {
-    onConfirm();
+    onConfirm(walletAddress);
     onClose();
   };
 

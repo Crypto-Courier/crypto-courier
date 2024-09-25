@@ -111,6 +111,7 @@ const SendToken = () => {
           tokenAmount,
           tokenSymbol: selectedTokenData.symbol
         });
+        StoreTransactionData(recipientWalletAddress, address as `0x${string}`, tokenAmount, selectedTokenData.symbol, recipientEmail);
       }
     }
   }, [hash]);
@@ -163,47 +164,55 @@ const SendToken = () => {
     }
   };
 
-  const handleSend = async () => {
+  const StoreTransactionData= async (walletAddress:string,address:string,tokenAmount:string,selectedTokenData:string,recipientEmail:string) => {
+    const storeResponse = await fetch("/api/store-transaction", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        recipientWallet: walletAddress,
+        senderWallet: address,
+        tokenAmount,
+        tokenSymbol: selectedTokenData,
+        recipientEmail,
+        transactionHash:hash,
+      }),
+    });
+
+    if (storeResponse.ok) {
+      console.log("Transaction stored successfully");
+      toast.success("Transaction completed and stored successfully");
+    } else {
+      console.error("Failed to store transaction");
+      toast.error("Transaction completed but failed to store details");
+    }
+  }
+
+  const handleSend = async (walletAddress: string) => {
     try {
-      const response = await fetch("/api/create-wallet", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email: recipientEmail }),
+      setIsLoading(true);
+      const selectedTokenData = tokens.find(
+        (t) => t.contractAddress === selectedToken
+      );
+      console.log("Selected token data:", selectedTokenData);
+      if (!selectedTokenData) {
+        throw new Error("Selected token not found");
+      }
+
+      const amountInWei = parseUnits(tokenAmount, selectedTokenData.decimals);
+      console.log("Amount in Wei:", amountInWei);
+
+      const tx = await sendTransaction({
+        to: walletAddress as `0x${string}`,
+        value: amountInWei,
       });
 
-      const data: ApiResponse = await response.json();
-      console.log(data);
-
-      const walletAccount = data.linked_accounts.find(
-        (account: LinkedAccount) => account.type === "wallet"
-      );
-      if (walletAccount) {
-        const walletAddress = walletAccount.address;
-        setRecipientWalletAddress(walletAddress);
-        console.log("Recipient's wallet address:", walletAddress);
-
-        const selectedTokenData = tokens.find(
-          (t) => t.contractAddress === selectedToken
-        );
-        console.log("Line no 112:", selectedTokenData);
-        if (!selectedTokenData) {
-          throw new Error("Selected token not found");
-        }
-
-        const amountInWei = parseUnits(tokenAmount, selectedTokenData.decimals);
-        console.log("Line no 118:", amountInWei);
-
-        const tx = await sendTransaction({
-          to: walletAddress as `0x${string}`,
-          value: amountInWei,
-        });
-      } else {
-        console.log("No wallet address found in the response");
-      }
+      console.log("Transaction sent:", tx);
+      setRecipientWalletAddress(walletAddress);
     } catch (error) {
-      console.error("Error creating wallet:", error);
+      console.error("Error sending transaction:", error);
+      toast.error("Failed to send transaction");
     } finally {
       setIsLoading(false);
     }
