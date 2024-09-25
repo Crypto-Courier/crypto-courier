@@ -1,5 +1,5 @@
 "use client";
-import react ,{useState}from "react";
+import react, { useState } from "react";
 import { useRouter } from "next/navigation";
 import "../styles/History.css";
 import Navbar from "../components/Navbar";
@@ -69,7 +69,7 @@ const TxHistory = () => {
               </div>
 
               <button
-                className={`  px-[30px] py-[10px] rounded-full mx-7 ${
+                className={`  px-[30px] py-[10px] rounded-full mx-7 hover:scale-110 duration-500 transition 0.3 ${
                   theme === "dark"
                     ? "bg-[#FFE500] text-[#363535]"
                     : "bg-[#E265FF] text-white"
@@ -90,7 +90,7 @@ const TxHistory = () => {
           >
             <div className="space-y-3">
               <h3
-                className={`text-[20px] font-medium   ${
+                className={`text-[20px] font-medium  ${
                   theme === "dark" ? "text-[#DEDEDE]" : "text-[#696969]"
                 }`}
               >
@@ -100,21 +100,38 @@ const TxHistory = () => {
               {transactions.map((tx, index) => (
                 <div
                   key={index}
-                  className={`flex justify-between items-center  bg-opacity-50 p-3 rounded-xl ${theme==="dark"?"]bg-[#000000]/20 border border-[#5C5C5C]":"bg-[#FFFCFC]/20 border border-[#FFFFFF]"}`}
+                  className={`flex justify-between items-center  bg-opacity-50 p-3 rounded-xl ${
+                    theme === "dark"
+                      ? "]bg-[#000000]/20 border border-[#5C5C5C]"
+                      : "bg-[#FFFCFC]/20 border border-[#FFFFFF]"
+                  }`}
                 >
                   <div className="flex items-center space-x-3">
-                    <span className={` rounded-[10px] ${theme==="dark"?"border border-[#FE660A] text-[#FE660A]  bg-[#181818] py-1 px-2 ":"border border-[#FE660A] text-[#FE660A]  bg-white py-1 px-2 "}`}>{tx.amount}</span>
+                    <span
+                      className={` rounded-[10px] ${
+                        theme === "dark"
+                          ? "border border-[#FE660A] text-[#FE660A]  bg-[#181818] py-1 px-2 "
+                          : "border border-[#FE660A] text-[#FE660A]  bg-white py-1 px-2 "
+                      }`}
+                    >
+                      {tx.amount}
+                    </span>
                     <span className="">to</span>
-                    <span  className={` rounded-[10px] ${theme==="dark"?"border border-[#E265FF] text-[#E265FF]  bg-[#181818] py-1 px-2 ":"border border-[#E265FF] text-[#E265FF]  bg-white py-1 px-2 "}`}>
+                    <span
+                      className={` rounded-[10px] ${
+                        theme === "dark"
+                          ? "border border-[#E265FF] text-[#E265FF]  bg-[#181818] py-1 px-2 "
+                          : "border border-[#E265FF] text-[#E265FF]  bg-white py-1 px-2 "
+                      }`}
+                    >
                       {tx.recipient}
                     </span>
                   </div>
-                  <div className="bg-[#FF336A] text-white px-5 py-2 rounded-full text-[12px] flex item-center gap-2">
-                  <Image src={trx} alt=""/>
-                  <button                   onClick={() => setIsPopupOpen(true)}
-                  >
-                    View Tx
-                  </button>
+                  <div className="bg-[#FF336A] hover:scale-110 duration-500 transition 0.3 text-white px-5 py-2 rounded-full text-[12px] flex item-center gap-2">
+                    <Image src={trx} alt="" />
+                    <button onClick={() => setIsPopupOpen(true)}>
+                      View Tx
+                    </button>
                   </div>
                 </div>
               ))}
@@ -122,7 +139,6 @@ const TxHistory = () => {
           </div>
         </div>
         <Wallet isOpen={isPopupOpen} onClose={() => setIsPopupOpen(false)} />
-
       </div>
       <Footer />
     </div>

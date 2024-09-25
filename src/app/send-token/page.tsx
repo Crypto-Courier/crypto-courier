@@ -17,6 +17,8 @@ import { TokenConfig } from "../../config/tokenConfig";
 import { useRouter } from "next/navigation";
 import { sendEmail } from "../components/Email/Emailer";
 import Email from "../components/Email/Email";
+import Wallet from "../components/Wallet";
+import TxDetails from "../components/TxDetails";
 
 interface LinkedAccount {
   type: string;
@@ -59,6 +61,7 @@ const SendToken = () => {
   const [recipientEmail, setRecipientEmail] = useState("");
   const [recipientWalletAddress, setRecipientWalletAddress] = useState("");
   const [showAddTokenForm, setShowAddTokenForm] = useState(false);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
   const { theme } = useTheme();
   const [isLoading, setIsLoading] = useState(false);
   // const [txHash, setTxHash] = useState("");
@@ -254,7 +257,7 @@ const SendToken = () => {
               </div>
 
               <button
-                className={`  px-[30px] py-[10px] rounded-full mx-7 ${
+                className={` hover:scale-110 duration-500 transition 0.3 px-[30px] py-[10px] rounded-full mx-7 ${
                   theme === "dark"
                     ? "bg-[#FFE500] text-[#363535]"
                     : "bg-[#E265FF] text-white"
@@ -285,7 +288,7 @@ const SendToken = () => {
                 </h3>
                 <button
                   onClick={() => setShowAddTokenForm(true)}
-                  className={`${
+                  className={` hover:scale-110 duration-500 transition 0.3 ${
                     theme === "dark"
                       ? "bg-[#FFE500] text-[#363535]"
                       : "bg-[#E265FF] text-white"
@@ -360,7 +363,7 @@ const SendToken = () => {
                     className={`flex-grow bg-opacity-50 rounded-xl p-3 mb-3 flex justify-between items-center ${
                       theme === "dark"
                         ? "bg-[#000000]/50 border border-white"
-                        : " bg-[#FFFCFC]"
+                        : " bg-[#FFFCFC] border border-gray-700"
                     }`}
                   >
                     <input
@@ -387,7 +390,7 @@ const SendToken = () => {
                       className={`flex-grow bg-opacity-50 rounded-xl p-3 mb-3 flex justify-between items-center  outline-none ${
                         theme === "dark"
                           ? "bg-[#000000]/50 border border-white"
-                          : " bg-[#FFFCFC]"
+                          : " bg-[#FFFCFC] border border-gray-700"
                       }`}
                     >
                       <option
@@ -397,7 +400,7 @@ const SendToken = () => {
                         className={` text-black hover:bg-gray-200 bg-opacity-50 ${
                           theme === "dark"
                             ? "bg-[#000000]/100 border border-white text-white"
-                            : " bg-[#FFFCFC] border border-gray text-black "
+                            : " bg-[#FFFCFC] border border-gray-700 text-black "
                         }`}
                       >
                         Select a token
@@ -409,7 +412,7 @@ const SendToken = () => {
                           className={` text-black hover:bg-gray-200 bg-opacity-50 ${
                             theme === "dark"
                               ? "bg-[#000000]/100 border border-white text-white"
-                              : " bg-[#FFFCFC] border border-gray text-black "
+                              : "bg-[#FFFCFC] border border-gray-700 text-black "
                           }`}
                         >
                           {token.symbol}
@@ -436,7 +439,7 @@ const SendToken = () => {
                   className={`w-full bg-opacity-50 rounded-xl p-3 mb-3 r  outline-none${
                     theme === "dark"
                       ? "bg-[#000000]/50 border border-white"
-                      : " bg-[#FFFCFC]"
+                      : " bg-[#FFFCFC] border border-gray-700"
                   }`}
                 />
               </div>
@@ -446,9 +449,9 @@ const SendToken = () => {
                   CANCEL
                 </button>
                 <button
-                  onClick={handleSend}
+                  onClick={() => setIsPopupOpen(true)}
                   disabled={isLoading}
-                  className="px-9 py-3 rounded-full border border-red-300 text-white font-medium bg-[#FF336A]"
+                  className="hover:scale-110 duration-500 transition 0.3 px-9 py-3 rounded-full border border-red-300 text-white font-medium bg-[#FF336A]"
                 >
                   {isLoading ? "SENDING..." : "SEND"}
                 </button>
@@ -487,6 +490,10 @@ const SendToken = () => {
               )}
             </div>
           </div>
+          <TxDetails
+            isOpen={isPopupOpen}
+            onClose={() => setIsPopupOpen(false)}
+          />
         </div>
         <Footer />
 
@@ -624,7 +631,7 @@ const SendToken = () => {
                   </button>
                   <button
                     type="submit"
-                    className="px-4 py-2 border border-red-300 text-white font-medium bg-[#FF336A] rounded-md shadow-sm text-sm font-medium"
+                    className="hover:scale-110 duration-500 transition 0.3 px-4 py-2 border border-red-300 text-white font-medium bg-[#FF336A] rounded-md shadow-sm text-sm font-medium"
                   >
                     Add Token
                   </button>

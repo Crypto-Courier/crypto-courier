@@ -72,7 +72,7 @@ function Homepage() {
           <div className="s3div">
             <div className="s3subdiv flex justify-center">
               <button
-                className="send px-6 py-3 text-base sm:text-lg md:text-xl lg:text-2xl rounded-full z-40 relative w-full sm:w-[50%] md:w-[40%] lg:w-[25%] max-w-[300px]"
+                className="hover:scale-110 duration-500 transition 0.3 send px-6 py-3 text-base sm:text-lg md:text-xl lg:text-2xl rounded-full z-40 relative w-full sm:w-[50%] md:w-[40%] lg:w-[25%] max-w-[300px] bg-[#FFFFFF]/25"
                 onClick={OpenHistory}
               >
                 Send
