@@ -30,19 +30,23 @@ const Email: React.FC<EmailProps> = ({
           textAlign: "center",
         }}
       >
-        <div style={{ fontSize: "18px", fontWeight: "bold" }}>
+        <div style={{ fontSize: "1.5rem", fontWeight: "bold" }}>
           CryptoCourier
         </div>
-        <p style={{ fontSize: "18px", color: "white" }}>
+        <p style={{ fontSize: "15px", color: "white" }}>
           Take your first step into the world of Onchain journey.
         </p>
       </div>
 
       <div style={{ textAlign: "center", marginBottom: "4px" }}>
-        <p style={{ fontSize: "16px", marginBottom: "2px" }}>Hey 👋</p>
-        <p style={{ fontSize: "16px", fontWeight: "bold" }}>
-          You just received {tokenAmount} {tokenSymbol} Token
-        </p>
+        <span style={{ fontSize: "16px", marginRight: "8px" }}>Hey 👋</span>
+        <span style={{ fontSize: "16px" }}>
+          You just received
+          <strong>
+            {tokenAmount} {tokenSymbol}
+          </strong>
+          Token
+        </span>
       </div>
 
       <div
