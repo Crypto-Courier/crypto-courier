@@ -22,7 +22,7 @@ const Wallet: React.FC<WalletProps> = ({ isOpen, onClose }) => {
       <div
         className={`bg-white rounded-[10px] max-w-md w-full mx-4 relative ${
           theme === "dark"
-            ? "bg-[#000000]/50 border-red-500 border backdrop-blur-[10px]"
+            ? "bg-[#000000] border-red-500 border backdrop-blur-[10px]"
             : "bg-[#FFFCFC] border border-[#FE005B]/60"
         }`}
       >
