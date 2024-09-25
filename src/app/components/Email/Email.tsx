@@ -24,7 +24,7 @@ const Email: React.FC<EmailProps> = ({
     >
       <div
         style={{
-          backgroundColor: "#dc062b",
+          backgroundColor: "red",
           color: "black",
           padding: "14px",
           marginBottom: "4px",
