@@ -17,7 +17,7 @@ import defaultTokenImage from "../assets/assets.png"; // Add this import
 import { TokenConfig } from "../../config/tokenConfig";
 import { useRouter } from "next/navigation";
 import { sendEmail } from "../components/Email/Emailer";
-import Email from "../components/Email/Email";
+import Email from "../components/Email/Email"
 import Wallet from "../components/Wallet";
 import TxDetails from "../components/TxDetails";
 

@@ -7,7 +7,6 @@ interface EmailProps {
   tokenAmount: string;
   tokenSymbol: string;
 }
-
 const Email: React.FC<EmailProps> = ({
   recipientEmail,
   tokenAmount,
@@ -19,54 +18,50 @@ const Email: React.FC<EmailProps> = ({
         fontFamily: "sans-serif",
         maxWidth: "600px",
         margin: "0 auto",
-        padding: "20px",
+        padding: "10px", // Reduced padding
       }}
     >
       <div
         style={{
           backgroundColor: "red",
           color: "black",
-          padding: "14px",
+          padding: "10px", // Reduced padding
           marginBottom: "4px",
           textAlign: "center",
         }}
       >
-        <div className="text-xl font-bold text-black ">CryptoCourier</div>
-
-        <p style={{ fontSize: "20px", color: "white" }}>
+        <div style={{ fontSize: "18px", fontWeight: "bold" }}>
+          CryptoCourier
+        </div>
+        <p style={{ fontSize: "18px", color: "white" }}>
           Take your first step into the world of Onchain journey.
         </p>
       </div>
 
       <div style={{ textAlign: "center", marginBottom: "4px" }}>
-        <p style={{ fontSize: "18px", marginBottom: "2px" }}>Hey 👋</p>
-        <p style={{ fontSize: "18px", fontWeight: "bold" }}>
-          You just received
-          <div className="text-[#dc062b]">
-            {tokenAmount} {tokenSymbol}
-          </div>
-          Token
+        <p style={{ fontSize: "16px", marginBottom: "2px" }}>Hey 👋</p>
+        <p style={{ fontSize: "16px", fontWeight: "bold" }}>
+          You just received {tokenAmount} {tokenSymbol} Token
         </p>
       </div>
 
       <div
         style={{
           backgroundColor: "#f3f4f6",
-          padding: "4px",
+          padding: "6px", // Adjusted padding
           borderRadius: "8px",
           textAlign: "center",
-          marginBottom: "2px",
+          marginBottom: "6px", // Adjusted margin
         }}
       >
-        <p style={{ fontSize: "18px", color: "#4b5563" }}>
-          "Welcome to the crypto space,
-          <br />
+        <p style={{ fontSize: "16px", color: "#4b5563" }}>
+          "Welcome to the crypto space, <br />
           Enjoy the {tokenSymbol} Token"
         </p>
       </div>
 
-      <div style={{ textAlign: "center", marginBottom: "2px" }}>
-        <p style={{ fontSize: "18px" }}>
+      <div style={{ textAlign: "center", marginBottom: "8px" }}>
+        <p style={{ fontSize: "16px" }}>
           Click the below link to Claim your tokens.
         </p>
       </div>
@@ -77,28 +72,27 @@ const Email: React.FC<EmailProps> = ({
           style={{
             backgroundColor: "black",
             color: "white",
-            padding: "6px 14px",
-            borderRadius: "8px",
-            fontSize: "18px",
+            padding: "8px 12px", // Adjusted button size
+            borderRadius: "6px", // Adjusted border radius
+            fontSize: "16px", // Adjusted font size
             border: "1px solid black",
             fontWeight: "600",
             textDecoration: "none",
             display: "inline-block",
-            animation: "pulse 1.5s infinite", // Infinite pulse animation
-            transition: "all 0.3s ease",
           }}
         >
           Claim Tokens 🎊🎉
         </a>
       </div>
+
       <div
         style={{
           borderTop: "1px solid #e5e7eb",
-          paddingTop: "10px",
-          marginTop: "20px",
+          paddingTop: "8px", // Reduced padding
+          marginTop: "12px", // Reduced margin
           textAlign: "center",
           color: "#6b7280",
-          fontSize: "15px",
+          fontSize: "12px", // Reduced font size
         }}
       >
         <p>&copy; 2024 CryptoCourier || All rights reserved.</p>
@@ -106,5 +100,4 @@ const Email: React.FC<EmailProps> = ({
     </div>
   );
 };
-
 export default Email;
