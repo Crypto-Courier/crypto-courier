@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { tokens } from '../../config/tokenConfig';
+import clientPromise from '../../lib/mongodb';
 import { ethers } from 'ethers';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -12,6 +12,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const apiKey = process.env.BTTC_API_KEY;
 
   try {
+    const client = await clientPromise;
+    const db = client.db('tokenDatabase');
+    const tokens = await db.collection('tokens').find({}).toArray();
+
     const tokenPromises = tokens.map(token =>
       fetch(`https://api-testnet.bttcscan.com/api?module=account&action=tokenbalance&contractaddress=${token.contractAddress}&address=${address}&tag=latest&apikey=${apiKey}`)
         .then(response => response.json())
@@ -25,7 +29,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return {
         ...tokens[index],
         balance: formattedBalance,
-        rawBalance: rawBalance
+        rawBalance
       };
     });
 
