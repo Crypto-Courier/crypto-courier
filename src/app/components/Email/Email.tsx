@@ -24,14 +24,14 @@ const Email: React.FC<EmailProps> = ({
     >
       <div
         style={{
-          backgroundColor: "black",
-          color: "white",
+          backgroundColor: "#dc062b",
+          color: "black",
           padding: "14px",
           marginBottom: "4px",
           textAlign: "center",
         }}
       >
-        <Image src={Logo} alt="CryptoCourier Logo" />
+        <div className="text-xl font-bold text-black ">CryptoCourier</div>
 
         <p style={{ fontSize: "20px", color: "white" }}>
           Take your first step into the world of Onchain journey.
@@ -40,8 +40,12 @@ const Email: React.FC<EmailProps> = ({
 
       <div style={{ textAlign: "center", marginBottom: "4px" }}>
         <p style={{ fontSize: "18px", marginBottom: "2px" }}>Hey 👋</p>
-        <p style={{ fontSize: "18px" }}>
-          You just received {tokenAmount} {tokenSymbol} Token
+        <p style={{ fontSize: "18px", fontWeight: "bold" }}>
+          You just received
+          <div className="text-[#dc062b]">
+            {tokenAmount} {tokenSymbol}
+          </div>
+          Token
         </p>
       </div>
 
@@ -54,7 +58,7 @@ const Email: React.FC<EmailProps> = ({
           marginBottom: "2px",
         }}
       >
-        <p style={{ fontSize: "14px", color: "#4b5563" }}>
+        <p style={{ fontSize: "18px", color: "#4b5563" }}>
           "Welcome to the crypto space,
           <br />
           Enjoy the {tokenSymbol} Token"
@@ -71,8 +75,8 @@ const Email: React.FC<EmailProps> = ({
         <a
           href="#"
           style={{
-            backgroundColor: "#FFE500",
-            color: "black",
+            backgroundColor: "black",
+            color: "white",
             padding: "6px 14px",
             borderRadius: "8px",
             fontSize: "18px",
@@ -80,9 +84,11 @@ const Email: React.FC<EmailProps> = ({
             fontWeight: "600",
             textDecoration: "none",
             display: "inline-block",
+            animation: "pulse 1.5s infinite", // Infinite pulse animation
+            transition: "all 0.3s ease",
           }}
         >
-          Claim Tokens
+          Claim Tokens 🎊🎉
         </a>
       </div>
       <div
@@ -92,7 +98,7 @@ const Email: React.FC<EmailProps> = ({
           marginTop: "20px",
           textAlign: "center",
           color: "#6b7280",
-          fontSize: "12px",
+          fontSize: "15px",
         }}
       >
         <p>&copy; 2024 CryptoCourier || All rights reserved.</p>

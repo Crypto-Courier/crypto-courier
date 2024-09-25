@@ -30,7 +30,6 @@ body::-webkit-scrollbar-thumb {
   border-radius: 10px;
 }
 
-
 .dark body {
   background-image: url("../app//assets//darkbg.png");
   color: white;
@@ -52,5 +51,16 @@ body::-webkit-scrollbar-thumb {
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+}
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
   }
 }
