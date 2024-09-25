@@ -33,6 +33,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     res.status(200).json({ message: "Email sent successfully", messageId: info.messageId });
   } catch (error) {
     console.error("Error sending email:", error);
-    res.status(500).json({ message: "Error sending email"});
+    res.status(500).json({ message: "Error sending email" });
   }
 }

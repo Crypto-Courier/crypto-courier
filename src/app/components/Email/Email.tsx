@@ -1,29 +1,65 @@
 import React from 'react';
+import Image from 'next/image'
+import Logo from '../../assets/lLogo.png'
 
 interface EmailProps {
   recipientEmail: string;
   tokenAmount: string;
   tokenSymbol: string;
-  txnHash: string;
 }
 
-const Email = ({ recipientEmail, tokenAmount, tokenSymbol, txnHash }: EmailProps) => {
-  const emailContent = `
-    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
-      <h1 style="color: #0072C6; margin-bottom: 20px;">Transaction Confirmation</h1>
-      <p style="font-size: 16px; margin-bottom: 10px;">Dear ${recipientEmail},</p>
-      <p style="font-size: 16px; margin-bottom: 10px;">We are pleased to inform you that you have received a new transaction.</p>
-      <div style="background-color: #F4F4F4; padding: 20px; border-radius: 5px; margin-bottom: 20px;">
-        <p style="font-size: 16px; margin-bottom: 10px;">Amount: <strong>${tokenAmount} ${tokenSymbol}</strong></p>
-        <p style="font-size: 16px; margin-bottom: 10px;">Transaction Hash: <a href="https://example.com/tx/${txnHash}" style="color: #0072C6;">${txnHash}</a></p>
-      </div>
-      <p style="font-size: 16px; margin-bottom: 10px;">Thank you for using our service!</p>
-      <p style="font-size: 16px; margin-bottom: 10px;">Best regards,</p>
-      <p style="font-size: 16px; margin-bottom: 10px;">Crypto Courier</p>
-    </div>
-  `;
 
-  return emailContent;
+const Email: React.FC<EmailProps> = ({ recipientEmail, tokenAmount, tokenSymbol }) => {
+  return (
+    <div style={{ fontFamily: 'sans-serif', maxWidth: '600px', margin: '0 auto', padding: '20px' }}>
+      <div style={{ backgroundColor: 'black', color: 'white', padding: '14px', marginBottom: '4px', textAlign: 'center' }}>
+      <Image src={Logo} alt="CryptoCourier Logo" style={{ height: '40px', width:'120px', marginBottom: '2px' }} />
+      
+        <p style={{ fontSize: '20px', color:'white' }}>Take your first step into the world of Onchain journey.</p>
+      </div>
+
+      <div style={{ textAlign: 'center', marginBottom: '4px' }}>
+        <p style={{ fontSize: '18px', marginBottom: '2px' }}>Hey 👋</p>
+        <p style={{ fontSize: '18px' }}>You just received {tokenAmount} {tokenSymbol} Token</p>
+      </div>
+
+      <div style={{ backgroundColor: '#f3f4f6', padding: '4px', borderRadius: '8px', textAlign: 'center', marginBottom: '2px' }}>
+        <p style={{ fontSize: '14px', color: '#4b5563' }}>
+          "Welcome to the crypto space,<br />
+          Enjoy the {tokenSymbol} Token"
+        </p>
+      </div>
+
+      <div style={{ textAlign: 'center', marginBottom: '2px' }}>
+        <p style={{ fontSize: '18px' }}>Click the below link to Claim your tokens.</p>
+      </div>
+
+      <div style={{ textAlign: 'center' }}>
+        <a href="#" style={{
+          backgroundColor: '#FFE500',
+          color: 'black',
+          padding: '6px 14px',
+          borderRadius: '8px',
+          fontSize: '18px',
+          fontWeight: '600',
+          textDecoration: 'none',
+          display: 'inline-block'
+        }}>
+          Claim Tokens
+        </a>
+      </div>
+      <div style={{
+        borderTop: '1px solid #e5e7eb',
+        paddingTop: '10px',
+        marginTop: '20px',
+        textAlign: 'center',
+        color: '#6b7280',
+        fontSize: '12px'
+      }}>
+        <p>&copy; 2024 CryptoCourier. All rights reserved.</p>
+      </div>
+    </div>
+  );
 };
 
 export default Email;

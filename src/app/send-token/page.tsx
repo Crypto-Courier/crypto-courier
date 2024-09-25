@@ -1,5 +1,6 @@
 "use client";
 import React, { useRef, useEffect, useState } from "react";
+import { renderToString } from 'react-dom/server';
 import "../styles/History.css";
 import { ChevronDown } from "lucide-react";
 import Navbar from "../components/Navbar";
@@ -90,38 +91,23 @@ const SendToken = () => {
         (t) => t.contractAddress === selectedToken
       );
       if (selectedTokenData) {
-        const emailContent = Email({
-          recipientEmail,
-          tokenAmount,
-          tokenSymbol: selectedTokenData.symbol,
-          txnHash: hash,
-        });
+        const emailContent = renderToString(
+          <Email
+            recipientEmail={recipientEmail}
+            tokenAmount={tokenAmount}
+            tokenSymbol={selectedTokenData.symbol}
+          />
+        );
         sendEmail({
           recipientEmail,
           subject: "Transaction Confirmation",
           htmlContent: emailContent,
+          tokenAmount,
+          tokenSymbol: selectedTokenData.symbol
         });
       }
     }
   }, [hash]);
-
-  const copyToClipboard = () => {
-    if (hash) {
-      navigator.clipboard.writeText(hash);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-      toast.success("Tx hash copied to clipboard");
-    }
-  };
-
-  // useEffect(() => {
-  //   if (hash) {
-  //     const selectedTokenData = tokens.find(t => t.contractAddress === selectedToken);
-  //     if (selectedTokenData) {
-  //       sendEmailToRecipient(recipientEmail, tokenAmount, selectedTokenData.symbol);
-  //     }
-  //   }
-  // }, [hash]);
 
   const fetchTokens = async () => {
     try {
@@ -140,6 +126,15 @@ const SendToken = () => {
     setSelectedToken(e.target.value);
   };
 
+  const copyToClipboard = () => {
+    if (hash) {
+      navigator.clipboard.writeText(hash);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+      toast.success("Tx hash copied to clipboard");
+    }
+  };
+  
   const handleSend = async () => {
     try {
       const response = await fetch("/api/create-wallet", {
@@ -175,7 +170,7 @@ const SendToken = () => {
         const tx = await sendTransaction({
           to: walletAddress as `0x${string}`,
           value: amountInWei,
-        });
+        });        
       } else {
         console.log("No wallet address found in the response");
       }
@@ -264,7 +259,7 @@ const SendToken = () => {
                 }`}
                 onClick={OpenHistory}
               >
-                Transaction History
+               Transaction History
               </button>
             </div>
           </div>
