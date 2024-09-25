@@ -24,13 +24,13 @@ const Email: React.FC<EmailProps> = ({
       <div
         style={{
           backgroundColor: "red",
-          color: "black",
+
           padding: "10px", // Reduced padding
           marginBottom: "4px",
           textAlign: "center",
         }}
       >
-        <div style={{ fontSize: "1.5rem", fontWeight: "bold" }}>
+        <div style={{ fontSize: "1.5rem", fontWeight: "bold", color: "white" }}>
           CryptoCourier
         </div>
         <p style={{ fontSize: "15px", color: "white" }}>
