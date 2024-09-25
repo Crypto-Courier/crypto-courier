@@ -1,5 +1,6 @@
 "use client";
 import React, { useRef, useEffect, useState } from "react";
+import { renderToString } from 'react-dom/server';
 import "../styles/History.css";
 import { ChevronDown } from "lucide-react";
 import Navbar from "../components/Navbar";
@@ -82,29 +83,23 @@ const SendToken = () => {
     if (hash) {
       const selectedTokenData = tokens.find((t) => t.contractAddress === selectedToken);
       if (selectedTokenData) {
-        const emailContent = Email({
-          recipientEmail,
-          tokenAmount,
-          tokenSymbol: selectedTokenData.symbol,
-          txnHash: hash,
-        });
+        const emailContent = renderToString(
+          <Email
+            recipientEmail={recipientEmail}
+            tokenAmount={tokenAmount}
+            tokenSymbol={selectedTokenData.symbol}
+          />
+        );
         sendEmail({
           recipientEmail,
           subject: "Transaction Confirmation",
           htmlContent: emailContent,
+          tokenAmount,
+          tokenSymbol: selectedTokenData.symbol
         });
       }
     }
   }, [hash]);
-
-  // useEffect(() => {
-  //   if (hash) {
-  //     const selectedTokenData = tokens.find(t => t.contractAddress === selectedToken);
-  //     if (selectedTokenData) {
-  //       sendEmailToRecipient(recipientEmail, tokenAmount, selectedTokenData.symbol);
-  //     }
-  //   }
-  // }, [hash]);
 
   const fetchTokens = async () => {
     try {
