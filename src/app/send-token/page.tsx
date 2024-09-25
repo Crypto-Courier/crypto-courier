@@ -14,13 +14,18 @@ import Image from "next/image";
 import { useTheme } from "next-themes";
 import profile from "../assets/profile.png";
 import defaultTokenImage from "../assets/assets.png"; // Add this import
-import { TokenConfig } from "../../config/tokenConfig";
 import { useRouter } from "next/navigation";
 import { sendEmail } from "../components/Email/Emailer";
 import Email from "../components/Email/Email"
 import Wallet from "../components/Wallet";
 import TxDetails from "../components/TxDetails";
 
+interface TokenConfig {
+  contractAddress: string;
+  symbol: string;
+  name: string;
+  decimals: number;
+}
 interface LinkedAccount {
   type: string;
   address: string;
