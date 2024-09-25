@@ -30,7 +30,7 @@ const Email: React.FC<EmailProps> = ({
           textAlign: "center",
         }}
       >
-        <div style={{ fontSize: "2rem", fontWeight: "bold" }}>
+        <div style={{ fontSize: "2rem", fontWeight: "bold", color: "white" }}>
           CryptoCourier
         </div>
         <p style={{ fontSize: "15px", color: "white" }}>
@@ -56,6 +56,7 @@ const Email: React.FC<EmailProps> = ({
           borderRadius: "8px",
           textAlign: "center",
           marginBottom: "6px", // Adjusted margin
+          marginTop: "20px",
         }}
       >
         <p style={{ fontSize: "16px", color: "#4b5563" }}>
