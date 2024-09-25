@@ -8,6 +8,7 @@ import lLogo from "../assets/lLogo.png";
 import Image from "next/image";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import "../styles/Responsive.css";
+import { Connect } from "./Connect";
 
 const Navbar = () => {
   const { theme } = useTheme();
@@ -17,7 +18,7 @@ const Navbar = () => {
       <div className="flex items-center justify-between flex-wrap gap-y-4">
         {/* Logo Section */}
         <a href="/" aria-label="CRYPTO-COURIER" title="CRYPTO-COURIER">
-          <div className="w-32 sm:w-40 md:w-48 lg:w-56 logo">
+          <div className="w-[11rem] sm:w-40 md:w-48 lg:w-56 logo">
             {theme === "light" ? (
               <Image
                 src={dLogo}
@@ -41,7 +42,7 @@ const Navbar = () => {
         {/* Right Section: Theme Toggle and Connect Button */}
         <div className="flex items-center space-x-4">
           <ThemeToggle />
-          <ConnectButton />
+          <Connect />
         </div>
       </div>
     </div>
