@@ -6,6 +6,8 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { useAccount, useSendTransaction, useBalance } from "wagmi";
 import { parseUnits } from "viem";
+import { toast, Toaster } from "react-hot-toast";
+import { Copy, CheckCircle } from "lucide-react";
 import token from "../assets/assets.png";
 import Image from "next/image";
 import { useTheme } from "next-themes";
@@ -47,9 +49,10 @@ interface NewToken {
 const SendToken = () => {
   const { address } = useAccount();
   const { chain } = useAccount();
+  const [copied, setCopied] = useState(false);
   const router = useRouter();
-  const totalBalance = useBalance({address})
-  const { data:hash, sendTransaction } = useSendTransaction();
+  const totalBalance = useBalance({ address });
+  const { data: hash, sendTransaction } = useSendTransaction();
   const [tokens, setTokens] = useState<TokenWithBalance[]>([]);
   const [selectedToken, setSelectedToken] = useState<string>("ETH");
   const [tokenAmount, setTokenAmount] = useState("");
@@ -80,7 +83,9 @@ const SendToken = () => {
 
   useEffect(() => {
     if (hash) {
-      const selectedTokenData = tokens.find((t) => t.contractAddress === selectedToken);
+      const selectedTokenData = tokens.find(
+        (t) => t.contractAddress === selectedToken
+      );
       if (selectedTokenData) {
         const emailContent = Email({
           recipientEmail,
@@ -96,6 +101,15 @@ const SendToken = () => {
       }
     }
   }, [hash]);
+
+  const copyToClipboard = () => {
+    if (hash) {
+      navigator.clipboard.writeText(hash);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+      toast.success("Tx hash copied to clipboard");
+    }
+  };
 
   // useEffect(() => {
   //   if (hash) {
@@ -123,7 +137,7 @@ const SendToken = () => {
     setSelectedToken(e.target.value);
   };
 
-  const   handleSend = async () => {
+  const handleSend = async () => {
     try {
       const response = await fetch("/api/create-wallet", {
         method: "POST",
@@ -144,26 +158,28 @@ const SendToken = () => {
         setRecipientWalletAddress(walletAddress);
         console.log("Recipient's wallet address:", walletAddress);
 
-        const selectedTokenData = tokens.find(t => t.contractAddress === selectedToken);
-        console.log("Line no 112:",selectedTokenData);
+        const selectedTokenData = tokens.find(
+          (t) => t.contractAddress === selectedToken
+        );
+        console.log("Line no 112:", selectedTokenData);
         if (!selectedTokenData) {
           throw new Error("Selected token not found");
         }
 
         const amountInWei = parseUnits(tokenAmount, selectedTokenData.decimals);
-        console.log("Line no 118:",amountInWei);
+        console.log("Line no 118:", amountInWei);
 
         const tx = await sendTransaction({
           to: walletAddress as `0x${string}`,
           value: amountInWei,
-        });        
+        });
       } else {
         console.log("No wallet address found in the response");
       }
     } catch (error) {
       console.error("Error creating wallet:", error);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
   };
 
@@ -245,7 +261,7 @@ const SendToken = () => {
                 }`}
                 onClick={OpenHistory}
               >
-               Transaction History
+                Transaction History
               </button>
             </div>
           </div>
@@ -352,7 +368,9 @@ const SendToken = () => {
                       placeholder=" token amount "
                       value={tokenAmount}
                       onChange={(e) => setTokenAmount(e.target.value)}
-                      className={`w-full bg-transparent outline-none ${theme==="dark"? "text-white":"text-gray-800 "} `}
+                      className={`w-full bg-transparent outline-none ${
+                        theme === "dark" ? "text-white" : "text-gray-800 "
+                      } `}
                     />
                     <button
                       className={`text-sm border  border-gray rounded-[10px] px-3 py-1 ${
@@ -432,10 +450,41 @@ const SendToken = () => {
                   disabled={isLoading}
                   className="px-9 py-3 rounded-full border border-red-300 text-white font-medium bg-[#FF336A]"
                 >
-                  {isLoading ? 'SENDING...' : 'SEND'}
+                  {isLoading ? "SENDING..." : "SEND"}
                 </button>
               </div>
-              {hash && <div> Txn Hash: { hash } </div>}
+              {hash && (
+                <div className="mt-5">
+                  <label
+                    className={`block text-lg font-[500]  mb-1 ${
+                      theme === "dark" ? "text-[#DEDEDE]" : "text-black"
+                    }`}
+                  >
+                    Txn Hash:
+                  </label>
+                  <div
+                    className={`flex-grow bg-opacity-50 rounded-xl p-3 mb-3 flex justify-between items-center ${
+                      theme === "dark"
+                        ? "bg-[#000000]/50 border border-white"
+                        : " bg-[#FFFCFC]"
+                    }`}
+                  >
+                    {hash}
+                    <button
+                      className={`p-1 text-[#FF336A] transition-colors ${
+                        copied ? "text-[#FF336A]" : ""
+                      }`}
+                      onClick={copyToClipboard}
+                    >
+                      {copied ? (
+                        <CheckCircle className="w-4 h-4" />
+                      ) : (
+                        <Copy className="w-4 h-4" />
+                      )}
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -585,6 +634,17 @@ const SendToken = () => {
           </div>
         )}
       </div>
+      <Toaster
+        toastOptions={{
+          style: {
+            border: "1px solid transparent",
+
+            borderImageSlice: 1,
+            background: theme === "dark" ? "white" : "black",
+            color: theme === "dark" ? "black" : "white",
+          },
+        }}
+      />
     </div>
   );
 };
