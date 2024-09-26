@@ -6,7 +6,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     try {
       const newToken = req.body;
 
-      if (!newToken.contractAddress || !newToken.symbol || !newToken.name || typeof newToken.decimals !== 'number') {
+      if (!newToken.contractAddress || !newToken.symbol || !newToken.name || isNaN(Number(newToken.decimals))) {
+        console.error('Invalid token data received:', newToken);
         return res.status(400).json({ error: 'Invalid token data' });
       }
 
