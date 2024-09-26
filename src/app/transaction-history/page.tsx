@@ -9,6 +9,11 @@ import { useAccount } from "wagmi";
 import Image from "next/image";
 import trx from "../assets/trx.png";
 
+interface TokenDetails {
+  name: string;
+  symbol: string;
+  decimals: number;
+}
 interface Transaction {
   tokenAmount: string;
   tokenSymbol: string;
@@ -23,7 +28,37 @@ const TxHistory: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
+  const [tokenAddress, setTokenAddress] = useState('');
+  const [tokenDetails, setTokenDetails] = useState<TokenDetails | null>(null);
+  // const [error, setError] = useState(null);
+
   const { theme } = useTheme();
+
+  const fetchTokenDetails = async (e:React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setError(null);
+    setTokenDetails(null);
+
+    try {
+      const res = await fetch('/api/getTokenDetails', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ tokenAddress }),
+      });
+
+      const data = await res.json();
+
+      if (res.status === 200) {
+        setTokenDetails(data);
+      } else {
+        setError(data.message || 'Error fetching token details');
+      }
+    } catch (err) {
+      setError('An unexpected error occurred');
+    }
+  };
 
   const SendToken = () => {
     router.push("/send-token"); // Replace "/send" with the route you want to navigate to
@@ -164,6 +199,29 @@ const TxHistory: React.FC = () => {
         </div>
       </div>
       <Footer />
+      <div>
+      <h1>Fetch ERC-20 Token Details</h1>
+      <form onSubmit={fetchTokenDetails}>
+        <input
+          type="text"
+          value={tokenAddress}
+          onChange={(e) => setTokenAddress(e.target.value)}
+          placeholder="Enter token address"
+          required
+        />
+        <button type="submit">Fetch Token Details</button>
+      </form>
+
+      {error && <p style={{ color: 'red' }}>{error}</p>}
+
+      {tokenDetails && (
+        <div>
+          <p><strong>Token Name:</strong> {tokenDetails.name}</p>
+          <p><strong>Token Symbol:</strong> {tokenDetails.symbol}</p>
+          <p><strong>Token Decimals:</strong> {tokenDetails.decimals}</p>
+        </div>
+      )}
+    </div>
     </div>
   );
 };
