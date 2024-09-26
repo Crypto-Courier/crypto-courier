@@ -6,7 +6,17 @@
   --background: white;
   --text-color: black;
 }
-
+.txbgg {
+  height: 100vh;
+  background-image: url("../app//assets//txbg.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+.navbar {
+  position: relative;
+  z-index: 80;
+}
 body {
   background-color: white;
   color: black;
