@@ -2,7 +2,7 @@
 import React, { useEffect } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import "../styles/history.css";
+
 import { useTheme } from "next-themes";
 import { X, Copy } from "lucide-react";
 
