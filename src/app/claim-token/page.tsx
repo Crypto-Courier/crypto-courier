@@ -11,7 +11,7 @@ function ClaimToken() {
 
   // Prevent background scrolling when modal is open
   useEffect(() => {
-    document.body.style.overflow = "hidden"; // Disable scroll
+    document.body.style.overflow = "hidden";
     return () => {
       document.body.style.overflow = "auto"; // Restore scroll when unmounted
     };
