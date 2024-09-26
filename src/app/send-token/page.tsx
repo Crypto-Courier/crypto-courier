@@ -441,7 +441,7 @@ const SendToken = () => {
                   <div className="flex items-center justify-center h-full">
                     <span
                       className={` ${theme === "dark" ? "text-[#DEDEDE]" : "text-[#696969]"
-                        } text-center text-gray-500`}
+                        } text-center text-gray-500 text-[18px]`}
                     >
                       No tokens found
                     </span>
@@ -562,7 +562,10 @@ const SendToken = () => {
                         : " bg-[#FFFCFC]"
                       }`}
                   >
-                    {hash}
+                  {hash
+                    ? `${hash.slice(0, 20)}...${hash.slice(-7)}`
+                    : ""}
+            
                     <button
                       className={`p-1 text-[#FF336A] transition-colors ${copied ? "text-[#FF336A]" : ""
                         }`}

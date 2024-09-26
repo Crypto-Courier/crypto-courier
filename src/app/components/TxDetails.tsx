@@ -4,7 +4,7 @@ import wallet from "../assets/wallet.png";
 import Image from "next/image";
 import { useTheme } from "next-themes";
 import add from "../assets/wAdd.png";
-import add2 from "../assets/wadd2.png";
+import spin from "../assets/spinner.gif";
 import trx2 from "../assets/trx2.png";
 
 interface TxDetailsProps {
@@ -66,7 +66,7 @@ const TxDetails: React.FC<TxDetailsProps> = ({
       <div
         className={`rounded-[10px] max-w-lg w-full mx-4 relative ${
           theme === "dark"
-            ? "bg-[#000000] border-red-500 border backdrop-blur-[10px]"
+            ? "bg-[#111111] border-red-500 border backdrop-blur-[10px]"
             : "bg-[#FFFCFC] border border-[#FE005B]/60"
         }`}
       >
@@ -80,7 +80,7 @@ const TxDetails: React.FC<TxDetailsProps> = ({
         <div
           className={`flex justify-center items-center p-6 rounded-tr-[10px] rounded-tl-[10px] ${
             theme === "dark"
-              ? "bg-[#171717] border-b-2 border-red-500"
+              ? "bg-[#000000] border-b-2 border-red-500"
               : "bg-white border-b-2 border-[#FE005B]"
           }`}
         >
@@ -119,20 +119,17 @@ const TxDetails: React.FC<TxDetailsProps> = ({
             </div>
           ) : (
             <>
-              <div className="flex items-center justify-center gap-5 mb-4">
-                <p className={`text-xl ${theme === "dark" ? "text-white" : "text-black"}`}>
-                  Sending {tokenAmount} {tokenSymbol}
+              <div className="flex items-center justify-center gap-5 mb-4 flex-col ">
+             
+                  
+              
+                {/* <p className={`text-md ${theme === "dark" ? "text-white" : "text-black"}`}>to</p> */}
+                <p className={` text-md rounded-[12px] text-md py-2 px-4 ${theme === "dark" ? "text-[#FFE500]  bg-[#272626]" : "text-black"}`}>
+                Sending {tokenAmount} to {recipientEmail}
                 </p>
-                <p className={`text-xl ${theme === "dark" ? "text-white" : "text-black"}`}>to</p>
-                <p className={`text-xl ${theme === "dark" ? "text-white" : "text-black"}`}>
-                  {recipientEmail}
-                </p>
+                <Image src={spin} alt="Loading..." width={100}/>
               </div>
-              <div className={`mb-4 p-2 rounded ${theme === "dark" ? "bg-gray-800" : "bg-gray-100"}`}>
-                <p className={`text-sm ${theme === "dark" ? "text-white" : "text-black"}`}>
-                  Wallet Address: {walletAddress}
-                </p>
-              </div>
+              
               <div className="flex gap-5">
                 <button
                   onClick={onClose}

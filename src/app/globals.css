@@ -63,7 +63,8 @@ body::-webkit-scrollbar-thumb {
     text-wrap: balance;
   }
 }
-@keyframes pulse {
+
+@keyframes btn {
   0% {
     transform: scale(1);
   }

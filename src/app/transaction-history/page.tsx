@@ -90,6 +90,21 @@ const TxHistory: React.FC = () => {
     window.open(url, "_blank", "noreferrer");
   }
 
+  const SkeletonLoader = () => (
+    <div className="space-y-3 animate-pulse">
+      {[...Array(3)].map((_, index) => (
+        <div key={index} className="flex justify-between items-center bg-opacity-50 p-3 rounded-xl border border-gray-300">
+          <div className="flex items-center space-x-3">
+            <div className="h-8 w-24 bg-gray-300 rounded-[10px]"></div>
+            <div className="h-6 w-6 bg-gray-300 rounded"></div>
+            <div className="h-8 w-32 bg-gray-300 rounded-[10px]"></div>
+          </div>
+          <div className="h-8 w-24 bg-gray-300 rounded-full"></div>
+        </div>
+      ))}
+    </div>
+  );
+
   return (
     <div className="main">
       <Navbar />
@@ -152,7 +167,7 @@ const TxHistory: React.FC = () => {
                 Transaction history
               </h3>
               {isLoading ? (
-                <p>Loading transactions...</p>
+                 <SkeletonLoader />
               ) : error ? (
                 <p>Error: {error}</p>
               ) : transactions.length === 0 ? (
@@ -200,27 +215,7 @@ const TxHistory: React.FC = () => {
       </div>
       <Footer />
       <div>
-      <h1>Fetch ERC-20 Token Details</h1>
-      <form onSubmit={fetchTokenDetails}>
-        <input
-          type="text"
-          value={tokenAddress}
-          onChange={(e) => setTokenAddress(e.target.value)}
-          placeholder="Enter token address"
-          required
-        />
-        <button type="submit">Fetch Token Details</button>
-      </form>
-
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-
-      {tokenDetails && (
-        <div>
-          <p><strong>Token Name:</strong> {tokenDetails.name}</p>
-          <p><strong>Token Symbol:</strong> {tokenDetails.symbol}</p>
-          <p><strong>Token Decimals:</strong> {tokenDetails.decimals}</p>
-        </div>
-      )}
+     
     </div>
     </div>
   );
