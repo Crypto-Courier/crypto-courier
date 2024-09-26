@@ -5,7 +5,8 @@
   background-position: center;
   height: 100vh;
 }
-.scroll{
+
+.scroll {
   --sb-track-color: linear-gradient(to right, #da619c, #ff844a), #0a11b5;
   --sb-thumb-color: white;
   --sb-size: 2px;
