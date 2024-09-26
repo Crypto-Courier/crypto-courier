@@ -2,7 +2,7 @@
 import React, { useEffect } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import "../styles/history.css";
+
 import { useTheme } from "next-themes";
 import { X, Copy } from "lucide-react";
 
@@ -11,7 +11,7 @@ function ClaimToken() {
 
   // Prevent background scrolling when modal is open
   useEffect(() => {
-    document.body.style.overflow = "hidden"; // Disable scroll
+    document.body.style.overflow = "hidden";
     return () => {
       document.body.style.overflow = "auto"; // Restore scroll when unmounted
     };
