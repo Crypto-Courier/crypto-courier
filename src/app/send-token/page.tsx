@@ -20,6 +20,8 @@ import { sendEmail } from "../components/Email/Emailer";
 import Email from "../components/Email/Email";
 import Wallet from "../components/Wallet";
 import TxDetails from "../components/TxDetails";
+import AddTokenForm from "./AddTokenForm";
+import { NewToken } from './type';
 
 interface TokenConfig {
   contractAddress: string;
@@ -48,12 +50,12 @@ interface TokenWithBalance extends TokenConfig {
   rawBalance: string;
 }
 
-interface NewToken {
-  contractAddress: string;
-  symbol: string;
-  name: string;
-  decimals: number;
-}
+// interface NewToken {
+//   contractAddress: string;
+//   symbol: string;
+//   name: string;
+//   decimals: number;
+// }
 
 const SendToken = () => {
   const { address } = useAccount();
@@ -285,41 +287,28 @@ const SendToken = () => {
     }
   };
 
-  const handleAddToken = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    console.log('Token data to be added:', newToken);
-
+  const handleAddToken = async (newToken: NewToken) => {
     try {
       const response = await fetch('/api/add-token', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          contractAddress: newToken.contractAddress,
-          name: newToken.name,
-          symbol: newToken.symbol,
-          decimals: newToken.decimals,
-        }),
+        body: JSON.stringify(newToken),
       });
 
       if (response.ok) {
         setShowAddTokenForm(false);
-        setNewToken({
-          contractAddress: '',
-          symbol: '',
-          name: '',
-          decimals: null,
-        });
         // Optionally refresh token list or show success message
-        console.log('Token added successfully');
+        fetchTokens();  // Assuming you have a function to refresh the token list
+        toast.success('Token added successfully');
       } else {
         const data = await response.json();
-        console.error('Failed to add token:', data);
+        toast.error(data.message || 'Failed to add token');
       }
     } catch (error) {
       console.error('Error adding token:', error);
+      toast.error('An unexpected error occurred');
     }
   };
 
@@ -335,8 +324,8 @@ const SendToken = () => {
           >
             <div
               className={`flex items-center space-x-3 p-2 rounded-[10px] ${theme === "dark"
-                  ? "bg-[#1C1C1C] border border-[#A2A2A2]"
-                  : "bg-[#F4F3F3] border border-[#C6C6C6]"
+                ? "bg-[#1C1C1C] border border-[#A2A2A2]"
+                : "bg-[#F4F3F3] border border-[#C6C6C6]"
                 }`}
             >
               <div className={`w-10 h-10 bg-gray-300 rounded-full `}>
@@ -355,8 +344,8 @@ const SendToken = () => {
                 </div>
                 <div
                   className={`text-[25px] font-bold   py-1 px-3 rounded-[10px] ${theme === "dark"
-                      ? "text-[#FFE500] border border-[#A2A2A2] bg-[#1C1C1C]"
-                      : "text-[#E265FF] border border-gray"
+                    ? "text-[#FFE500] border border-[#A2A2A2] bg-[#1C1C1C]"
+                    : "text-[#E265FF] border border-gray"
                     }`}
                 >
                   $1234.56
@@ -365,8 +354,8 @@ const SendToken = () => {
 
               <button
                 className={` hover:scale-110 duration-500 transition 0.3 px-[30px] py-[10px] rounded-full mx-7 ${theme === "dark"
-                    ? "bg-[#FFE500] text-[#363535]"
-                    : "bg-[#E265FF] text-white"
+                  ? "bg-[#FFE500] text-[#363535]"
+                  : "bg-[#E265FF] text-white"
                   }`}
                 onClick={OpenHistory}
               >
@@ -376,8 +365,8 @@ const SendToken = () => {
           </div>
           <div
             className={`${theme === "dark"
-                ? "bg-[#0A0A0A]/80 backdrop-blur-[80px]"
-                : "bg-white/80 backdrop-blur-[80px]"
+              ? "bg-[#0A0A0A]/80 backdrop-blur-[80px]"
+              : "bg-white/80 backdrop-blur-[80px]"
               } rounded-br-[40px] rounded-bl-[40px] flex flex-col md:flex-row space-y-6 md:space-y-0 md:space-x-6 py-[60px] px-[30px] justify-between items-start`}
           >
             {" "}
@@ -393,8 +382,8 @@ const SendToken = () => {
                 <button
                   onClick={() => setShowAddTokenForm(true)}
                   className={` hover:scale-110 duration-500 transition 0.3 ${theme === "dark"
-                      ? "bg-[#FFE500] text-[#363535]"
-                      : "bg-[#E265FF] text-white"
+                    ? "bg-[#FFE500] text-[#363535]"
+                    : "bg-[#E265FF] text-white"
                     }  px-4 py-2 rounded-full text-sm`}
                 >
                   Add Token
@@ -407,8 +396,8 @@ const SendToken = () => {
                     <div
                       key={index}
                       className={`${theme === "dark"
-                          ? "bg-[#000000]/50 border border-white"
-                          : " bg-[#FFFCFC]"
+                        ? "bg-[#000000]/50 border border-white"
+                        : " bg-[#FFFCFC]"
                         } flex justify-between items-center bg-opacity-50 rounded-xl shadow-sm py-2 px-5 my-4 mx-4`}
                     >
                       <div className="flex items-center space-x-2">
@@ -460,8 +449,8 @@ const SendToken = () => {
                 <div className="flex space-x-2 justify-end">
                   <div
                     className={`flex-grow bg-opacity-50 rounded-xl p-3 mb-3 flex justify-between items-center ${theme === "dark"
-                        ? "bg-[#000000]/50 border border-white"
-                        : " bg-[#FFFCFC] border border-gray-700"
+                      ? "bg-[#000000]/50 border border-white"
+                      : " bg-[#FFFCFC] border border-gray-700"
                       }`}
                   >
                     <input
@@ -485,8 +474,8 @@ const SendToken = () => {
                       value={selectedToken}
                       onChange={handleChange}
                       className={`flex-grow bg-opacity-50 rounded-xl p-3 mb-3 flex justify-between items-center  outline-none ${theme === "dark"
-                          ? "bg-[#000000]/50 border border-white"
-                          : " bg-[#FFFCFC] border border-gray-700"
+                        ? "bg-[#000000]/50 border border-white"
+                        : " bg-[#FFFCFC] border border-gray-700"
                         }`}
                     >
                       <option
@@ -494,8 +483,8 @@ const SendToken = () => {
                         disabled
                         selected
                         className={` text-black hover:bg-gray-200 bg-opacity-50 ${theme === "dark"
-                            ? "bg-[#000000]/100 border border-white text-white"
-                            : " bg-[#FFFCFC] border border-gray-700 text-black "
+                          ? "bg-[#000000]/100 border border-white text-white"
+                          : " bg-[#FFFCFC] border border-gray-700 text-black "
                           }`}
                       >
                         Select a token
@@ -505,8 +494,8 @@ const SendToken = () => {
                           key={token.contractAddress}
                           value={token.contractAddress}
                           className={` text-black hover:bg-gray-200 bg-opacity-50 ${theme === "dark"
-                              ? "bg-[#000000]/100 border border-white text-white"
-                              : "bg-[#FFFCFC] border border-gray-700 text-black "
+                            ? "bg-[#000000]/100 border border-white text-white"
+                            : "bg-[#FFFCFC] border border-gray-700 text-black "
                             }`}
                         >
                           {token.symbol}
@@ -530,8 +519,8 @@ const SendToken = () => {
                   onChange={(e) => setRecipientEmail(e.target.value)}
                   placeholder="recipient's email address"
                   className={`w-full bg-opacity-50 rounded-xl p-3 mb-3 r  outline-none${theme === "dark"
-                      ? "bg-[#000000]/50 border border-white"
-                      : " bg-[#FFFCFC] border border-gray-700"
+                    ? "bg-[#000000]/50 border border-white"
+                    : " bg-[#FFFCFC] border border-gray-700"
                     }`}
                 />
               </div>
@@ -558,14 +547,14 @@ const SendToken = () => {
                   </label>
                   <div
                     className={`flex-grow bg-opacity-50 rounded-xl p-3 mb-3 flex justify-between items-center ${theme === "dark"
-                        ? "bg-[#000000]/50 border border-white"
-                        : " bg-[#FFFCFC]"
+                      ? "bg-[#000000]/50 border border-white"
+                      : " bg-[#FFFCFC]"
                       }`}
                   >
-                  {hash
-                    ? `${hash.slice(0, 20)}...${hash.slice(-7)}`
-                    : ""}
-            
+                    {hash
+                      ? `${hash.slice(0, 20)}...${hash.slice(-7)}`
+                      : ""}
+
                     <button
                       className={`p-1 text-[#FF336A] transition-colors ${copied ? "text-[#FF336A]" : ""
                         }`}
@@ -593,155 +582,10 @@ const SendToken = () => {
         </div>
         <Footer />
 
-        {showAddTokenForm && (
-          <div
-            className={`fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center w-[100%] mx-auto`}
-          >
-            <div
-              className={` rounded-lg max-w-[40%] w-full relative  ${theme === "dark"
-                  ? "bg-[#000000]/50 border-red-500 border backdrop-blur-[10px]"
-                  : " bg-[#FFFCFC] border border-[#FE005B]/60"
-                }`}
-            >
-              {/* Close Button */}
-              <button
-                type="button"
-                onClick={() => setShowAddTokenForm(false)}
-                className="absolute top-0 right-[1rem] text-gray-500 hover:text-gray-700 text-[25px]"
-              >
-                &times;
-              </button>
-
-              <h2
-                className={`text-2xl font-bold mb-4 p-6 rounded-tr-[10px] rounded-tl-[10px] text-center  ${theme === "dark"
-                    ? "bg-[#171717] border-b-2 border-red-500"
-                    : "bg-white border-b-2 border-[#FE005B]"
-                  }`}
-              >
-                Add New Token
-              </h2>
-              <form onSubmit={fetchTokenDetails} className="mx-7 my-2">
-                <div className="mb-2">
-                  <label
-                    className={`block text-sm font-medium text-gray-700 mb-2 ${theme === "dark" ? "text-white" : "text-black"
-                      }`}
-                  >
-                    Contract Address
-                  </label>
-                  <div className="flex space-x-2">
-                    <input
-                      type="text"
-                      value={newToken.contractAddress}
-                      onChange={(e) =>
-                        setNewToken({
-                          ...newToken,
-                          contractAddress: e.target.value,
-                        })
-                      }
-                      className={`w-[80%]  bg-opacity-50 rounded-[7px] p-1 border border-gray-500  focus-none ${theme === "dark"
-                          ? "bg-[#151515] text-white"
-                          : "bg-[#FFFCFC] text-gray-800"
-                        }`}
-                      required
-                    />
-                    <button
-                      type="submit"
-                      className={`w-[20%]  bg-opacity-50 rounded-[7px] p-1 border border-gray-500  focus-none flex items-center justify-center ${theme === "dark"
-                          ? "bg-[#151515] text-white"
-                          : "bg-[#FFFCFC] text-gray-800"
-                        }`}
-                    >
-                      <Search className="mr-2 h-4 w-4" />  {isFetching ? 'Fetching...' : 'Search'}
-                    </button>
-                  </div>
-                </div>
-                <div className="mb-2">
-                  <label
-                    className={`block text-sm font-medium text-gray-700 mb-2 ${theme === "dark" ? "text-white" : "text-black"
-                      }`}
-                  >
-                    Symbol
-                  </label>
-                  <input
-                    type="text"
-                    value={newToken.symbol}
-                    disabled={true}
-                    // onChange={(e) =>
-                    //   setNewToken({ ...newToken, symbol: e.target.value })
-                    // }
-                    className={`w-full  bg-opacity-50 rounded-[7px] p-1 border border-gray-500  focus-none ${theme === "dark"
-                        ? "bg-[#151515] text-white"
-                        : "bg-[#FFFCFC] text-gray-800"
-                      }`}
-                  // required
-                  />
-                </div>
-                <div className="mb-2">
-                  <label
-                    className={`block text-sm font-medium text-gray-700 mb-2 ${theme === "dark" ? "text-white" : "text-black"
-                      }`}
-                  >
-                    Name
-                  </label>
-                  <input
-                    type="text"
-                    value={newToken.name}
-                    disabled={true}
-                    // onChange={(e) =>
-                    //   setNewToken({ ...newToken, name: e.target.value })
-                    // }
-                    className={`w-full  bg-opacity-50 rounded-[7px] p-1 border border-gray-500  focus-none ${theme === "dark"
-                        ? "bg-[#151515] text-white"
-                        : "bg-[#FFFCFC] text-gray-800"
-                      }`}
-                  // required
-                  />
-                </div>
-                <div className="mb-4">
-                  <label
-                    className={`block text-sm font-medium text-gray-700 mb-2 ${theme === "dark" ? "text-white" : "text-black"
-                      }`}
-                  >
-                    Decimals
-                  </label>
-                  <input
-                    type="number"
-                    value={newToken.decimals || " "}
-                    disabled={true}
-                    // onChange={(e) =>
-                    //   setNewToken({
-                    //     ...newToken,
-                    //     decimals: parseInt(e.target.value),
-                    //   })
-                    // }
-                    className={`w-full  bg-opacity-50 rounded-[7px] p-1 border border-gray-500  focus-none ${theme === "dark"
-                        ? "bg-[#151515] text-white"
-                        : "bg-[#FFFCFC] text-gray-800"
-                      }`}
-                  // required
-                  />
-                </div>
-                <div className="flex justify-center space-x-2 mb-7 mt-7">
-                  <button
-                    type="button"
-                    onClick={() => setShowAddTokenForm(false)}
-                    className="px-4 py-2 border border-[#FF336A] text-[#FF336A] rounded-md text-sm font-medium"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    onClick={handleAddToken}
-                    disabled={!tokenDetails}
-                    className="hover:scale-110 duration-500 transition 0.3 px-4 py-2 border border-red-300 text-white font-medium bg-[#FF336A] rounded-md shadow-sm text-sm font-medium"
-                  >
-                    Add Token
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        )}
+        {showAddTokenForm && (<AddTokenForm
+          onClose={() => setShowAddTokenForm(false)}
+          onAddToken={handleAddToken}
+        />)}
       </div>
       <Toaster
         toastOptions={{
