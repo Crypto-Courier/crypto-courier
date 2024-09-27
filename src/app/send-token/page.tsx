@@ -192,7 +192,7 @@ const SendToken = () => {
     try {
       const response = await fetch(`/api/get-tokens?address=${address}`);
       const tokenData = await response.json();
-      setTokens(tokenData);
+      setTokens(Array.isArray(tokenData) ? tokenData : []);
       if (tokenData.length > 0) {
         setSelectedToken(tokenData[0].contractAddress);
       }
@@ -500,7 +500,7 @@ const SendToken = () => {
                       >
                         Select a token
                       </option>
-                      {tokens.map((token) => (
+                      {Array.isArray(tokens) && tokens.map((token) => (
                         <option
                           key={token.contractAddress}
                           value={token.contractAddress}

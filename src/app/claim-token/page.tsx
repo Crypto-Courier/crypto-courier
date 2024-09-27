@@ -1,13 +1,16 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
 import { useTheme } from "next-themes";
 import { X, Copy } from "lucide-react";
+import {PrivyProvider, usePrivy} from '@privy-io/react-auth';
 
 function ClaimToken() {
   const { theme } = useTheme();
+  const { login, authenticated, ready } = usePrivy();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   // Prevent background scrolling when modal is open
   useEffect(() => {
@@ -16,6 +19,27 @@ function ClaimToken() {
       document.body.style.overflow = "auto"; // Restore scroll when unmounted
     };
   }, []);
+
+  useEffect(() => {
+    if (ready) {
+      setIsAuthenticated(authenticated);
+    }
+  }, [ready, authenticated]);
+
+  const handleClaim = async () => {
+    if (!authenticated) {
+      await login();
+    }
+    if (authenticated) {
+      // Redirect to xyz.com after successful authentication
+      window.location.href = "http://localhost:3000/send-token";
+    }
+  };
+
+  if (!ready) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div>
       <Navbar />
@@ -56,11 +80,12 @@ function ClaimToken() {
               </h3>
 
               <button
-                className={`${
-                  theme === "dark" ? "bg-[#FF336A]" : "bg-[#0052FF]"
-                } w-[50%] text-white py-2 rounded-[10px] flex items-center justify-center mb-6 mx-auto`}
+              onClick={handleClaim}
+              className={`${
+                theme === "dark" ? "bg-[#FF336A]" : "bg-[#0052FF]"
+              } w-[50%] text-white py-2 rounded-[10px] flex items-center justify-center mb-6 mx-auto`}
               >
-                Claim 0.00001 $ETH
+                {isAuthenticated ? "Claim 0.00001 $ETH" : "Login to Claim"}
               </button>
 
               <div
@@ -90,4 +115,25 @@ function ClaimToken() {
   );
 }
 
-export default ClaimToken;
+interface PrivyWrapperProps {
+  children: React.ReactNode;
+}
+
+const PrivyWrapper: React.FC = () => {
+  return (
+    <PrivyProvider
+      appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID || ""}
+      config={{
+        loginMethods: ['email'],
+        appearance: {
+          theme: 'light',
+          accentColor: '#676FFF',
+        },
+      }}
+    >
+      <ClaimToken />
+    </PrivyProvider>
+  );
+};
+
+export default PrivyWrapper;
