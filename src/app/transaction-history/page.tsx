@@ -28,22 +28,22 @@ const TxHistory: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  const [tokenAddress, setTokenAddress] = useState('');
+  const [tokenAddress, setTokenAddress] = useState("");
   const [tokenDetails, setTokenDetails] = useState<TokenDetails | null>(null);
   // const [error, setError] = useState(null);
 
   const { theme } = useTheme();
 
-  const fetchTokenDetails = async (e:React.FormEvent<HTMLFormElement>) => {
+  const fetchTokenDetails = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
     setTokenDetails(null);
 
     try {
-      const res = await fetch('/api/getTokenDetails', {
-        method: 'POST',
+      const res = await fetch("/api/getTokenDetails", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ tokenAddress }),
       });
@@ -53,10 +53,10 @@ const TxHistory: React.FC = () => {
       if (res.status === 200) {
         setTokenDetails(data);
       } else {
-        setError(data.message || 'Error fetching token details');
+        setError(data.message || "Error fetching token details");
       }
     } catch (err) {
-      setError('An unexpected error occurred');
+      setError("An unexpected error occurred");
     }
   };
 
@@ -70,14 +70,18 @@ const TxHistory: React.FC = () => {
 
       setIsLoading(true);
       try {
-        const response = await fetch(`/api/get-transactions?senderWallet=${address}`);
+        const response = await fetch(
+          `/api/get-transactions?senderWallet=${address}`
+        );
         if (!response.ok) {
-          throw new Error('Failed to fetch transactions');
+          throw new Error("Failed to fetch transactions");
         }
         const data: Transaction[] = await response.json();
         setTransactions(data);
       } catch (err: any) {
-        setError(err instanceof Error ? err.message : 'An unknown error occurred');
+        setError(
+          err instanceof Error ? err.message : "An unknown error occurred"
+        );
       } finally {
         setIsLoading(false);
       }
@@ -88,12 +92,15 @@ const TxHistory: React.FC = () => {
 
   const openTransactionReciept = (url: string) => {
     window.open(url, "_blank", "noreferrer");
-  }
+  };
 
   const SkeletonLoader = () => (
     <div className="space-y-3 animate-pulse">
       {[...Array(3)].map((_, index) => (
-        <div key={index} className="flex justify-between items-center bg-opacity-50 p-3 rounded-xl border border-gray-300">
+        <div
+          key={index}
+          className="flex justify-between items-center bg-opacity-50 p-3 rounded-xl border border-gray-300"
+        >
           <div className="flex items-center space-x-3">
             <div className="h-8 w-24 bg-gray-300 rounded-[10px]"></div>
             <div className="h-6 w-6 bg-gray-300 rounded"></div>
@@ -111,14 +118,16 @@ const TxHistory: React.FC = () => {
       <div className="txbg ">
         <div className="max-w-6xl mx-auto my-[140px] shadow-lg">
           <div
-            className={`flex justify-between border-black border-b-0 p-[30px] ${theme === "dark" ? "bg-black" : "bg-white"
-              } rounded-tl-[40px] rounded-tr-[40px] items-center }`}
+            className={`flex justify-between border-black border-b-0 p-[30px] ${
+              theme === "dark" ? "bg-black" : "bg-white"
+            } rounded-tl-[40px] rounded-tr-[40px] items-center }`}
           >
             <div
-              className={`flex items-center space-x-3 p-2 rounded-[10px] ${theme === "dark"
-                ? "bg-[#1C1C1C] border border-[#A2A2A2]"
-                : "bg-[#F4F3F3] border border-[#C6C6C6]"
-                }`}
+              className={`flex items-center space-x-3 p-2 rounded-[10px] ${
+                theme === "dark"
+                  ? "bg-[#1C1C1C] border border-[#A2A2A2]"
+                  : "bg-[#F4F3F3] border border-[#C6C6C6]"
+              }`}
             >
               <div className="w-10 h-10 bg-gray-300 rounded-full"></div>
               <span className="font-semibold">
@@ -133,19 +142,21 @@ const TxHistory: React.FC = () => {
                   Your balance
                 </div>
                 <div
-                  className={`text-[25px] font-bold py-1 px-3 rounded-[10px] ${theme === "dark"
-                    ? "text-[#FFE500] border border-[#A2A2A2] bg-[#1C1C1C]"
-                    : "text-[#E265FF] border border-gray"
-                    }`}
+                  className={`text-[25px] font-bold py-1 px-3 rounded-[10px] ${
+                    theme === "dark"
+                      ? "text-[#FFE500] border border-[#A2A2A2] bg-[#1C1C1C]"
+                      : "text-[#E265FF] border border-gray"
+                  }`}
                 >
                   $2230.1044
                 </div>
               </div>
               <button
-                className={`px-[30px] py-[10px] rounded-full mx-7 hover:scale-110 duration-500 transition 0.3 ${theme === "dark"
-                  ? "bg-[#FFE500] text-[#363535]"
-                  : "bg-[#E265FF] text-white"
-                  }`}
+                className={`px-[30px] py-[10px] rounded-full mx-7 hover:scale-110 duration-500 transition 0.3 ${
+                  theme === "dark"
+                    ? "bg-[#FFE500] text-[#363535]"
+                    : "bg-[#E265FF] text-white"
+                }`}
                 onClick={SendToken}
               >
                 GIFT TOKEN
@@ -154,20 +165,22 @@ const TxHistory: React.FC = () => {
           </div>
 
           <div
-            className={`${theme === "dark"
-              ? "bg-[#0A0A0A]/80 backdrop-blur-[80px]"
-              : "bg-white/80 backdrop-blur-[80px]"
-              } rounded-br-[40px] rounded-bl-[40px] md:flex-row space-y-6 md:space-y-0 md:space-x-6 py-[50px] px-[30px] justify-between items-start`}
+            className={`${
+              theme === "dark"
+                ? "bg-[#0A0A0A]/80 backdrop-blur-[80px]"
+                : "bg-white/80 backdrop-blur-[80px]"
+            } rounded-br-[40px] rounded-bl-[40px] md:flex-row space-y-6 md:space-y-0 md:space-x-6 py-[50px] px-[30px] justify-between items-start`}
           >
             <div className="space-y-3">
               <h3
-                className={`text-[20px] font-medium ${theme === "dark" ? "text-[#DEDEDE]" : "text-[#696969]"
-                  }`}
+                className={`text-[20px] font-medium ${
+                  theme === "dark" ? "text-[#DEDEDE]" : "text-[#696969]"
+                }`}
               >
                 Transaction history
               </h3>
               {isLoading ? (
-                 <SkeletonLoader />
+                <SkeletonLoader />
               ) : error ? (
                 <p>Error: {error}</p>
               ) : transactions.length === 0 ? (
@@ -176,35 +189,47 @@ const TxHistory: React.FC = () => {
                 transactions.map((tx, index) => (
                   <div
                     key={index}
-                    className={`flex justify-between items-center bg-opacity-50 p-3 rounded-xl ${theme === "dark"
-                      ? "bg-[#000000]/20 border border-[#5C5C5C]"
-                      : "bg-[#FFFCFC]/20 border border-[#FFFFFF]"
-                      }`}
+                    className={`flex justify-between items-center bg-opacity-50 p-3 rounded-xl ${
+                      theme === "dark"
+                        ? "bg-[#000000]/20 border border-[#5C5C5C]"
+                        : "bg-[#FFFCFC]/20 border border-[#FFFFFF]"
+                    }`}
                   >
                     <div className="flex items-center space-x-3">
                       <span
-                        className={`rounded-[10px] ${theme === "dark"
-                          ? "border border-[#FE660A] text-[#FE660A] bg-[#181818] py-1 px-2"
-                          : "border border-[#FE660A] text-[#FE660A] bg-white py-1 px-2"
-                          }`}
+                        className={`rounded-[10px] ${
+                          theme === "dark"
+                            ? "border border-[#FE660A] text-[#FE660A] bg-[#181818] py-1 px-2"
+                            : "border border-[#FE660A] text-[#FE660A] bg-white py-1 px-2"
+                        }`}
                       >
                         {tx.tokenAmount} {tx.tokenSymbol}
                       </span>
                       <span className="">to</span>
                       <span
-                        className={`rounded-[10px] ${theme === "dark"
-                          ? "border border-[#E265FF] text-[#E265FF] bg-[#181818] py-1 px-2"
-                          : "border border-[#E265FF] text-[#E265FF] bg-white py-1 px-2"
-                          }`}
+                        className={`rounded-[10px] ${
+                          theme === "dark"
+                            ? "border border-[#E265FF] text-[#E265FF] bg-[#181818] py-1 px-2"
+                            : "border border-[#E265FF] text-[#E265FF] bg-white py-1 px-2"
+                        }`}
                       >
                         {tx.recipientEmail}
                       </span>
                     </div>
-                    <div className="bg-[#FF336A] hover:scale-110 duration-500 transition 0.3 text-white px-5 py-2 rounded-full text-[12px] flex item-center gap-2">
-                      <Image src={trx} alt="" />
-                      <button onClick={() => openTransactionReciept(tx.customizedLink)}>
-                        View Tx
-                      </button>
+                    <div className="flex gap-3">
+                      <div className="bg-[#FF336A] hover:scale-110 duration-500 transition 0.3 text-white px-5 py-2 rounded-full text-[12px] flex item-center gap-2">
+                        <button className="">Resend</button>
+                      </div>
+                      <div className="bg-[#FF336A] hover:scale-110 duration-500 transition 0.3 text-white px-5 py-2 rounded-full text-[12px] flex item-center gap-2">
+                        <Image src={trx} alt="" />
+                        <button
+                          onClick={() =>
+                            openTransactionReciept(tx.customizedLink)
+                          }
+                        >
+                          View Tx
+                        </button>
+                      </div>
                     </div>
                   </div>
                 ))
@@ -214,9 +239,7 @@ const TxHistory: React.FC = () => {
         </div>
       </div>
       <Footer />
-      <div>
-     
-    </div>
+      <div></div>
     </div>
   );
 };
