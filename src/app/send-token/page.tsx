@@ -576,13 +576,14 @@ const SendToken = () => {
             onConfirm={handleSend}
           />
         </div>
-        <Footer />
+     
 
         {showAddTokenForm && (<AddTokenForm
           onClose={() => setShowAddTokenForm(false)}
           onAddToken={handleAddToken}
         />)}
       </div>
+      <Footer />
       <Toaster
         toastOptions={{
           style: {
