@@ -93,7 +93,7 @@ const SendToken = () => {
         );
         sendEmail({
           recipientEmail,
-          subject: "Transaction Confirmation",
+          subject: "Hooray! You got some crypto coin 🪙",
           htmlContent: emailContent,
           tokenAmount,
           tokenSymbol: selectedTokenData.symbol,

@@ -32,7 +32,7 @@ function ClaimToken() {
     }
     if (authenticated) {
       // Redirect to xyz.com after successful authentication
-      window.location.href = "http://localhost:3000/send-token";
+      window.location.href = "http://localhost:3000/claimed";
     }
   };
 

@@ -1,8 +1,8 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-
+import { useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
 import { X, Copy } from "lucide-react";
 import {PrivyProvider, usePrivy} from '@privy-io/react-auth';
@@ -10,7 +10,12 @@ import {PrivyProvider, usePrivy} from '@privy-io/react-auth';
 function ClaimToken() {
   const { theme } = useTheme();
   
+  const router = useRouter();
 
+  const OpenDashboard = () => {
+    router.push("/dashboard"); // Replace "/send" with the route you want to navigate to
+  };
+  
   // Prevent background scrolling when modal is open
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -61,12 +66,12 @@ function ClaimToken() {
               </h3>
 
               <button
-         
+              onClick={OpenDashboard}
               className={`${
                 theme === "dark" ? "bg-[#FF336A]" : "bg-[#0052FF]"
               } w-[50%] text-white py-2 rounded-[10px] flex items-center justify-center mb-6 mx-auto`}
               >
-              Go to Transaction History
+              Go to Dashboard
               </button>
 
              
