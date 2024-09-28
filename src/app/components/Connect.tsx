@@ -86,7 +86,7 @@ export const Connect = () => {
                   <button
                     onClick={openAccountModal}
                     type="button"
-                    className="bg-[#FF3333] py-2 px-4 rounded-full font-bold hover:scale-110 duration-500 transition 0.3 "
+                    className="bg-[#FF3333] py-2 px-4 rounded-full font-bold hover:scale-110 duration-500 transition 0.3 text-[10px] sm:text-sm md:text-md lg:text-md"
                   >
                     {account.displayName}
                     {account.displayBalance

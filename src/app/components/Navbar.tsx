@@ -14,11 +14,11 @@ const Navbar = () => {
   const { theme } = useTheme();
 
   return (
-    <div className=" w-[90%] mx-auto relative navbar h-[10vh]">
-      <div className="flex items-center justify-between flex-wrap gap-y-4 h-[10vh]">
+    <div className=" w-[90%] mx-auto relative navbar ">
+      <div className="flex items-center justify-between  gap-y-4 my-[20px] ">
         {/* Logo Section */}
         <a href="/" aria-label="CRYPTO-COURIER" title="CRYPTO-COURIER">
-          <div className="w-[11rem] sm:w-40 md:w-48 lg:w-56 logo">
+          <div className="w-[9rem] sm:w-40 md:w-48 lg:w-56 logo">
             {theme === "light" ? (
               <Image
                 src={dLogo}
@@ -40,8 +40,8 @@ const Navbar = () => {
         </a>
 
         {/* Right Section: Theme Toggle and Connect Button */}
-        <div className="flex items-center space-x-4">
-          <ThemeToggle />
+        <div className="flex items-center space-x-4 flex-row-reverse lg:flex-row md:flex-row sm:flex-row">
+        <ThemeToggle />
           <Connect />
         </div>
       </div>

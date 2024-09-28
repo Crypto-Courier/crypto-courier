@@ -5,7 +5,7 @@
   display: flex;
   background-size: cover;
   justify-content: center;
-  padding: 70px 60px;
+  /* padding: 70px 60px; */
   width: 100%;
 }
 .send {
@@ -24,11 +24,12 @@
   backdrop-filter: blur(15px);
 }
 .s3subdiv {
-  padding: 50px 40px;
+  /* padding: 50px 40px; */
   border: 0.1px solid rgba(255, 255, 255, 0.485);
   width: 100%;
   display: flex;
   justify-content: center;
+  align-items: center;
   border-radius: 100px;
   background: transparent;
   backdrop-filter: blur(15px);
