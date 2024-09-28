@@ -2,7 +2,7 @@
 import react, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import "../styles/History.css";
-import Navbar from "../components/Navbar";
+import NewNavbar from "./newNavbar";
 import Footer from "../components/Footer";
 import { useTheme } from "next-themes";
 import { useAccount } from "wagmi";
@@ -36,6 +36,10 @@ const TxHistory: React.FC = () => {
 
   const { theme } = useTheme();
 
+  const signOut = () => {
+    router.push('/');
+  }
+
   const fetchTokenDetails = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
@@ -60,10 +64,6 @@ const TxHistory: React.FC = () => {
     } catch (err) {
       setError("An unexpected error occurred");
     }
-  };
-
-  const SendToken = () => {
-    router.push("/send-token"); // Replace "/send" with the route you want to navigate to
   };
 
   useEffect(() => {
@@ -139,8 +139,8 @@ const TxHistory: React.FC = () => {
   );
 
   return (
-    <div className="main">
-      <Navbar />
+      <div className="main">
+      <NewNavbar />
       <div className="txbg ">
         <div className="max-w-6xl mx-auto my-[140px] shadow-lg">
           <div
@@ -163,29 +163,24 @@ const TxHistory: React.FC = () => {
               </span>
             </div>
             <div className="text-right flex items-end">
-              <div>
-                <div className="text-[18px] text-black-600 py-1 font-[500] text-start">
-                  Your balance
-                </div>
-                <div
-                  className={`text-[25px] font-bold py-1 px-3 rounded-[10px] ${
-                    theme === "dark"
-                      ? "text-[#FFE500] border border-[#A2A2A2] bg-[#1C1C1C]"
-                      : "text-[#E265FF] border border-gray"
-                  }`}
-                >
-                  $2230.1044
-                </div>
-              </div>
               <button
                 className={`px-[30px] py-[10px] rounded-full mx-7 hover:scale-110 duration-500 transition 0.3 ${
                   theme === "dark"
                     ? "bg-[#FFE500] text-[#363535]"
                     : "bg-[#E265FF] text-white"
                 }`}
-                onClick={SendToken}
               >
-                GIFT TOKEN
+                Export Wallet
+              </button>
+              <button
+                className={`px-[30px] py-[10px] rounded-full mx-7 hover:scale-110 duration-500 transition 0.3 ${
+                  theme === "dark"
+                    ? "bg-[#FFE500] text-[#363535]"
+                    : "bg-[#E265FF] text-white"
+                }`}
+                onClick={signOut}
+              >
+                Sign Out
               </button>
             </div>
           </div>
