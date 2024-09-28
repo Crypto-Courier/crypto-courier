@@ -117,7 +117,7 @@ const Wallet: React.FC<WalletProps> = ({ isOpen, onClose }) => {
             } w-full text-white py-2 rounded-[10px] flex items-center justify-center mb-4`}
           >
             <Copy size={18} className="mr-2" />
-            Copy Key
+            Go to Dashboard page
           </button>
 
           <div

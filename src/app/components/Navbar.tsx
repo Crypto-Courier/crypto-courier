@@ -14,8 +14,8 @@ const Navbar = () => {
   const { theme } = useTheme();
 
   return (
-    <div className="pt-5 pb-5 w-[90%] mx-auto relative navbar">
-      <div className="flex items-center justify-between flex-wrap gap-y-4">
+    <div className=" w-[90%] mx-auto relative navbar h-[10vh]">
+      <div className="flex items-center justify-between flex-wrap gap-y-4 h-[10vh]">
         {/* Logo Section */}
         <a href="/" aria-label="CRYPTO-COURIER" title="CRYPTO-COURIER">
           <div className="w-[11rem] sm:w-40 md:w-48 lg:w-56 logo">

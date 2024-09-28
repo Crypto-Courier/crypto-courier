@@ -21,17 +21,17 @@ function Homepage() {
   return (
     <div className="main min-h-screen flex flex-col ">
       <Navbar />
-      <div className="flex-grow flex flex-col justify-between">
-        <div className="flex justify-center items-center flex-grow">
+      <div className="flex-grow flex flex-col justify-between ">
+        
           <div
-            className={`border-y w-full my-6 ${
+            className={`border-y w-full my-6 flex justify-center items-center flex-grow h-[20vh] ${
               theme === "light" ? "border-black" : "border-white"
             }`}
           >
             <div className="flex lg:flex-row md:flex-row items-center justify-between w-[90%] mx-auto  flex-col">
               <div
-                className={`flex items-center sm:h-[175px]  lg:h-[200px] md:h-[160px] text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-[600] lg:border-r-2 lg:rounded-r-[100px] md:border-r-2 md:rounded-r-[100px] md:pr-8 pb-4 md:pb-0 w-full md:w-[60%] lg:w-[60%] text-center md:text-left justify-center${
-                  theme === "light" ? "md:border-r-black" : "md:border-r-white"
+                className={`flex items-center sm:h-[175px]  lg:h-[200px] md:h-[160px] text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-[600] lg:border-r-2 lg:rounded-r-[100px] md:border-r-2 md:rounded-r-[100px] md:pr-8 pb-4 md:pb-0 w-full md:w-[60%] lg:w-[60%] text-center md:text-left justify-center ${
+                  theme === "light" ? "border-black" : "border-white"
                 }`}
               >
                 Send your tokens
@@ -45,8 +45,8 @@ function Homepage() {
               </div>
             </div>
           </div>
-        </div>
-        <div className="py-10 sm:py-16 w-[90%] mx-auto">
+       
+        <div className="py-10 h-[20vh]  w-[90%] mx-auto">
           <div className="flex flex-col sm:flex-row items-center justify-center text-6xl sm:text-5xl md:text-6xl lg:text-7xl w-full mx-auto text-center space-y-4 sm:space-y-0 sm:space-x-4 font-[600]">
             <div>CryptoCourier</div>
             <div>
@@ -68,7 +68,7 @@ function Homepage() {
           </div>
         </div>
 
-        <div className="sec3Bg relative py-8 flex-grow flex items-center">
+        <div className="sec3Bg relative h-[20vh] flex-grow flex items-center">
           <div className="s3div">
             <div className="s3subdiv flex justify-center">
               <button
