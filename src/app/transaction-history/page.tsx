@@ -94,6 +94,37 @@ const TxHistory: React.FC = () => {
     window.open(url, "_blank", "noreferrer");
   };
 
+  const handleResend = async (tx: Transaction) => {
+    try {
+      const response = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          recipientEmail: tx.recipientEmail,
+          subject: 'Your CryptoCourier Transaction Has Been Resent',
+          htmlContent: `
+            <h1>Your CryptoCourier Transaction Has Been Resent</h1>
+            <p>Hello,</p>
+            <p>Your transaction of ${tx.tokenAmount} ${tx.tokenSymbol} has been resent.</p>
+            <p>You can view the transaction details here: <a href="${tx.customizedLink}">View Transaction</a></p>
+            <p>Thank you for using CryptoCourier!</p>
+          `
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to resend email');
+      }
+
+      alert('Email resent successfully!');
+    } catch (error) {
+      console.error('Error resending email:', error);
+      alert('Failed to resend email. Please try again.');
+    }
+  };
+
   const SkeletonLoader = () => (
     <div className="space-y-3 animate-pulse">
       {[...Array(3)].map((_, index) => (
@@ -218,7 +249,7 @@ const TxHistory: React.FC = () => {
                     </div>
                     <div className="flex gap-3">
                       <div className="bg-[#FF336A] hover:scale-110 duration-500 transition 0.3 text-white px-5 py-2 rounded-full text-[12px] flex item-center gap-2">
-                        <button className="">Resend</button>
+                        <button  onClick={() => handleResend(tx)} className="">Resend</button>
                       </div>
                       <div className="bg-[#FF336A] hover:scale-110 duration-500 transition 0.3 text-white px-5 py-2 rounded-full text-[12px] flex item-center gap-2">
                         <Image src={trx} alt="" />
