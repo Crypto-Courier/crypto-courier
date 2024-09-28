@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTheme } from "next-themes";
-import { NewToken } from './type';  // Make sure this import path is correct
+import { NewToken } from '../../types/types';  // Make sure this import path is correct
 
 interface AddTokenFormProps {
   onClose: () => void;
