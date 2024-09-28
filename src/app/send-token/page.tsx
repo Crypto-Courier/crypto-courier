@@ -21,21 +21,8 @@ import Email from "../components/Email/Email";
 import Wallet from "../components/Wallet";
 import TxDetails from "../components/TxDetails";
 import AddTokenForm from "./AddTokenForm";
-import { NewToken } from './type';
+import { NewToken, LinkedAccount, TokenWithBalance } from '../../types/types';
 
-interface TokenConfig {
-  contractAddress: string;
-  symbol: string;
-  name: string;
-  decimals: number;
-}
-interface LinkedAccount {
-  type: string;
-  address: string;
-  verified_at: number;
-  first_verified_at: number | null;
-  latest_verified_at: number | null;
-}
 interface ApiResponse {
   id: string;
   created_at: number;
@@ -45,18 +32,6 @@ interface ApiResponse {
   is_guest: boolean;
 }
 
-interface TokenWithBalance extends TokenConfig {
-  balance: string;
-  rawBalance: string;
-}
-
-// interface NewToken {
-//   contractAddress: string;
-//   symbol: string;
-//   name: string;
-//   decimals: number;
-// }
-
 const SendToken = () => {
   const { address } = useAccount();
   const { chain } = useAccount();
@@ -65,7 +40,7 @@ const SendToken = () => {
   const totalBalance = useBalance({ address });
   const { data: hash, sendTransaction } = useSendTransaction();
   const [tokens, setTokens] = useState<TokenWithBalance[]>([]);
-  const [selectedToken, setSelectedToken] = useState<string>("ETH");
+  const [selectedToken, setSelectedToken] = useState<string>("");
   const [tokenAmount, setTokenAmount] = useState("");
   const [recipientEmail, setRecipientEmail] = useState("");
   const [recipientWalletAddress, setRecipientWalletAddress] = useState("");
@@ -84,13 +59,6 @@ const SendToken = () => {
   };
 
   const popupRef = useRef(null); // Reference for the popup element
-
-  // const [newToken, setNewToken] = useState<NewToken>({
-  //   contractAddress: "",
-  //   symbol: "",
-  //   name: "",
-  //   decimals: 18,
-  // });
 
   const [newToken, setNewToken] = useState<{
     contractAddress: string;
@@ -191,15 +159,37 @@ const SendToken = () => {
   };
 
   const fetchTokens = async () => {
+    if (!address) {
+      console.error("No address available");
+      return;
+    }
+
+    setIsLoading(true);
     try {
       const response = await fetch(`/api/get-tokens?address=${address}`);
-      const tokenData = await response.json();
-      setTokens(Array.isArray(tokenData) ? tokenData : []);
-      if (tokenData.length > 0) {
-        setSelectedToken(tokenData[0].contractAddress);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
+      const tokenData = await response.json();
+      console.log("Fetched token data:", tokenData);
+
+      if (Array.isArray(tokenData) && tokenData.length > 0) {
+        setTokens(tokenData);
+        setSelectedToken(tokenData[0].contractAddress);
+      } else {
+        console.warn("No tokens found or invalid data structure");
+        setTokens([]);
+      }
+
+      // setTokens(Array.isArray(tokenData) ? tokenData : []);
+      // if (tokenData.length > 0) {
+      //   setSelectedToken(tokenData[0].contractAddress);
+      // }
     } catch (error) {
       console.error("Error fetching tokens:", error);
+      toast.error("Failed to fetch tokens");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -391,51 +381,57 @@ const SendToken = () => {
               </div>
 
               <div className="h-[30vh] overflow-y-auto scroll">
-                {tokens.length > 0 ? (
-                  tokens.map((token, index) => (
-                    <div
-                      key={index}
-                      className={`${theme === "dark"
-                        ? "bg-[#000000]/50 border border-white"
-                        : " bg-[#FFFCFC]"
-                        } flex justify-between items-center bg-opacity-50 rounded-xl shadow-sm py-2 px-5 my-4 mx-4`}
-                    >
-                      <div className="flex items-center space-x-2">
-                        {/* <Image
+                {isLoading ? (
+                  <div className="flex items-center justify-center h-full">
+                    <span className="text-center text-gray-500 text-[18px]">Loading tokens...</span>
+                  </div>
+                ) :
+                  tokens.length > 0 ? (
+                    tokens.map((token, index) => (
+                      <div
+                        key={index}
+                        className={`${theme === "dark"
+                          ? "bg-[#000000]/50 border border-white"
+                          : " bg-[#FFFCFC]"
+                          } flex justify-between items-center bg-opacity-50 rounded-xl shadow-sm py-2 px-5 my-4 mx-4`}
+                      >
+                        <div className="flex items-center space-x-2">
+                          {/* <Image
                           src={defaultTokenImage}
                           alt={token.symbol || "Token"}
                           width={32}
                           height={32}
                           className="w-8 h-8 rounded-full"
                         /> */}
-                        <span
-                          className={` font-bold ${theme === "dark" ? "text-white" : "text-black"
-                            }`}
-                        >
-                          {token.symbol}
-                        </span>
-                        <span> - {token.name} </span>
-                      </div>
-                      <div className="text-right">
-                        <div className="font-bold">
-                          {parseFloat(token.balance).toFixed(4)}
+                          <span
+                            className={` font-bold ${theme === "dark" ? "text-white" : "text-black"
+                              }`}
+                          >
+                            {token.symbol}
+                          </span>
+                          <span> - {token.name} </span>
                         </div>
-                        {/* <div className="text-xs text-gray-600">
+                        <div className="text-right">
+                          <div className="font-bold">
+                            {parseFloat(token.balance).toFixed(4)}
+                          </div>
+                          {/* <div className="text-xs text-gray-600">
                           {token.rawBalance}
                         </div> */}
+                        </div>
                       </div>
+                    ))
+                  ) : (
+                    <div className="flex items-center justify-center h-full">
+                      <span
+                        className={` ${theme === "dark" ? "text-[#DEDEDE]" : "text-[#696969]"
+                          } text-center text-gray-500 text-[18px]`}
+                      >
+                        No tokens found
+                      </span>
                     </div>
-                  ))
-                ) : (
-                  <div className="flex items-center justify-center h-full">
-                    <span
-                      className={` ${theme === "dark" ? "text-[#DEDEDE]" : "text-[#696969]"
-                        } text-center text-gray-500 text-[18px]`}
-                    >
-                      No tokens found
-                    </span>
-                  </div>
-                )}
+                  )
+                }
               </div>
             </div>
             <div className="w-full md:w-[45%]">
