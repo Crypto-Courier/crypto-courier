@@ -9,15 +9,22 @@ import send from "../assets/send.png";
 import "../styles/homepage.css";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
+import { useAccount } from "wagmi";
+
 
 function Homepage() {
   const router = useRouter();
   const { theme } = useTheme();
+  const {isConnected} = useAccount()
+
 
   const OpenHistory = () => {
-    router.push("/transaction-history"); // Navigate to the desired route
+    if (isConnected) {
+      router.push("/transaction-history");
+    } else {
+      alert("Please connect with MetaMask first to send tokens.");
+    }
   };
-
   return (
     <div className="main min-h-screen flex flex-col ">
       <Navbar />
@@ -68,9 +75,10 @@ function Homepage() {
           </div>
         </div>
 
-        <div className="sec3Bg relative h-[20vh] flex-grow flex items-center">
-          <div className="s3div h-[20vh]">
+        <div className="sec3Bg relative lg:h-[20vh] md:h-[20vh] sm:h-[17vh] h-[15vh] flex-grow flex items-center">
+          <div className="s3div lg:h-[20vh] md:h-[20vh] sm:h-[17vh] h-[15vh]">
             <div className="s3subdiv flex justify-center">
+              
               <button
                 className="hover:scale-110 duration-500 transition 0.3 send px-0  py-0 text-base sm:text-lg md:text-xl lg:text-2xl rounded-full z-40 relative w-[50%] sm:w-[50%] md:w-[40%] lg:w-[25%] max-w-[300px] bg-[#FFFFFF]/25"
                 onClick={OpenHistory}

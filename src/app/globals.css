@@ -18,7 +18,7 @@
   z-index: 80;
 }
 body {
-  background-color: white;
+  background-color: whte;
   color: black;
   --sb-track-color: linear-gradient(to right, #da619c, #ff844a), #0a11b5;
   --sb-thumb-color: white;
