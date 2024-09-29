@@ -142,9 +142,9 @@ const TxHistory: React.FC = () => {
     <div className="main">
       <Navbar />
       <div className="txbg ">
-        <div className="max-w-6xl mx-auto my-[140px] shadow-lg">
+        <div className="max-w-6xl w-[90%] m-auto ">
           <div
-            className={`flex justify-between border-black border-b-0 p-[30px] ${
+            className={`flex justify-between border-black border-b-0 p-[30px] shadow-lg ${
               theme === "dark" ? "bg-black" : "bg-white"
             } rounded-tl-[40px] rounded-tr-[40px] items-center }`}
           >
@@ -155,8 +155,8 @@ const TxHistory: React.FC = () => {
                   : "bg-[#F4F3F3] border border-[#C6C6C6]"
               }`}
             >
-              <div className="w-10 h-10 bg-gray-300 rounded-full"></div>
-              <span className="font-semibold">
+              <div className="w-10 h-10 bg-gray-300 rounded-full hidden lg:flex md:flex sm:flex"></div>
+              <span className="font-semibold px-2 text-[12px] lg:text-[15px] md:text-[15px] sm:text-[15px]">
                 {address
                   ? `${address.slice(0, 6)}...${address.slice(-4)}`
                   : "Connect Wallet"}
@@ -164,7 +164,7 @@ const TxHistory: React.FC = () => {
             </div>
             <div className="text-right flex items-end">
               <div>
-                <div className="text-[18px] text-black-600 py-1 font-[500] text-start">
+                {/* <div className="text-[18px] text-black-600 py-1 font-[500] text-start">
                   Your balance
                 </div>
                 <div
@@ -175,10 +175,10 @@ const TxHistory: React.FC = () => {
                   }`}
                 >
                   $2230.1044
-                </div>
+                </div> */}
               </div>
               <button
-                className={`px-[30px] py-[10px] rounded-full mx-7 hover:scale-110 duration-500 transition 0.3 ${
+                className={`px-[30px] py-[10px] rounded-full lg:mx-7 md:mx-7 sm:mx-7 hover:scale-110 duration-500 transition 0.3 mx-0 text-[12px] lg:text-[15px] md:text-[15px] sm:text-[15px] ${
                   theme === "dark"
                     ? "bg-[#FFE500] text-[#363535]"
                     : "bg-[#E265FF] text-white"
@@ -195,11 +195,11 @@ const TxHistory: React.FC = () => {
               theme === "dark"
                 ? "bg-[#0A0A0A]/80 backdrop-blur-[80px]"
                 : "bg-white/80 backdrop-blur-[80px]"
-            } rounded-br-[40px] rounded-bl-[40px] md:flex-row space-y-6 md:space-y-0 md:space-x-6 py-[50px] px-[30px] justify-between items-start`}
+            } rounded-br-[40px] rounded-bl-[40px] md:flex-row space-y-6 md:space-y-0 md:space-x-6 lg:py-[50px] lg:px-[30px] md:py-[50px] md:px-[30px] sm:py-[50px] sm:px-[30px] justify-between items-start py-[30px] px-[30px]`}
           >
-            <div className="space-y-3">
+            <div className="space-y-3 text-[12px] lg:text-[13px] md:text-[13px] sm:text-[13px]">
               <h3
-                className={`text-[20px] font-medium ${
+                className={` font-medium text-[17px] lg:text-[20px] md:text-[20px] sm:text-[20px] ${
                   theme === "dark" ? "text-[#DEDEDE]" : "text-[#696969]"
                 }`}
               >
@@ -208,7 +208,7 @@ const TxHistory: React.FC = () => {
               {isLoading ? (
                 <SkeletonLoader />
               ) : error ? (
-                <p>Error: {error}</p>
+                <p className="text-red-700">Error: {error}</p>
               ) : transactions.length === 0 ? (
                 <p>No transactions found.</p>
               ) : (

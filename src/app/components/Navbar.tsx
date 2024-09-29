@@ -40,7 +40,7 @@ const Navbar = () => {
         </a>
 
         {/* Right Section: Theme Toggle and Connect Button */}
-        <div className="flex items-center space-x-4 flex-row-reverse lg:flex-row md:flex-row sm:flex-row">
+        <div className="flex items-center space-x-4 flex-row-reverse lg:flex-row md:flex-row sm:flex-row gap-[10px]">
         <ThemeToggle />
           <Connect />
         </div>
