@@ -73,7 +73,7 @@ const Email: React.FC<EmailProps> = ({
 
       <div style={{ textAlign: "center" }}>
         <a
-          href="http://localhost:3000/claim-token"
+          href={`http://localhost:3000/claim-token?amount=${encodeURIComponent(tokenAmount)}&symbol=${encodeURIComponent(tokenSymbol)}`}
           target="_blank"
           rel="noopener noreferrer"
           style={{

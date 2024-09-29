@@ -125,9 +125,15 @@ const TxDetails: React.FC<TxDetailsProps> = ({
               
                 {/* <p className={`text-md ${theme === "dark" ? "text-white" : "text-black"}`}>to</p> */}
                 <p className={` text-md rounded-[12px] text-md py-2 px-4 ${theme === "dark" ? "text-[#FFE500]  bg-[#272626]" : "text-black"}`}>
-                Sending {tokenAmount} to {recipientEmail}
+                You will Send {tokenAmount} to {recipientEmail}
                 </p>
-                <Image src={spin} alt="Loading..." width={100}/>
+                <p className={` text-md rounded-[12px] text-md py-2 px-4 ${theme === "dark" ? "text-[#FFE500]  bg-[#272626]" : "text-black"}`}>
+                New Wallet for Recipient: {walletAddress}
+                </p>
+                <p>
+                  You can check out transaction for surity.
+                </p>
+                {/* <Image src={spin} alt="Loading..." width={100}/> */}
               </div>
               
               <div className="flex gap-5">

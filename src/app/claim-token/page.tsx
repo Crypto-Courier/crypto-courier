@@ -6,11 +6,17 @@ import Footer from "../components/Footer";
 import { useTheme } from "next-themes";
 import { X, Copy } from "lucide-react";
 import {PrivyProvider, usePrivy} from '@privy-io/react-auth';
+import { useSearchParams } from "next/navigation";
 
 function ClaimToken() {
   const { theme } = useTheme();
   const { login, authenticated, ready } = usePrivy();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const searchparams=useSearchParams();
+  const amount=searchparams?.get('amount');
+  console.log("Line number 17:",amount);
+  const symbol=searchparams?.get('symbol')
+  console.log(symbol);
 
   // Prevent background scrolling when modal is open
   useEffect(() => {
@@ -31,8 +37,7 @@ function ClaimToken() {
       await login();
     }
     if (authenticated) {
-      // Redirect to xyz.com after successful authentication
-      window.location.href = "http://localhost:3000/claimed";
+      window.location.href = "http://localhost:3000/dashboard";
     }
   };
 
@@ -65,7 +70,7 @@ function ClaimToken() {
                     theme === "dark" ? "text-white" : "text-black"
                   }`}
                 >
-                  Sign-UP to Claim $ETH
+                  Sign-UP to Claim Tokens
                 </h2>
               </div>
             </div>
@@ -85,7 +90,7 @@ function ClaimToken() {
                 theme === "dark" ? "bg-[#FF336A]" : "bg-[#0052FF]"
               } w-[50%] text-white py-2 rounded-[10px] flex items-center justify-center mb-6 mx-auto`}
               >
-                {isAuthenticated ? "Claim 0.00001 $ETH" : "Login to Claim"}
+                {isAuthenticated ? `Claim Your Tokens` : "Login to Claim"}
               </button>
 
               <div
@@ -102,7 +107,7 @@ function ClaimToken() {
                 >
                   Info:
                   <br />
-                  Never share your private key or recovery phrase with anyone.
+                  When you click on the Button then you will be authenticated through privy. <br /> Make sure to enter the email in which you got tokens.
                 </p>
               </div>
             </div>

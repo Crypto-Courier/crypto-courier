@@ -51,7 +51,7 @@ function ClaimToken() {
                     theme === "dark" ? "text-white" : "text-black"
                   }`}
                 >
-                  Sign-UP to Claim $ETH
+                  Sign-UP to Claim Tokens
                 </h2>
               </div>
             </div>

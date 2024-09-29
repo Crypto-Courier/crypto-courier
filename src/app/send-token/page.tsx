@@ -241,10 +241,10 @@ const SendToken = () => {
 
     if (storeResponse.ok) {
       console.log("Transaction stored successfully");
-      toast.success("Transaction completed and stored successfully");
+      toast.success("Transaction completed! Email sent to recipient successfully.");
     } else {
       console.error("Failed to store transaction");
-      toast.error("Transaction completed but failed to store details");
+      toast.error("Transaction completed but failed to send email to recipient");
     }
   };
 
@@ -576,8 +576,6 @@ const SendToken = () => {
             onConfirm={handleSend}
           />
         </div>
-     
-
         {showAddTokenForm && (<AddTokenForm
           onClose={() => setShowAddTokenForm(false)}
           onAddToken={handleAddToken}
