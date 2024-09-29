@@ -1,15 +1,16 @@
 "use client";
 import react, { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import "../styles/History.css";
+import { useRouter, useParams } from "next/navigation";
+import "../../styles/History.css";
 import NewNavbar from "./newNavbar";
-import Footer from "../components/Footer";
+import Footer from "../../components/Footer";
 import { useTheme } from "next-themes";
 import { useAccount } from "wagmi";
 import Image from "next/image";
-import trx from "../assets/trx.png";
-import { sendEmail } from "../components/Email/Emailer";
-import { renderEmailToString } from '../components/Email/renderEmailToString';
+import trx from "../../assets/trx.png";
+import { sendEmail } from "../../components/Email/Emailer";
+import { renderEmailToString } from '../../components/Email/renderEmailToString';
+import { usePrivy } from '@privy-io/react-auth';
 
 interface TokenDetails {
   name: string;
@@ -23,9 +24,11 @@ interface Transaction {
   recipientEmail: string;
 }
 
-const TxHistory: React.FC = () => {
+const WalletAddressPage: React.FC = () => {
   const router = useRouter();
+  const params = useParams();
   const { address } = useAccount();
+  const { user, logout } = usePrivy();
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -36,9 +39,17 @@ const TxHistory: React.FC = () => {
 
   const { theme } = useTheme();
 
-  const signOut = () => {
+  const walletAddress = params?.walletAddress as string;
+
+  const signOut = async () => {
     router.push('/');
   }
+
+  // useEffect(() => {
+  //   if (!user || user.wallet?.address !== walletAddress) {
+  //     router.push('/');
+  //   }
+  // }, [user, walletAddress, router]);
 
   const fetchTokenDetails = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -68,12 +79,12 @@ const TxHistory: React.FC = () => {
 
   useEffect(() => {
     const fetchTransactions = async () => {
-      if (!address) return;
+      if (!walletAddress) return;
 
       setIsLoading(true);
       try {
         const response = await fetch(
-          `/api/get-transactions?senderWallet=${address}`
+          `/api/get-transactions?senderWallet=${walletAddress}`
         );
         if (!response.ok) {
           throw new Error("Failed to fetch transactions");
@@ -90,7 +101,7 @@ const TxHistory: React.FC = () => {
     };
 
     fetchTransactions();
-  }, [address]);
+  }, [walletAddress]);
 
   const openTransactionReciept = (url: string) => {
     window.open(url, "_blank", "noreferrer");
@@ -157,8 +168,8 @@ const TxHistory: React.FC = () => {
             >
               <div className="w-10 h-10 bg-gray-300 rounded-full"></div>
               <span className="font-semibold">
-                {address
-                  ? `${address.slice(0, 6)}...${address.slice(-4)}`
+                {walletAddress
+                  ? `${walletAddress.slice(0, 6)}...${walletAddress.slice(-4)}`
                   : "Connect Wallet"}
               </span>
             </div>
@@ -264,4 +275,4 @@ const TxHistory: React.FC = () => {
     </div>
   );
 };
-export default TxHistory;
+export default WalletAddressPage;

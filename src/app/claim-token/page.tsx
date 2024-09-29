@@ -6,13 +6,14 @@ import Footer from "../components/Footer";
 import { useTheme } from "next-themes";
 import { X, Copy } from "lucide-react";
 import {PrivyProvider, usePrivy} from '@privy-io/react-auth';
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 
 function ClaimToken() {
   const { theme } = useTheme();
-  const { login, authenticated, ready } = usePrivy();
+  const { login, authenticated, ready, user } = usePrivy();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const searchparams=useSearchParams();
+  const router = useRouter();
   const amount=searchparams?.get('amount');
   console.log("Line number 17:",amount);
   const symbol=searchparams?.get('symbol')
@@ -36,8 +37,8 @@ function ClaimToken() {
     if (!authenticated) {
       await login();
     }
-    if (authenticated) {
-      window.location.href = "http://localhost:3000/dashboard";
+    if (authenticated && user?.wallet?.address) {
+      router.push(`/dashboard/${user.wallet.address}`);
     }
   };
 
