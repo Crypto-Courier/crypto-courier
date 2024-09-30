@@ -17,6 +17,8 @@ interface TokenDetails {
   decimals: number;
 }
 interface Transaction {
+  senderWallet: string;
+  recipientWallet: string;
   tokenAmount: string;
   tokenSymbol: string;
   customizedLink: string;
@@ -73,7 +75,7 @@ const TxHistory: React.FC = () => {
       setIsLoading(true);
       try {
         const response = await fetch(
-          `/api/get-transactions?senderWallet=${address}`
+          `/api/get-transactions?walletAddress=${address}`
         );
         if (!response.ok) {
           throw new Error("Failed to fetch transactions");
@@ -114,7 +116,7 @@ const TxHistory: React.FC = () => {
       });
 
       alert('Email resent successfully!');
-     } catch (error) {
+    } catch (error) {
       console.error('Error resending email:', error);
       alert('Failed to resend email. Please try again.');
     }
@@ -144,16 +146,14 @@ const TxHistory: React.FC = () => {
       <div className="txbg ">
         <div className="max-w-6xl w-[90%] m-auto ">
           <div
-            className={`flex justify-between border-black border-b-0 p-[30px] shadow-lg ${
-              theme === "dark" ? "bg-black" : "bg-white"
-            } rounded-tl-[40px] rounded-tr-[40px] items-center }`}
+            className={`flex justify-between border-black border-b-0 p-[30px] shadow-lg ${theme === "dark" ? "bg-black" : "bg-white"
+              } rounded-tl-[40px] rounded-tr-[40px] items-center }`}
           >
             <div
-              className={`flex items-center space-x-3 p-2 rounded-[10px] ${
-                theme === "dark"
-                  ? "bg-[#1C1C1C] border border-[#A2A2A2]"
-                  : "bg-[#F4F3F3] border border-[#C6C6C6]"
-              }`}
+              className={`flex items-center space-x-3 p-2 rounded-[10px] ${theme === "dark"
+                ? "bg-[#1C1C1C] border border-[#A2A2A2]"
+                : "bg-[#F4F3F3] border border-[#C6C6C6]"
+                }`}
             >
               <div className="w-10 h-10 bg-gray-300 rounded-full hidden lg:flex md:flex sm:flex"></div>
               <span className="font-semibold px-2 text-[12px] lg:text-[15px] md:text-[15px] sm:text-[15px]">
@@ -178,11 +178,10 @@ const TxHistory: React.FC = () => {
                 </div> */}
               </div>
               <button
-                className={`px-[30px] py-[10px] rounded-full lg:mx-7 md:mx-7 sm:mx-7 hover:scale-110 duration-500 transition 0.3 mx-0 text-[12px] lg:text-[15px] md:text-[15px] sm:text-[15px] ${
-                  theme === "dark"
-                    ? "bg-[#FFE500] text-[#363535]"
-                    : "bg-[#E265FF] text-white"
-                }`}
+                className={`px-[30px] py-[10px] rounded-full lg:mx-7 md:mx-7 sm:mx-7 hover:scale-110 duration-500 transition 0.3 mx-0 text-[12px] lg:text-[15px] md:text-[15px] sm:text-[15px] ${theme === "dark"
+                  ? "bg-[#FFE500] text-[#363535]"
+                  : "bg-[#E265FF] text-white"
+                  }`}
                 onClick={SendToken}
               >
                 GIFT TOKEN
@@ -191,17 +190,15 @@ const TxHistory: React.FC = () => {
           </div>
 
           <div
-            className={`${
-              theme === "dark"
-                ? "bg-[#0A0A0A]/80 backdrop-blur-[80px]"
-                : "bg-white/80 backdrop-blur-[80px]"
-            } rounded-br-[40px] rounded-bl-[40px] md:flex-row space-y-6 md:space-y-0 md:space-x-6 lg:py-[50px] lg:px-[30px] md:py-[50px] md:px-[30px] sm:py-[50px] sm:px-[30px] justify-between items-start py-[30px] px-[30px]`}
+            className={`${theme === "dark"
+              ? "bg-[#0A0A0A]/80 backdrop-blur-[80px]"
+              : "bg-white/80 backdrop-blur-[80px]"
+              } rounded-br-[40px] rounded-bl-[40px] md:flex-row space-y-6 md:space-y-0 md:space-x-6 lg:py-[50px] lg:px-[30px] md:py-[50px] md:px-[30px] sm:py-[50px] sm:px-[30px] justify-between items-start py-[30px] px-[30px]`}
           >
             <div className="space-y-3 text-[12px] lg:text-[13px] md:text-[13px] sm:text-[13px]">
               <h3
-                className={` font-medium text-[17px] lg:text-[20px] md:text-[20px] sm:text-[20px] ${
-                  theme === "dark" ? "text-[#DEDEDE]" : "text-[#696969]"
-                }`}
+                className={` font-medium text-[17px] lg:text-[20px] md:text-[20px] sm:text-[20px] ${theme === "dark" ? "text-[#DEDEDE]" : "text-[#696969]"
+                  }`}
               >
                 Transaction history
               </h3>
@@ -215,37 +212,42 @@ const TxHistory: React.FC = () => {
                 transactions.map((tx, index) => (
                   <div
                     key={index}
-                    className={`flex justify-between items-center bg-opacity-50 p-3 rounded-xl ${
-                      theme === "dark"
-                        ? "bg-[#000000]/20 border border-[#5C5C5C]"
-                        : "bg-[#FFFCFC]/20 border border-[#FFFFFF]"
-                    }`}
+                    className={`flex justify-between items-center bg-opacity-50 p-3 rounded-xl ${theme === "dark"
+                      ? "bg-[#000000]/20 border border-[#5C5C5C]"
+                      : "bg-[#FFFCFC]/20 border border-[#FFFFFF]"
+                      }`}
                   >
                     <div className="flex items-center space-x-3">
                       <span
-                        className={`rounded-[10px] ${
-                          theme === "dark"
-                            ? "border border-[#FE660A] text-[#FE660A] bg-[#181818] py-1 px-2"
-                            : "border border-[#FE660A] text-[#FE660A] bg-white py-1 px-2"
-                        }`}
+                        className={`rounded-[10px] ${theme === "dark"
+                          ? "border border-[#FE660A] text-[#FE660A] bg-[#181818] py-1 px-2"
+                          : "border border-[#FE660A] text-[#FE660A] bg-white py-1 px-2"
+                          }`}
                       >
                         {tx.tokenAmount} {tx.tokenSymbol}
                       </span>
-                      <span className="">to</span>
-                      <span
-                        className={`rounded-[10px] ${
-                          theme === "dark"
-                            ? "border border-[#E265FF] text-[#E265FF] bg-[#181818] py-1 px-2"
-                            : "border border-[#E265FF] text-[#E265FF] bg-white py-1 px-2"
-                        }`}
-                      >
-                        {tx.recipientEmail}
-                      </span>
+                      {tx.senderWallet === address ? (
+                        <>
+                          <span>to</span>
+                          <span className="rounded-[10px] border py-1 px-2">
+                            {tx.recipientEmail}
+                          </span>
+                        </>
+                      ) : (
+                        <>
+                          <span>from</span>
+                          <span className="rounded-[10px] border py-1 px-2">
+                            {`${tx.senderWallet.slice(0, 6)}...${tx.senderWallet.slice(-4)}`}
+                          </span>
+                        </>
+                      )}
                     </div>
                     <div className="flex gap-3">
-                      <div className="bg-[#FF336A] hover:scale-110 duration-500 transition 0.3 text-white px-5 py-2 rounded-full text-[12px] flex item-center gap-2">
-                        <button  onClick={() => handleResend(tx)} className="">Resend</button>
-                      </div>
+                      {tx.senderWallet === address && (
+                        <div className="bg-[#FF336A] hover:scale-110 duration-500 transition 0.3 text-white px-5 py-2 rounded-full text-[12px] flex items-center gap-2">
+                          <button onClick={() => handleResend(tx)}>Resend</button>
+                        </div>
+                      )}
                       <div className="bg-[#FF336A] hover:scale-110 duration-500 transition 0.3 text-white px-5 py-2 rounded-full text-[12px] flex item-center gap-2">
                         <Image src={trx} alt="" />
                         <button
