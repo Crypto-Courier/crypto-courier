@@ -4,6 +4,7 @@ import * as React from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { WagmiProvider } from "wagmi";
 import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
+import { PrivyProvider } from '@privy-io/react-auth';
 import { ThemeProvider } from "next-themes";
 import "@rainbow-me/rainbowkit/styles.css";
 
@@ -75,11 +76,24 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   return (
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
+      <PrivyProvider
+      appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID!}
+      config={{
+        loginMethods: ['email', 'wallet'],
+        appearance: {
+          theme: 'light',
+          accentColor: '#676FFF',
+          // You can customize other appearance options here
+        },
+        // Add any other Privy configuration options here
+      }}
+    >
         <RainbowKitProvider theme={myCustomTheme}>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             {children}
           </ThemeProvider>
         </RainbowKitProvider>
+        </PrivyProvider>
       </QueryClientProvider>
     </WagmiProvider>
   );

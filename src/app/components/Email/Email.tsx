@@ -88,7 +88,7 @@ const Email: React.FC<EmailProps> = ({
             display: "inline-block",
           }}
         >
-          Claim Tokens 🎊🎉
+          Claim Tokens
         </a>
       </div>
 
