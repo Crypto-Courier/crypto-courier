@@ -51,6 +51,9 @@ body::-webkit-scrollbar-thumb {
   flex-direction: column;
   justify-content: space-between;
 }
+* {
+  box-sizing: border-box;
+}
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;

@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { X, Copy } from "lucide-react";
+import { X, Copy, CheckCircle } from "lucide-react";
 import wallet from "../assets/wallet.png";
 import Image from "next/image";
 import { useTheme } from "next-themes";
 import add from "../assets/wAdd.png";
 import spin from "../assets/spinner.gif";
+
 import trx2 from "../assets/trx2.png";
 
 interface TxDetailsProps {
@@ -16,17 +17,18 @@ interface TxDetailsProps {
   onConfirm: (walletAddress: string) => void;
 }
 
-const TxDetails: React.FC<TxDetailsProps> = ({ 
-  isOpen, 
-  onClose, 
-  tokenAmount, 
-  tokenSymbol, 
-  recipientEmail, 
-  onConfirm 
+const TxDetails: React.FC<TxDetailsProps> = ({
+  isOpen,
+  onClose,
+  tokenAmount,
+  tokenSymbol,
+  recipientEmail,
+  onConfirm,
 }) => {
   const [isWalletCreated, setIsWalletCreated] = useState(false);
   const [walletAddress, setWalletAddress] = useState("");
   const { theme } = useTheme();
+  const [copied, setCopied] = useState(false);
 
   if (!isOpen) return null;
 
@@ -61,6 +63,13 @@ const TxDetails: React.FC<TxDetailsProps> = ({
     onClose();
   };
 
+  const copyToClipboard = () => {
+    if (walletAddress) {
+      navigator.clipboard.writeText(walletAddress);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div
@@ -105,7 +114,11 @@ const TxDetails: React.FC<TxDetailsProps> = ({
         <div className="p-6">
           {!isWalletCreated ? (
             <div>
-              <p className={`text-center mb-4 ${theme === "dark" ? "text-white" : "text-black"}`}>
+              <p
+                className={`text-center mb-4 ${
+                  theme === "dark" ? "text-white" : "text-black"
+                }`}
+              >
                 A new wallet will be created for {recipientEmail}
               </p>
               <button
@@ -119,29 +132,60 @@ const TxDetails: React.FC<TxDetailsProps> = ({
             </div>
           ) : (
             <>
-              <div className="flex items-center justify-center gap-5 mb-4 flex-col ">
-             
-                  
-              
+              <div className="flex gap-4 mb-4 flex-col w-[80%] m-auto">
+                <div className="item-start font-semibold">Send</div>
+
                 {/* <p className={`text-md ${theme === "dark" ? "text-white" : "text-black"}`}>to</p> */}
-                <p className={` text-md rounded-[12px] text-md py-2 px-4 ${theme === "dark" ? "text-[#FFE500]  bg-[#272626]" : "text-black"}`}>
-                You will Send {tokenAmount} to {recipientEmail}
+                <p
+                  className={` text-md rounded-[12px] text-md py-2 px-4 font-bold ${
+                    theme === "dark"
+                      ? "text-[#FFE500]   bg-[#272626] border border-[#3EFEFEF]"
+                      : "text-black border border-[#0052FF]"
+                  }`}
+                >
+                  ${tokenAmount} to {recipientEmail}
                 </p>
-                <p className={` text-md rounded-[12px] text-md py-2 px-4 ${theme === "dark" ? "text-[#FFE500]  bg-[#272626]" : "text-black"}`}>
-                New Wallet for Recipient: {walletAddress}
+                <div className="item-start font-semibold">
+                  {" "}
+                  New Wallet for Recipient
+                </div>
+                <p
+                  className={` text-md rounded-[12px] text-md py-2 px-4 flex justify-between font-bold ${
+                    theme === "dark"
+                      ? "text-[#FFE500]  bg-[#272626] border border-[#3EFEFEF]"
+                      : "text-black border border-[#0052FF]"
+                  }`}
+                >
+                  {walletAddress
+                    ? `${walletAddress.slice(0, 20)}...${walletAddress.slice(
+                        -7
+                      )}`
+                    : ""}
+                  <button
+                    className={`p-1 text-[#FFE500] transition-colors ${
+                      theme === "dark" ? "text-[#FFE500]" : "text-[#0052FF]"
+                    }`}
+                    onClick={copyToClipboard}
+                  >
+                    {copied ? (
+                      <CheckCircle className="w-4 h-4" />
+                    ) : (
+                      <Copy className="w-4 h-4" />
+                    )}
+                  </button>
                 </p>
-                <p>
-                  You can check out transaction for surity.
-                </p>
+                <p>You can check out transaction for surity.</p>
                 {/* <Image src={spin} alt="Loading..." width={100}/> */}
               </div>
-              
+
               <div className="flex gap-5">
                 <button
                   onClick={onClose}
                   className={`${
-                    theme === "dark" ? "bg-[#FF336A]" : "bg-[#0052FF]"
-                  } w-full text-white py-2 rounded-[10px] flex items-center justify-center`}
+                    theme === "dark"
+                      ? "border border-[#FF336A]"
+                      : "border border-[#0052FF] text-[#0052FF]"
+                  } w-full text-white py-3 rounded-[50px] flex items-center justify-center font-semibold `}
                 >
                   Cancel
                 </button>
@@ -149,7 +193,7 @@ const TxDetails: React.FC<TxDetailsProps> = ({
                   onClick={handleConfirm}
                   className={`${
                     theme === "dark" ? "bg-[#FF336A]" : "bg-[#0052FF]"
-                  } w-full text-white py-2 rounded-[10px] flex items-center justify-center`}
+                  } w-full text-white py-3 rounded-[50px] flex items-center justify-center font-semibold `}
                 >
                   Confirm
                 </button>
