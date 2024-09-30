@@ -18,6 +18,8 @@ interface TokenDetails {
   decimals: number;
 }
 interface Transaction {
+  senderWallet: string;
+  recipientWallet: string;
   tokenAmount: string;
   tokenSymbol: string;
   customizedLink: string;
@@ -115,11 +117,11 @@ const WalletAddressPage: React.FC = () => {
   useEffect(() => {
     const fetchTransactions = async () => {
       if (!walletAddress) return;
-
+  
       setIsLoading(true);
       try {
         const response = await fetch(
-          `/api/get-transactions?senderWallet=${walletAddress}`
+          `/api/get-transactions?walletAddress=${walletAddress}`
         );
         if (!response.ok) {
           throw new Error("Failed to fetch transactions");
@@ -134,7 +136,7 @@ const WalletAddressPage: React.FC = () => {
         setIsLoading(false);
       }
     };
-
+  
     fetchTransactions();
   }, [walletAddress]);
 
@@ -268,20 +270,38 @@ const WalletAddressPage: React.FC = () => {
                       >
                         {tx.tokenAmount} {tx.tokenSymbol}
                       </span>
-                      <span className="">to</span>
-                      <span
-                        className={`rounded-[10px] ${theme === "dark"
-                            ? "border border-[#E265FF] text-[#E265FF] bg-[#181818] py-1 px-2"
-                            : "border border-[#E265FF] text-[#E265FF] bg-white py-1 px-2"
-                          }`}
-                      >
-                        {tx.recipientEmail}
-                      </span>
+                      {tx.senderWallet === walletAddress ? (
+                        <>
+                          <span className="">to</span>
+                          <span
+                            className={`rounded-[10px] ${theme === "dark"
+                                ? "border border-[#E265FF] text-[#E265FF] bg-[#181818] py-1 px-2"
+                                : "border border-[#E265FF] text-[#E265FF] bg-white py-1 px-2"
+                              }`}
+                          >
+                            {tx.recipientEmail}
+                          </span>
+                        </>
+                      ) : (
+                        <>
+                          <span className="">from</span>
+                          <span
+                            className={`rounded-[10px] ${theme === "dark"
+                                ? "border border-[#E265FF] text-[#E265FF] bg-[#181818] py-1 px-2"
+                                : "border border-[#E265FF] text-[#E265FF] bg-white py-1 px-2"
+                              }`}
+                          >
+                            {`${tx.senderWallet.slice(0, 6)}...${tx.senderWallet.slice(-4)}`}
+                          </span>
+                        </>
+                      )}
                     </div>
                     <div className="flex gap-3">
-                      <div className="bg-[#FF336A] hover:scale-110 duration-500 transition 0.3 text-white px-5 py-2 rounded-full text-[12px] flex item-center gap-2">
-                        <button onClick={() => handleResend(tx)} className="">Resend</button>
-                      </div>
+                    {tx.senderWallet === walletAddress && (
+                        <div className="bg-[#FF336A] hover:scale-110 duration-500 transition 0.3 text-white px-5 py-2 rounded-full text-[12px] flex item-center gap-2">
+                          <button onClick={() => handleResend(tx)} className="">Resend</button>
+                        </div>
+                      )}
                       <div className="bg-[#FF336A] hover:scale-110 duration-500 transition 0.3 text-white px-5 py-2 rounded-full text-[12px] flex item-center gap-2">
                         <Image src={trx} alt="" />
                         <button
