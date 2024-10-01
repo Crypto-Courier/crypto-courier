@@ -269,7 +269,7 @@ const WalletAddressPage: React.FC = () => {
                   transactions.map((tx, index) => (
                     <div
                       key={index}
-                      className={`flex justify-between items-center bg-opacity-50 p-3 rounded-xl ${
+                      className={`flex justify-between items-center bg-opacity-50 p-3 rounded-xl mt-2 mx-3 ${
                         theme === "dark"
                           ? "bg-[#000000]/20 border border-[#5C5C5C]"
                           : "bg-[#FFFCFC]/20 border border-[#FFFFFF]"
