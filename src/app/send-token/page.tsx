@@ -241,10 +241,14 @@ const SendToken = () => {
 
     if (storeResponse.ok) {
       console.log("Transaction stored successfully");
-      toast.success("Transaction completed! Email sent to recipient successfully.");
+      toast.success(
+        "Transaction completed! Email sent to recipient successfully."
+      );
     } else {
       console.error("Failed to store transaction");
-      toast.error("Transaction completed but failed to send email to recipient");
+      toast.error(
+        "Transaction completed but failed to send email to recipient"
+      );
     }
   };
 
@@ -384,6 +388,29 @@ const SendToken = () => {
                   Add Token
                 </button>
               </div>
+              {/* <div className="flex justify-center items-center mt-6">
+                <div className="relative w-full max-w-md">
+                  <input
+                    type="text"
+                    placeholder="Search..."
+                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
+                  />
+                  <div className="absolute inset-y-0 left-0 flex items-center pl-3">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5 text-gray-400"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M12.293 12.293a1 1 0 011.414 0l4.29 4.29a1 1 0 01-1.414 1.415l-4.29-4.29a1 1 0 010-1.414zM8.5 14a5.5 5.5 0 100-11 5.5 5.5 0 000 11zm0 1a6.5 6.5 0 110-13 6.5 6.5 0 010 13z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div> */}
 
               <div className="h-[30vh] overflow-y-auto scroll mt-[15px]">
                 {isLoading ? (

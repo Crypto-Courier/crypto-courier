@@ -213,7 +213,9 @@ const TxHistory: React.FC = () => {
                 {isLoading ? (
                   <SkeletonLoader />
                 ) : error ? (
-                  <p className="text-red-700">Error: {error}</p>
+                  <div className="text-red-700 h-[40vh] flex justify-center items-center text-[10rem]">
+                    {error}
+                  </div>
                 ) : transactions.length === 0 ? (
                   <p>No transactions found.</p>
                 ) : (
