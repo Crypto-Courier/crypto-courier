@@ -276,7 +276,7 @@ const WalletAddressPage: React.FC = () => {
                     >
                       <div className="flex items-center space-x-3">
                         <span
-                          className={`rounded-[10px] ${
+                          className={`rounded-[10px] text-[15px]  ${
                             theme === "dark"
                               ? "border border-[#FE660A] text-[#FE660A] bg-[#181818] py-1 px-2"
                               : "border border-[#FE660A] text-[#FE660A] bg-white py-1 px-2"
@@ -286,12 +286,12 @@ const WalletAddressPage: React.FC = () => {
                         </span>
                         {tx.senderWallet === walletAddress ? (
                           <>
-                            <span className="">to</span>
+                            <span className="text-[15px] ">to</span>
                             <span
-                              className={`rounded-[10px] ${
+                              className={`rounded-[10px]text-[15px] ${
                                 theme === "dark"
                                   ? "border border-[#E265FF] text-[#E265FF] bg-[#181818] py-1 px-2"
-                                  : "border border-[#E265FF] text-[#E265FF] bg-white py-1 px-2"
+                                  : "border border-[#0052FF] text-[#0052FF] bg-white py-1 px-2"
                               }`}
                             >
                               {tx.recipientEmail}
@@ -299,17 +299,17 @@ const WalletAddressPage: React.FC = () => {
                           </>
                         ) : (
                           <>
-                            <span className="">from</span>
+                            <span className="text-[15px] ">from</span>
                             <span
-                              className={`rounded-[10px] ${
+                              className={`rounded-[10px] text-[15px] ${
                                 theme === "dark"
                                   ? "border border-[#E265FF] text-[#E265FF] bg-[#181818] py-1 px-2"
-                                  : "border border-[#E265FF] text-[#E265FF] bg-white py-1 px-2"
+                                  : "border border-[#0052FF] text-[#0052FF] bg-white py-1 px-2"
                               }`}
                             >
                               {`${tx.senderWallet.slice(
                                 0,
-                                6
+                                15
                               )}...${tx.senderWallet.slice(-4)}`}
                             </span>
                           </>

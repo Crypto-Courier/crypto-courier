@@ -241,17 +241,29 @@ const TxHistory: React.FC = () => {
                         {tx.senderWallet === address ? (
                           <>
                             <span className="text-[15px]">to</span>
-                            <span className="rounded-[10px] border py-1 px-2 text-[15px] ">
+                            <span
+                              className={`rounded-[10px]text-[15px] ${
+                                theme === "dark"
+                                  ? "border border-[#E265FF] text-[#E265FF] bg-[#181818] py-1 px-2"
+                                  : "border border-[#0052FF] text-[#0052FF] bg-white py-1 px-2"
+                              }`}
+                            >
                               {tx.recipientEmail}
                             </span>
                           </>
                         ) : (
                           <>
-                            <span>from</span>
-                            <span className="rounded-[10px] border py-1 px-2">
+                            <span className="text-[15px]">from</span>
+                            <span
+                              className={`rounded-[10px] text-[15px] ${
+                                theme === "dark"
+                                  ? "border border-[#E265FF] text-[#E265FF] bg-[#181818] py-1 px-2"
+                                  : "border border-[#0052FF] text-[#0052FF] bg-white py-1 px-2"
+                              }`}
+                            >
                               {`${tx.senderWallet.slice(
                                 0,
-                                6
+                                15
                               )}...${tx.senderWallet.slice(-4)}`}
                             </span>
                           </>
@@ -260,7 +272,10 @@ const TxHistory: React.FC = () => {
                       <div className="flex gap-3">
                         {tx.senderWallet === address && (
                           <div className="bg-[#FF336A] hover:scale-110 duration-500 transition 0.3 text-white px-5 py-2 rounded-full text-[12px] flex items-center gap-2">
-                            <button onClick={() => handleResend(tx)}>
+                            <button
+                              onClick={() => handleResend(tx)}
+                              className="text-[15px] "
+                            >
                               Resend
                             </button>
                           </div>
@@ -268,6 +283,7 @@ const TxHistory: React.FC = () => {
                         <div className="bg-[#FF336A] hover:scale-110 duration-500 transition 0.3 text-white px-5 py-2 rounded-full text-[12px] flex item-center gap-2">
                           <Image src={trx} alt="" />
                           <button
+                            className="text-[15px] "
                             onClick={() =>
                               openTransactionReciept(tx.customizedLink)
                             }
