@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from "react";
 import { useTheme } from "next-themes";
-import { NewToken } from '../../types/types';  // Make sure this import path is correct
+import { NewToken } from "../../types/types"; // Make sure this import path is correct
 
 interface AddTokenFormProps {
   onClose: () => void;
@@ -10,26 +10,28 @@ interface AddTokenFormProps {
 const AddTokenForm: React.FC<AddTokenFormProps> = ({ onClose, onAddToken }) => {
   const { theme } = useTheme();
   const [newToken, setNewToken] = useState<Partial<NewToken>>({
-    contractAddress: '',
-    name: '',
-    symbol: '',
+    contractAddress: "",
+    name: "",
+    symbol: "",
     decimals: undefined,
   });
   const [isFetching, setIsFetching] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [tokenFetched, setTokenFetched] = useState(false);
+  const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const fetchTokenDetails = async () => {
-      if (newToken.contractAddress && newToken.contractAddress.length === 42) {  // Basic check for Ethereum address length
+      if (newToken.contractAddress && newToken.contractAddress.length === 42) {
+        // Basic check for Ethereum address length
         setError(null);
         setIsFetching(true);
 
         try {
-          const res = await fetch('/api/getTokenDetails', {
-            method: 'POST',
+          const res = await fetch("/api/getTokenDetails", {
+            method: "POST",
             headers: {
-              'Content-Type': 'application/json',
+              "Content-Type": "application/json",
             },
             body: JSON.stringify({ tokenAddress: newToken.contractAddress }),
           });
@@ -45,11 +47,11 @@ const AddTokenForm: React.FC<AddTokenFormProps> = ({ onClose, onAddToken }) => {
             });
             setTokenFetched(true);
           } else {
-            setError(data.message || 'Error fetching token details');
+            setError(data.message || "Error fetching token details");
             setTokenFetched(false);
           }
         } catch (err) {
-          setError('An unexpected error occurred');
+          setError("An unexpected error occurred");
           setTokenFetched(false);
         } finally {
           setIsFetching(false);
@@ -58,8 +60,8 @@ const AddTokenForm: React.FC<AddTokenFormProps> = ({ onClose, onAddToken }) => {
         setTokenFetched(false);
         setNewToken({
           ...newToken,
-          name: '',
-          symbol: '',
+          name: "",
+          symbol: "",
           decimals: undefined,
         });
       }
@@ -70,15 +72,46 @@ const AddTokenForm: React.FC<AddTokenFormProps> = ({ onClose, onAddToken }) => {
 
   const handleAddToken = (e: React.FormEvent) => {
     e.preventDefault();
-    if (tokenFetched && newToken.contractAddress && newToken.name && newToken.symbol && newToken.decimals !== undefined) {
+    if (
+      tokenFetched &&
+      newToken.contractAddress &&
+      newToken.name &&
+      newToken.symbol &&
+      newToken.decimals !== undefined
+    ) {
       onAddToken(newToken as NewToken);
       onClose();
     }
   };
+  useEffect(() => {
+    // Function to detect clicks outside the modal
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        modalRef.current &&
+        !modalRef.current.contains(event.target as Node)
+      ) {
+        onClose(); // Close the modal when clicking outside
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [onClose]);
 
   return (
-    <div className={`fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center w-[100%] mx-auto`}>
-      <div className={`rounded-lg max-w-[40%] w-full relative ${theme === "dark" ? "bg-[#000000]/50 border-red-500 border backdrop-blur-[10px]" : "bg-[#FFFCFC] border border-[#FE005B]/60"}`}>
+    <div
+      className={`fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center w-[100%] mx-auto`}
+    >
+      <div
+        ref={modalRef}
+        className={`rounded-lg max-w-[40%] w-full relative ${
+          theme === "dark"
+            ? "bg-[#000000]/50 border-red-500 border backdrop-blur-[10px]"
+            : "bg-[#FFFCFC] border border-[#FE005B]/60"
+        }`}
+      >
         <button
           type="button"
           onClick={onClose}
@@ -87,59 +120,101 @@ const AddTokenForm: React.FC<AddTokenFormProps> = ({ onClose, onAddToken }) => {
           &times;
         </button>
 
-        <h2 className={`text-2xl font-bold mb-4 p-6 rounded-tr-[10px] rounded-tl-[10px] text-center ${theme === "dark" ? "bg-[#171717] border-b-2 border-red-500" : "bg-white border-b-2 border-[#FE005B]"}`}>
+        <h2
+          className={`text-2xl font-bold mb-4 p-6 rounded-tr-[10px] rounded-tl-[10px] text-center ${
+            theme === "dark"
+              ? "bg-[#171717] border-b-2 border-red-500"
+              : "bg-white border-b-2 border-[#FE005B]"
+          }`}
+        >
           Add New Token
         </h2>
 
         <form onSubmit={handleAddToken} className="mx-7 my-2">
           <div className="mb-2">
-            <label className={`block text-sm font-medium text-gray-700 mb-2 ${theme === "dark" ? "text-white" : "text-black"}`}>
+            <label
+              className={`block text-sm font-medium text-gray-700 mb-2 ${
+                theme === "dark" ? "text-white" : "text-black"
+              }`}
+            >
               Contract Address
             </label>
             <input
               type="text"
               value={newToken.contractAddress}
-              onChange={(e) => setNewToken({ ...newToken, contractAddress: e.target.value })}
-              className={`w-full bg-opacity-50 rounded-[7px] p-1 border border-gray-500 focus-none ${theme === "dark" ? "bg-[#151515] text-white" : "bg-[#FFFCFC] text-gray-800"}`}
+              onChange={(e) =>
+                setNewToken({ ...newToken, contractAddress: e.target.value })
+              }
+              className={`w-full bg-opacity-50 rounded-[7px] p-1 border border-gray-500 focus-none ${
+                theme === "dark"
+                  ? "bg-[#151515] text-white"
+                  : "bg-[#FFFCFC] text-gray-800"
+              }`}
               required
             />
           </div>
 
-          {isFetching && <p className="text-blue-500 mb-2">Fetching token details...</p>}
+          {isFetching && (
+            <p className="text-blue-500 mb-2">Fetching token details...</p>
+          )}
 
           {tokenFetched && (
             <>
               <div className="mb-2">
-                <label className={`block text-sm font-medium text-gray-700 mb-2 ${theme === "dark" ? "text-white" : "text-black"}`}>
+                <label
+                  className={`block text-sm font-medium text-gray-700 mb-2 ${
+                    theme === "dark" ? "text-white" : "text-black"
+                  }`}
+                >
                   Symbol
                 </label>
                 <input
                   type="text"
                   value={newToken.symbol}
                   disabled
-                  className={`w-full bg-opacity-50 rounded-[7px] p-1 border border-gray-500 focus-none ${theme === "dark" ? "bg-[#151515] text-white" : "bg-[#FFFCFC] text-gray-800"}`}
+                  className={`w-full bg-opacity-50 rounded-[7px] p-1 border border-gray-500 focus-none ${
+                    theme === "dark"
+                      ? "bg-[#151515] text-white"
+                      : "bg-[#FFFCFC] text-gray-800"
+                  }`}
                 />
               </div>
               <div className="mb-2">
-                <label className={`block text-sm font-medium text-gray-700 mb-2 ${theme === "dark" ? "text-white" : "text-black"}`}>
+                <label
+                  className={`block text-sm font-medium text-gray-700 mb-2 ${
+                    theme === "dark" ? "text-white" : "text-black"
+                  }`}
+                >
                   Name
                 </label>
                 <input
                   type="text"
                   value={newToken.name}
                   disabled
-                  className={`w-full bg-opacity-50 rounded-[7px] p-1 border border-gray-500 focus-none ${theme === "dark" ? "bg-[#151515] text-white" : "bg-[#FFFCFC] text-gray-800"}`}
+                  className={`w-full bg-opacity-50 rounded-[7px] p-1 border border-gray-500 focus-none ${
+                    theme === "dark"
+                      ? "bg-[#151515] text-white"
+                      : "bg-[#FFFCFC] text-gray-800"
+                  }`}
                 />
               </div>
               <div className="mb-4">
-                <label className={`block text-sm font-medium text-gray-700 mb-2 ${theme === "dark" ? "text-white" : "text-black"}`}>
+                <label
+                  className={`block text-sm font-medium text-gray-700 mb-2 ${
+                    theme === "dark" ? "text-white" : "text-black"
+                  }`}
+                >
                   Decimals
                 </label>
                 <input
                   type="number"
                   value={newToken.decimals || ""}
                   disabled
-                  className={`w-full bg-opacity-50 rounded-[7px] p-1 border border-gray-500 focus-none ${theme === "dark" ? "bg-[#151515] text-white" : "bg-[#FFFCFC] text-gray-800"}`}
+                  className={`w-full bg-opacity-50 rounded-[7px] p-1 border border-gray-500 focus-none ${
+                    theme === "dark"
+                      ? "bg-[#151515] text-white"
+                      : "bg-[#FFFCFC] text-gray-800"
+                  }`}
                 />
               </div>
             </>

@@ -9,8 +9,8 @@ import { useAccount } from "wagmi";
 import Image from "next/image";
 import trx from "../../assets/trx.png";
 import { sendEmail } from "../../components/Email/Emailer";
-import { renderEmailToString } from '../../components/Email/renderEmailToString';
-import { usePrivy } from '@privy-io/react-auth';
+import { renderEmailToString } from "../../components/Email/renderEmailToString";
+import { usePrivy } from "@privy-io/react-auth";
 
 interface TokenDetails {
   name: string;
@@ -34,7 +34,7 @@ const WalletAddressPage: React.FC = () => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [exportStatus, setExportStatus] = useState<string>('');
+  const [exportStatus, setExportStatus] = useState<string>("");
 
   const [tokenAddress, setTokenAddress] = useState("");
   const [tokenDetails, setTokenDetails] = useState<TokenDetails | null>(null);
@@ -45,8 +45,8 @@ const WalletAddressPage: React.FC = () => {
   const walletAddress = params?.walletAddress as string;
 
   const signOut = async () => {
-    router.push('/');
-  }
+    router.push("/");
+  };
 
   // const isAuthenticated = ready && authenticated;
   // const hasEmbeddedWallet = user?.linkedAccounts?.find(
@@ -56,25 +56,25 @@ const WalletAddressPage: React.FC = () => {
   const canExportWallet = true;
 
   useEffect(() => {
-    console.log('Privy state:', { ready, authenticated, user });
-    console.log('Export wallet function:', exportWallet);
+    console.log("Privy state:", { ready, authenticated, user });
+    console.log("Export wallet function:", exportWallet);
   }, [ready, authenticated, user, exportWallet]);
 
   const handleExportWallet = async () => {
-    console.log('Export wallet button clicked');
-    setExportStatus('Exporting wallet...');
+    console.log("Export wallet button clicked");
+    setExportStatus("Exporting wallet...");
     try {
-      console.log('Calling exportWallet function...');
+      console.log("Calling exportWallet function...");
       await exportWallet();
-      console.log('Wallet exported successfully');
-      setExportStatus('Wallet exported successfully');
-      alert('Wallet exported successfully. Please check your downloads.');
+      console.log("Wallet exported successfully");
+      setExportStatus("Wallet exported successfully");
+      alert("Wallet exported successfully. Please check your downloads.");
     } catch (error: unknown) {
-      console.error('Error exporting wallet:', error);
-      let errorMessage = 'An unknown error occurred';
+      console.error("Error exporting wallet:", error);
+      let errorMessage = "An unknown error occurred";
       if (error instanceof Error) {
         errorMessage = error.message;
-      } else if (typeof error === 'string') {
+      } else if (typeof error === "string") {
         errorMessage = error;
       }
       setExportStatus(`Export failed: ${errorMessage}`);
@@ -117,7 +117,7 @@ const WalletAddressPage: React.FC = () => {
   useEffect(() => {
     const fetchTransactions = async () => {
       if (!walletAddress) return;
-  
+
       setIsLoading(true);
       try {
         const response = await fetch(
@@ -136,7 +136,7 @@ const WalletAddressPage: React.FC = () => {
         setIsLoading(false);
       }
     };
-  
+
     fetchTransactions();
   }, [walletAddress]);
 
@@ -146,7 +146,8 @@ const WalletAddressPage: React.FC = () => {
 
   const handleResend = async (tx: Transaction) => {
     try {
-      const subject = "Nothing to worry! Your Crypto token is in your inbox again 📩";
+      const subject =
+        "Nothing to worry! Your Crypto token is in your inbox again 📩";
       const htmlContent = renderEmailToString({
         recipientEmail: tx.recipientEmail,
         tokenAmount: tx.tokenAmount,
@@ -161,10 +162,10 @@ const WalletAddressPage: React.FC = () => {
         tokenSymbol: tx.tokenSymbol,
       });
 
-      alert('Email resent successfully!');
+      alert("Email resent successfully!");
     } catch (error) {
-      console.error('Error resending email:', error);
-      alert('Failed to resend email. Please try again.');
+      console.error("Error resending email:", error);
+      alert("Failed to resend email. Please try again.");
     }
   };
 
@@ -190,31 +191,36 @@ const WalletAddressPage: React.FC = () => {
     <div className="main">
       <NewNavbar />
       <div className="txbg ">
-        <div className="max-w-6xl mx-auto my-[140px] shadow-lg">
+        <div className="max-w-6xl w-[90%] mx-auto my-[60px]">
           <div
-            className={`flex justify-between border-black border-b-0 p-[30px] ${theme === "dark" ? "bg-black" : "bg-white"
-              } rounded-tl-[40px] rounded-tr-[40px] items-center }`}
+            className={`flex justify-between border-black border-b-0 p-[30px] ${
+              theme === "dark" ? "bg-black" : "bg-white"
+            } rounded-tl-[40px] rounded-tr-[40px] items-center }`}
           >
             <div
-              className={`flex items-center space-x-3 p-2 rounded-[10px] ${theme === "dark"
+              className={`flex items-center space-x-3 p-2 rounded-[10px] ${
+                theme === "dark"
                   ? "bg-[#1C1C1C] border border-[#A2A2A2]"
                   : "bg-[#F4F3F3] border border-[#C6C6C6]"
-                }`}
+              }`}
             >
-              <div className="w-10 h-10 bg-gray-300 rounded-full"></div>
-              <span className="font-semibold">
-                {walletAddress}
+              <div className="w-10 h-10 bg-gray-300 rounded-full hidden lg:flex md:flex sm:flex"></div>
+              <span className="font-semibold px-2 text-[12px] lg:text-[15px] md:text-[15px] sm:text-[15px]">
+                {walletAddress
+                  ? `${walletAddress.slice(0, 10)}...${walletAddress.slice(-4)}`
+                  : "Connect Wallet"}
               </span>
             </div>
             <div className="text-right flex items-end">
               <button
                 onClick={handleExportWallet}
-                className={`px-[30px] py-[10px] rounded-full mx-7 hover:scale-110 duration-500 transition 0.3 ${theme === "dark"
+                className={`px-[30px] py-[10px] rounded-full mx-7 hover:scale-110 duration-500 transition 0.3 ${
+                  theme === "dark"
                     ? "bg-[#FFE500] text-[#363535]"
                     : "bg-[#E265FF] text-white"
-                  }`}
+                }`}
               >
-                Export Wallet {canExportWallet ? '' : '(Disabled)'}
+                Export Wallet {canExportWallet ? "" : "(Disabled)"}
               </button>
               {/* {exportStatus && (
                 <div className="mt-2 text-sm">
@@ -222,10 +228,11 @@ const WalletAddressPage: React.FC = () => {
                 </div>
               )} */}
               <button
-                className={`px-[30px] py-[10px] rounded-full mx-7 hover:scale-110 duration-500 transition 0.3 ${theme === "dark"
+                className={`px-[30px] py-[10px] rounded-full mx-7 hover:scale-110 duration-500 transition 0.3 ${
+                  theme === "dark"
                     ? "bg-[#FFE500] text-[#363535]"
                     : "bg-[#E265FF] text-white"
-                  }`}
+                }`}
                 onClick={signOut}
               >
                 Sign Out
@@ -234,88 +241,106 @@ const WalletAddressPage: React.FC = () => {
           </div>
 
           <div
-            className={`${theme === "dark"
+            className={`${
+              theme === "dark"
                 ? "bg-[#0A0A0A]/80 backdrop-blur-[80px]"
                 : "bg-white/80 backdrop-blur-[80px]"
-              } rounded-br-[40px] rounded-bl-[40px] md:flex-row space-y-6 md:space-y-0 md:space-x-6 py-[50px] px-[30px] justify-between items-start`}
+            } rounded-br-[40px] rounded-bl-[40px] md:flex-row space-y-6 md:space-y-0 md:space-x-6 lg:py-[30px] lg:px-[30px] md:py-[50px] md:px-[30px] sm:py-[50px] sm:px-[30px] justify-between items-start py-[30px] px-[30px]`}
           >
             <div className="space-y-3">
               <h3
-                className={`text-[20px] font-medium ${theme === "dark" ? "text-[#DEDEDE]" : "text-[#696969]"
-                  }`}
+                className={`font-medium text-[17px] lg:text-[20px] md:text-[20px] sm:text-[20px] ${
+                  theme === "dark" ? "text-[#DEDEDE]" : "text-[#696969]"
+                }`}
               >
                 Transaction history
               </h3>
-              {isLoading ? (
-                <SkeletonLoader />
-              ) : error ? (
-                <p>Error: {error}</p>
-              ) : transactions.length === 0 ? (
-                <p>No transactions found.</p>
-              ) : (
-                transactions.map((tx, index) => (
-                  <div
-                    key={index}
-                    className={`flex justify-between items-center bg-opacity-50 p-3 rounded-xl ${theme === "dark"
-                        ? "bg-[#000000]/20 border border-[#5C5C5C]"
-                        : "bg-[#FFFCFC]/20 border border-[#FFFFFF]"
+              <div className="h-[40vh] overflow-y-auto scroll">
+                {isLoading ? (
+                  <SkeletonLoader />
+                ) : error ? (
+                  <div className="text-red-700 h-[40vh] flex justify-center items-center text-[20px]">
+                    {error}
+                  </div>
+                ) : transactions.length === 0 ? (
+                  <p>No transactions found.</p>
+                ) : (
+                  transactions.map((tx, index) => (
+                    <div
+                      key={index}
+                      className={`flex justify-between items-center bg-opacity-50 p-3 rounded-xl ${
+                        theme === "dark"
+                          ? "bg-[#000000]/20 border border-[#5C5C5C]"
+                          : "bg-[#FFFCFC]/20 border border-[#FFFFFF]"
                       }`}
-                  >
-                    <div className="flex items-center space-x-3">
-                      <span
-                        className={`rounded-[10px] ${theme === "dark"
-                            ? "border border-[#FE660A] text-[#FE660A] bg-[#181818] py-1 px-2"
-                            : "border border-[#FE660A] text-[#FE660A] bg-white py-1 px-2"
+                    >
+                      <div className="flex items-center space-x-3">
+                        <span
+                          className={`rounded-[10px] ${
+                            theme === "dark"
+                              ? "border border-[#FE660A] text-[#FE660A] bg-[#181818] py-1 px-2"
+                              : "border border-[#FE660A] text-[#FE660A] bg-white py-1 px-2"
                           }`}
-                      >
-                        {tx.tokenAmount} {tx.tokenSymbol}
-                      </span>
-                      {tx.senderWallet === walletAddress ? (
-                        <>
-                          <span className="">to</span>
-                          <span
-                            className={`rounded-[10px] ${theme === "dark"
-                                ? "border border-[#E265FF] text-[#E265FF] bg-[#181818] py-1 px-2"
-                                : "border border-[#E265FF] text-[#E265FF] bg-white py-1 px-2"
-                              }`}
-                          >
-                            {tx.recipientEmail}
-                          </span>
-                        </>
-                      ) : (
-                        <>
-                          <span className="">from</span>
-                          <span
-                            className={`rounded-[10px] ${theme === "dark"
-                                ? "border border-[#E265FF] text-[#E265FF] bg-[#181818] py-1 px-2"
-                                : "border border-[#E265FF] text-[#E265FF] bg-white py-1 px-2"
-                              }`}
-                          >
-                            {`${tx.senderWallet.slice(0, 6)}...${tx.senderWallet.slice(-4)}`}
-                          </span>
-                        </>
-                      )}
-                    </div>
-                    <div className="flex gap-3">
-                    {tx.senderWallet === walletAddress && (
-                        <div className="bg-[#FF336A] hover:scale-110 duration-500 transition 0.3 text-white px-5 py-2 rounded-full text-[12px] flex item-center gap-2">
-                          <button onClick={() => handleResend(tx)} className="">Resend</button>
-                        </div>
-                      )}
-                      <div className="bg-[#FF336A] hover:scale-110 duration-500 transition 0.3 text-white px-5 py-2 rounded-full text-[12px] flex item-center gap-2">
-                        <Image src={trx} alt="" />
-                        <button
-                          onClick={() =>
-                            openTransactionReciept(tx.customizedLink)
-                          }
                         >
-                          View Tx
-                        </button>
+                          {tx.tokenAmount} {tx.tokenSymbol}
+                        </span>
+                        {tx.senderWallet === walletAddress ? (
+                          <>
+                            <span className="">to</span>
+                            <span
+                              className={`rounded-[10px] ${
+                                theme === "dark"
+                                  ? "border border-[#E265FF] text-[#E265FF] bg-[#181818] py-1 px-2"
+                                  : "border border-[#E265FF] text-[#E265FF] bg-white py-1 px-2"
+                              }`}
+                            >
+                              {tx.recipientEmail}
+                            </span>
+                          </>
+                        ) : (
+                          <>
+                            <span className="">from</span>
+                            <span
+                              className={`rounded-[10px] ${
+                                theme === "dark"
+                                  ? "border border-[#E265FF] text-[#E265FF] bg-[#181818] py-1 px-2"
+                                  : "border border-[#E265FF] text-[#E265FF] bg-white py-1 px-2"
+                              }`}
+                            >
+                              {`${tx.senderWallet.slice(
+                                0,
+                                6
+                              )}...${tx.senderWallet.slice(-4)}`}
+                            </span>
+                          </>
+                        )}
+                      </div>
+                      <div className="flex gap-3">
+                        {tx.senderWallet === walletAddress && (
+                          <div className="bg-[#FF336A] hover:scale-110 duration-500 transition 0.3 text-white px-5 py-2 rounded-full text-[12px] flex item-center gap-2">
+                            <button
+                              onClick={() => handleResend(tx)}
+                              className=""
+                            >
+                              Resend
+                            </button>
+                          </div>
+                        )}
+                        <div className="bg-[#FF336A] hover:scale-110 duration-500 transition 0.3 text-white px-5 py-2 rounded-full text-[12px] flex item-center gap-2">
+                          <Image src={trx} alt="" />
+                          <button
+                            onClick={() =>
+                              openTransactionReciept(tx.customizedLink)
+                            }
+                          >
+                            View Tx
+                          </button>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))
-              )}
+                  ))
+                )}
+              </div>
             </div>
           </div>
         </div>
