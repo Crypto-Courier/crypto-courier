@@ -39,14 +39,10 @@ const Email: React.FC<EmailProps> = ({
       </div>
 
       <div style={{ textAlign: "center", marginBottom: "4px" }}>
-        <span style={{ fontSize: "16px", marginRight: "8px" }}>Hey 👋</span>
-        <span style={{ fontSize: "16px" }}>
-          You just received
-          <strong>
-            {tokenAmount} {tokenSymbol}
-          </strong>
-          Token
-        </span>
+        <div style={{ fontSize: "16px", margin:"8px 4px"}}>Hey 👋</div>
+        <div style={{ fontSize: "16px" }}>
+          <pre>You just received <strong>{tokenAmount} {tokenSymbol}</strong> Token </pre>
+        </div>
       </div>
 
       <div
@@ -73,7 +69,7 @@ const Email: React.FC<EmailProps> = ({
 
       <div style={{ textAlign: "center" }}>
         <a
-          href={`http://localhost:3000/claim-token?amount=${encodeURIComponent(tokenAmount)}&symbol=${encodeURIComponent(tokenSymbol)}`}
+          href="https://courier-by-crypto-courier.vercel.app/claim-token"
           target="_blank"
           rel="noopener noreferrer"
           style={{

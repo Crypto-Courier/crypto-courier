@@ -575,7 +575,7 @@ const SendToken = () => {
                   disabled={isLoading}
                   className="hover:scale-110 duration-500 transition 0.3 px-9 py-3 rounded-full border border-red-300 text-white font-medium bg-[#FF336A]"
                 >
-                  {isLoading ? "SENDING..." : "SEND"}
+                  {isLoading ? "SEND" : "SEND"}
                 </button>
               </div>
               {hash && (

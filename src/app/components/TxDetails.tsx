@@ -178,7 +178,7 @@ const TxDetails: React.FC<TxDetailsProps> = ({
                 {/* <Image src={spin} alt="Loading..." width={100}/> */}
               </div>
 
-              <div className="flex gap-5">
+              <div className="flex gap-5 w-[80%] m-auto">
                 <button
                   onClick={onClose}
                   className={`${

@@ -9,8 +9,9 @@ import { useAccount } from "wagmi";
 import Image from "next/image";
 import trx from "../../assets/trx.png";
 import { sendEmail } from "../../components/Email/Emailer";
-import { renderEmailToString } from "../../components/Email/renderEmailToString";
-import { usePrivy } from "@privy-io/react-auth";
+import { renderEmailToString } from '../../components/Email/renderEmailToString';
+import { usePrivy } from '@privy-io/react-auth';
+import toast from "react-hot-toast";
 
 interface TokenDetails {
   name: string;
@@ -66,9 +67,9 @@ const WalletAddressPage: React.FC = () => {
     try {
       console.log("Calling exportWallet function...");
       await exportWallet();
-      console.log("Wallet exported successfully");
-      setExportStatus("Wallet exported successfully");
-      alert("Wallet exported successfully. Please check your downloads.");
+      console.log('Wallet exported successfully');
+      setExportStatus('Wallet exported successfully');
+      toast.success('Wallet exported successfully.');
     } catch (error: unknown) {
       console.error("Error exporting wallet:", error);
       let errorMessage = "An unknown error occurred";
@@ -78,7 +79,7 @@ const WalletAddressPage: React.FC = () => {
         errorMessage = error;
       }
       setExportStatus(`Export failed: ${errorMessage}`);
-      alert(`Failed to export wallet: ${errorMessage}`);
+      toast.error("Failed to export wallet. Refresh page and try again.");
     }
   };
 
