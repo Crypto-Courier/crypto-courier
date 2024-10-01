@@ -9,8 +9,8 @@ import { useAccount } from "wagmi";
 import Image from "next/image";
 import trx from "../../assets/trx.png";
 import { sendEmail } from "../../components/Email/Emailer";
-import { renderEmailToString } from '../../components/Email/renderEmailToString';
-import { usePrivy } from '@privy-io/react-auth';
+import { renderEmailToString } from "../../components/Email/renderEmailToString";
+import { usePrivy } from "@privy-io/react-auth";
 import toast from "react-hot-toast";
 
 interface TokenDetails {
@@ -67,9 +67,9 @@ const WalletAddressPage: React.FC = () => {
     try {
       console.log("Calling exportWallet function...");
       await exportWallet();
-      console.log('Wallet exported successfully');
-      setExportStatus('Wallet exported successfully');
-      toast.success('Wallet exported successfully.');
+      console.log("Wallet exported successfully");
+      setExportStatus("Wallet exported successfully");
+      toast.success("Wallet exported successfully.");
     } catch (error: unknown) {
       console.error("Error exporting wallet:", error);
       let errorMessage = "An unknown error occurred";
@@ -289,7 +289,7 @@ const WalletAddressPage: React.FC = () => {
                           <>
                             <span className="text-[15px] ">to</span>
                             <span
-                              className={`rounded-[10px]text-[15px] ${
+                              className={`rounded-[10px] text-[15px] ${
                                 theme === "dark"
                                   ? "border border-[#E265FF] text-[#E265FF] bg-[#181818] py-1 px-2"
                                   : "border border-[#0052FF] text-[#0052FF] bg-white py-1 px-2"
