@@ -2,11 +2,12 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-
+import Image from "next/image"
 import { useTheme } from "next-themes";
 import { X, Copy } from "lucide-react";
 import {PrivyProvider, usePrivy} from '@privy-io/react-auth';
 import { useSearchParams, useRouter } from "next/navigation";
+import spin from "../assets/spinner.gif";
 
 function ClaimToken() {
   const { theme } = useTheme();
@@ -43,7 +44,7 @@ function ClaimToken() {
   };
 
   if (!ready) {
-    return <div>Loading...</div>;
+    return <div className="flex justify-center items-center h-[100vh]"> <Image src={spin} alt="Loading..." width={100}/></div>;
   }
 
   return (
@@ -91,7 +92,7 @@ function ClaimToken() {
                 theme === "dark" ? "bg-[#FF336A]" : "bg-[#0052FF]"
               } w-[50%] text-white py-2 rounded-[10px] flex items-center justify-center mb-6 mx-auto`}
               >
-                {isAuthenticated ? `Claim Your Tokens` : "Login to Claim"}
+                {isAuthenticated ? `Go to Dashboard` : "Login to Claim"}
               </button>
 
               <div
