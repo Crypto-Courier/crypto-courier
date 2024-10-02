@@ -1,5 +1,5 @@
 "use client";
-import react, { useState, useEffect } from "react";
+import react, { useState, useEffect, useRef } from "react";
 import { useRouter, useParams } from "next/navigation";
 import "../../styles/History.css";
 import NewNavbar from "./newNavbar";
@@ -7,6 +7,7 @@ import Footer from "../../components/Footer";
 import { useTheme } from "next-themes";
 import { useAccount } from "wagmi";
 import Image from "next/image";
+import { ChevronDown, LogOut, ExternalLink } from "lucide-react";
 import trx from "../../assets/trx.png";
 import { sendEmail } from "../../components/Email/Emailer";
 import { renderEmailToString } from "../../components/Email/renderEmailToString";
@@ -42,6 +43,8 @@ const WalletAddressPage: React.FC = () => {
       toast.success("Logged out successfully");
     },
   });
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
   const [tokenAddress, setTokenAddress] = useState("");
   const [tokenDetails, setTokenDetails] = useState<TokenDetails | null>(null);
   // const [error, setError] = useState(null);
@@ -197,6 +200,34 @@ const WalletAddressPage: React.FC = () => {
       ))}
     </div>
   );
+  const invite = async () => {
+    router.push("/");
+  };
+
+  const handleMouseEnter = () => {
+    setIsDropdownOpen(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsDropdownOpen(false);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        event.target instanceof Node &&
+        !dropdownRef.current.contains(event.target)
+      ) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <div className="main">
@@ -206,47 +237,90 @@ const WalletAddressPage: React.FC = () => {
           <div
             className={`flex justify-between border-black border-b-0 p-[30px] ${
               theme === "dark" ? "bg-black" : "bg-white"
-            } rounded-tl-[40px] rounded-tr-[40px] items-center }`}
+            } rounded-tl-[40px] rounded-tr-[40px] items-center`}
           >
             <div
-              className={`flex items-center space-x-3 p-2 rounded-[10px] ${
-                theme === "dark"
-                  ? "bg-[#1C1C1C] border border-[#A2A2A2]"
-                  : "bg-[#F4F3F3] border border-[#C6C6C6]"
-              }`}
+              className="relative"
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+              ref={dropdownRef}
             >
-              <div className="w-10 h-10 bg-gray-300 rounded-full hidden lg:flex md:flex sm:flex"></div>
-              <span className="font-semibold px-2 text-[12px] lg:text-[15px] md:text-[15px] sm:text-[15px]">
-                {walletAddress
-                  ? `${walletAddress.slice(0, 10)}...${walletAddress.slice(-4)}`
-                  : "Connect Wallet"}
-              </span>
-            </div>
-            <div className="text-right flex items-end">
-              <button
-                onClick={handleExportWallet}
-                className={`px-[30px] py-[10px] rounded-full mx-7 hover:scale-110 duration-500 transition 0.3 ${
+              <div
+                className={`flex items-center space-x-3 p-2 rounded-[10px] ${
                   theme === "dark"
-                    ? "bg-[#FFE500] text-[#363535]"
-                    : "bg-[#E265FF] text-white"
+                    ? "bg-[#1C1C1C] border border-[#A2A2A2]"
+                    : "bg-[#F4F3F3] border border-[#C6C6C6]"
                 }`}
               >
-                Export Wallet {canExportWallet ? "" : "(Disabled)"}
-              </button>
-              {/* {exportStatus && (
-                <div className="mt-2 text-sm">
-                  {exportStatus}
+                <div className="w-10 h-10 bg-gray-300 rounded-full hidden lg:flex md:flex sm:flex"></div>
+                <span className="font-semibold px-2 text-[12px] lg:text-[15px] md:text-[15px] sm:text-[15px]">
+                  {walletAddress
+                    ? `${walletAddress.slice(0, 10)}...${walletAddress.slice(
+                        -4
+                      )}`
+                    : "Connect Wallet"}
+                </span>
+                <ChevronDown size={20} />
+              </div>
+
+              {isDropdownOpen && (
+                <div className="absolute top-full left-0 w-full rounded-md shadow-lg z-10">
+                  <div
+                    className={` mt-1  rounded-md ${
+                      theme === "dark"
+                        ? "bg-[#1C1C1C] text-white border border-[#A2A2A2]"
+                        : "bg-white text-black border border-[#C6C6C6]"
+                    }`}
+                  >
+                    <div className="p-2">
+                      <button
+                        onClick={handleExportWallet}
+                        className={`flex items-center w-full px-4 py-2 text-sm rounded-md ${
+                          canExportWallet
+                            ? "hover:bg-gray-100 hover:text-gray-900"
+                            : "opacity-50 cursor-not-allowed"
+                        }`}
+                      >
+                        <ExternalLink size={16} className="mr-2" />
+                        Export Wallet
+                      </button>
+                      <button
+                        onClick={signOut}
+                        className=" rounded-md flex items-center w-full px-4 py-2 text-sm hover:bg-gray-100 hover:text-gray-900"
+                      >
+                        <LogOut size={16} className="mr-2" />
+                        Sign Out
+                      </button>
+                    </div>
+                  </div>
                 </div>
-              )} */}
+              )}
+            </div>
+
+            <div className="text-right flex items-end">
+              <div>
+                <div className="text-[18px] text-black-600 py-1 font-[500] text-start">
+                  Your balance
+                </div>
+                <div
+                  className={`text-[25px] font-bold   py-1 px-3 rounded-[10px] ${
+                    theme === "dark"
+                      ? "text-[#FFE500] border border-[#A2A2A2] bg-[#1C1C1C]"
+                      : "text-[#E265FF] border border-gray"
+                  }`}
+                >
+                  $1234.56
+                </div>
+              </div>
               <button
+                onClick={invite}
                 className={`px-[30px] py-[10px] rounded-full mx-7 hover:scale-110 duration-500 transition 0.3 ${
                   theme === "dark"
                     ? "bg-[#FFE500] text-[#363535]"
                     : "bg-[#E265FF] text-white"
                 }`}
-                onClick={signOut}
               >
-                Sign Out
+                Invite Your Friends
               </button>
             </div>
           </div>
