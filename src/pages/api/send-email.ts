@@ -25,7 +25,7 @@ export default async function handler(
   try {
     const msg = {
       to: recipientEmail,
-      from: process.env.SENDGRID_VERIFIED_SENDER as string,
+      from: `CryptoCourier <${process.env.SENDGRID_VERIFIED_SENDER}>`,
       subject: subject,
       html: htmlContent,
     };
