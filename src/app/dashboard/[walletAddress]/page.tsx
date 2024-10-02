@@ -47,6 +47,7 @@ const WalletAddressPage: React.FC = () => {
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const [tokenAddress, setTokenAddress] = useState("");
   const [tokenDetails, setTokenDetails] = useState<TokenDetails | null>(null);
+  const [bttBalance, setBttBalance] = useState<string>("0");
   // const [error, setError] = useState(null);
 
   const { theme } = useTheme();
@@ -67,12 +68,32 @@ const WalletAddressPage: React.FC = () => {
   //   (account) => account.type === 'wallet' && account.walletClient === 'privy'
   // );
 
+  useEffect(() => {
+    if (walletAddress) {
+      fetchBTTBalance(walletAddress);
+    }
+  }, [walletAddress]);
+
   const canExportWallet = true;
 
   useEffect(() => {
     console.log("Privy state:", { ready, authenticated, user });
     console.log("Export wallet function:", exportWallet);
   }, [ready, authenticated, user, exportWallet]);
+
+  const fetchBTTBalance = async (address: string) => {
+    try {
+      const response = await fetch(`/api/getBTTbalance?address=${address}`);
+      const data = await response.json();
+      if (response.ok) {
+        setBttBalance(data.balance);
+      } else {
+        console.error("Error fetching BTT balance:", data.message);
+      }
+    } catch (error) {
+      console.error("Error fetching BTT balance:", error);
+    }
+  };
 
   const handleExportWallet = async () => {
     console.log("Export wallet button clicked");
@@ -200,9 +221,9 @@ const WalletAddressPage: React.FC = () => {
       ))}
     </div>
   );
-  const invite = async () => {
-    router.push("/");
-  };
+  // const invite = async () => {
+  //   router.push("/");
+  // };
 
   const handleMouseEnter = () => {
     setIsDropdownOpen(true);
@@ -300,7 +321,7 @@ const WalletAddressPage: React.FC = () => {
             <div className="text-right flex items-end">
               <div>
                 <div className="text-[18px] text-black-600 py-1 font-[500] text-start">
-                  Your balance
+                  Your BTT Balance
                 </div>
                 <div
                   className={`text-[25px] font-bold   py-1 px-3 rounded-[10px] ${
@@ -309,10 +330,10 @@ const WalletAddressPage: React.FC = () => {
                       : "text-[#E265FF] border border-gray"
                   }`}
                 >
-                  $1234.56
+                  {bttBalance} BTT
                 </div>
               </div>
-              <button
+              {/* <button
                 onClick={invite}
                 className={`px-[30px] py-[10px] rounded-full mx-7 hover:scale-110 duration-500 transition 0.3 ${
                   theme === "dark"
@@ -321,7 +342,7 @@ const WalletAddressPage: React.FC = () => {
                 }`}
               >
                 Invite Your Friends
-              </button>
+              </button> */}
             </div>
           </div>
 
