@@ -1,7 +1,7 @@
-import Footer from "./components/Footer";
-import Homepage from "./components/Homepage";
+import Footer from "../components/Footer";
+import Homepage from "../components/Homepage";
 import Image from "next/image";
-import img from "../app/assets/darkbg.png";
+import img from "../assets/darkbg.png";
 
 export default function Home() {
   return (

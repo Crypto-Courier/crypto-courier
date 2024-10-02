@@ -1,13 +1,13 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
+import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
 import Image from "next/image"
 import { useTheme } from "next-themes";
 import { X, Copy } from "lucide-react";
 import {PrivyProvider, usePrivy} from '@privy-io/react-auth';
 import { useSearchParams, useRouter } from "next/navigation";
-import spin from "../assets/spinner.gif";
+import spin from "../../assets/spinner.gif";
 
 function ClaimToken() {
   const { theme } = useTheme();
@@ -122,9 +122,9 @@ function ClaimToken() {
   );
 }
 
-interface PrivyWrapperProps {
-  children: React.ReactNode;
-}
+// interface PrivyWrapperProps {
+//   children: React.ReactNode;
+// }
 
 const PrivyWrapper: React.FC = () => {
   return (

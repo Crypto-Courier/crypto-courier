@@ -6,12 +6,8 @@ import { useTheme } from "next-themes";
 import add from "../assets/wAdd.png";
 import add2 from "../assets/wadd2.png";
 import trx2 from "../assets/trx2.png";
-
+import { WalletProps } from "../types/types";
 // Define the types for the component props
-interface WalletProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
 
 const Wallet: React.FC<WalletProps> = ({ isOpen, onClose }) => {
   if (!isOpen) return null;

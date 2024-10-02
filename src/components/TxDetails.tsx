@@ -7,15 +7,7 @@ import add from "../assets/wAdd.png";
 import spin from "../assets/spinner.gif";
 
 import trx2 from "../assets/trx2.png";
-
-interface TxDetailsProps {
-  isOpen: boolean;
-  onClose: () => void;
-  tokenAmount: string;
-  tokenSymbol: string;
-  recipientEmail: string;
-  onConfirm: (walletAddress: string) => void;
-}
+import {TxDetailsProps} from "../types/types"
 
 const TxDetails: React.FC<TxDetailsProps> = ({
   isOpen,

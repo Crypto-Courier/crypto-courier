@@ -1,13 +1,6 @@
 import axios from 'axios';
 import { renderEmailToString } from './renderEmailToString';
-
-interface SendEmailParams {
-  recipientEmail: string;
-  subject: string;
-  htmlContent: string;
-  tokenAmount: string;
-  tokenSymbol: string;
-}
+import { SendEmailParams } from "../../types/types"
 
 export const sendEmail = async ({
   recipientEmail,

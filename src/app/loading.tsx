@@ -1,6 +1,6 @@
 import Image from "next/image"
 import React from "react"
-import gif from "../app/assets/loading.gif"
+import gif from "../assets/loading.gif"
 
 export default function Loading() {
     return (

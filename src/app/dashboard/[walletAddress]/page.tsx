@@ -1,32 +1,19 @@
 "use client";
 import react, { useState, useEffect, useRef } from "react";
 import { useRouter, useParams } from "next/navigation";
-import "../../styles/History.css";
+import "../../../styles/History.css";
 import NewNavbar from "./newNavbar";
-import Footer from "../../components/Footer";
+import Footer from "../../../components/Footer";
 import { useTheme } from "next-themes";
 import { useAccount } from "wagmi";
 import Image from "next/image";
 import { ChevronDown, LogOut, ExternalLink } from "lucide-react";
-import trx from "../../assets/trx.png";
-import { sendEmail } from "../../components/Email/Emailer";
-import { renderEmailToString } from "../../components/Email/renderEmailToString";
+import trx from "../../../assets/trx.png";
+import { sendEmail } from "../../../components/Email/Emailer";
+import { renderEmailToString } from "../../../components/Email/renderEmailToString";
 import { usePrivy, useLogout } from "@privy-io/react-auth";
 import toast from "react-hot-toast";
-
-interface TokenDetails {
-  name: string;
-  symbol: string;
-  decimals: number;
-}
-interface Transaction {
-  senderWallet: string;
-  recipientWallet: string;
-  tokenAmount: string;
-  tokenSymbol: string;
-  customizedLink: string;
-  recipientEmail: string;
-}
+import { TokenDetails, Transaction } from "../../../types/types";
 
 const WalletAddressPage: React.FC = () => {
   const router = useRouter();

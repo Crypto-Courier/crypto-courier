@@ -1,7 +1,7 @@
 "use client";
 import React, { use, useEffect, useState } from "react";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
+import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
 import { useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
 import { X, Copy } from "lucide-react";
@@ -85,9 +85,9 @@ function ClaimToken() {
   );
 }
 
-interface PrivyWrapperProps {
-  children: React.ReactNode;
-}
+// interface PrivyWrapperProps {
+//   children: React.ReactNode;
+// }
 
 const PrivyWrapper: React.FC = () => {
   return (

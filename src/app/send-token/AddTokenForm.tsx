@@ -1,11 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useTheme } from "next-themes";
-import { NewToken } from "../../types/types"; // Make sure this import path is correct
+import { NewToken, AddTokenFormProps } from "../../types/types"; // Make sure this import path is correct
 
-interface AddTokenFormProps {
-  onClose: () => void;
-  onAddToken: (token: NewToken) => void;
-}
 
 const AddTokenForm: React.FC<AddTokenFormProps> = ({ onClose, onAddToken }) => {
   const { theme } = useTheme();

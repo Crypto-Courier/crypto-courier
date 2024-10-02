@@ -2,35 +2,26 @@
 import React, { useRef, useEffect, useState } from "react";
 import { renderToString } from "react-dom/server";
 import { Search } from "lucide-react";
-import "../styles/History.css";
+import "../../styles/History.css";
 import { ChevronDown } from "lucide-react";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
+import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
 import { useAccount, useSendTransaction, useBalance } from "wagmi";
 import { parseUnits } from "viem";
 import { toast, Toaster } from "react-hot-toast";
 import { Copy, CheckCircle } from "lucide-react";
-import token from "../assets/assets.png";
+import token from "../../assets/assets.png";
 import Image from "next/image";
 import { useTheme } from "next-themes";
-import profile from "../assets/profile.png";
-import defaultTokenImage from "../assets/assets.png"; // Add this import
+import profile from "../../assets/profile.png";
+import defaultTokenImage from "../../assets/assets.png"; // Add this import
 import { useRouter } from "next/navigation";
-import { sendEmail } from "../components/Email/Emailer";
-import Email from "../components/Email/Email";
-import Wallet from "../components/Wallet";
-import TxDetails from "../components/TxDetails";
+import { sendEmail } from "../../components/Email/Emailer";
+import Email from "../../components/Email/Email";
+import Wallet from "../../components/Wallet";
+import TxDetails from "../../components/TxDetails";
 import AddTokenForm from "./AddTokenForm";
-import { NewToken, LinkedAccount, TokenWithBalance } from "../../types/types";
-
-interface ApiResponse {
-  id: string;
-  created_at: number;
-  linked_accounts: LinkedAccount[];
-  mfa_methods: any[];
-  has_accepted_terms: boolean;
-  is_guest: boolean;
-}
+import { NewToken, LinkedAccount, TokenWithBalance, ApiResponse } from "../../types/types";
 
 const SendToken = () => {
   const { address } = useAccount();
