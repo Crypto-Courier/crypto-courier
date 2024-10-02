@@ -10,7 +10,7 @@ import Image from "next/image";
 import trx from "../../assets/trx.png";
 import { sendEmail } from "../../components/Email/Emailer";
 import { renderEmailToString } from "../../components/Email/renderEmailToString";
-import { usePrivy } from "@privy-io/react-auth";
+import { usePrivy, useLogout } from "@privy-io/react-auth";
 import toast from "react-hot-toast";
 
 interface TokenDetails {
@@ -30,13 +30,18 @@ interface Transaction {
 const WalletAddressPage: React.FC = () => {
   const router = useRouter();
   const params = useParams();
-  const { ready, authenticated, user, exportWallet, logout } = usePrivy();
+  const { ready, authenticated, user, exportWallet } = usePrivy();
   const { address } = useAccount();
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [exportStatus, setExportStatus] = useState<string>("");
-
+  const { logout } = useLogout({
+    onSuccess: () => {
+      router.push("/");
+      toast.success("Logged out successfully");
+    },
+  });
   const [tokenAddress, setTokenAddress] = useState("");
   const [tokenDetails, setTokenDetails] = useState<TokenDetails | null>(null);
   // const [error, setError] = useState(null);
@@ -46,7 +51,12 @@ const WalletAddressPage: React.FC = () => {
   const walletAddress = params?.walletAddress as string;
 
   const signOut = async () => {
-    router.push("/");
+    try {
+      await logout();
+    } catch (error) {
+      console.error("Error during logout:", error);
+      toast.error("Failed to log out. Please try again.");
+    }
   };
 
   // const isAuthenticated = ready && authenticated;
