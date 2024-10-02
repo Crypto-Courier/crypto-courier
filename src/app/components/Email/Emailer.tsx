@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 import { renderEmailToString } from './renderEmailToString';
 
 interface SendEmailParams {
@@ -9,23 +9,27 @@ interface SendEmailParams {
   tokenSymbol: string;
 }
 
-export const sendEmail = async ({ recipientEmail, subject, htmlContent, tokenAmount, tokenSymbol }: SendEmailParams) => {
+export const sendEmail = async ({
+  recipientEmail,
+  subject,
+  tokenAmount,
+  tokenSymbol,
+}: SendEmailParams): Promise<void> => {
   try {
-
     const htmlContent = renderEmailToString({ recipientEmail, tokenAmount, tokenSymbol });
     
-    const response = await axios.post("/api/send-email", {
+    const response = await axios.post<{ message: string }>('/api/send-email', {
       recipientEmail,
       subject,
       htmlContent,
     });
 
     if (response.status === 200) {
-      console.log("Email sent successfully");
+      console.log('Email sent successfully');
     } else {
-      console.error("Error sending email:", response.statusText);
+      console.error('Error sending email:', response.data.message);
     }
   } catch (error) {
-    console.error("Error sending email:", error);
+    console.error('Error sending email:', error);
   }
 };

@@ -1,48 +1,41 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import nodemailer from "nodemailer";
+import type { NextApiRequest, NextApiResponse } from 'next';
+import sgMail from '@sendgrid/mail';
 
-// const transporter = nodemailer.createTransport({
-//   service: 'gmail',
-//   auth: {
-//     user: process.env.SMTP_USER,
-//     pass: process.env.SMTP_PASS
-//   }
-// });
+// Initialize SendGrid with your API key
+sgMail.setApiKey(process.env.SENDGRID_API_KEY as string);
 
-let transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
-  port: 587,
-  secure: false,
-  auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS
-  }
-});
+type Data = {
+  message: string;
+};
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method !== "POST") {
-    return res.status(405).json({ message: "Only POST requests are allowed" });
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse<Data>
+) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ message: 'Only POST requests are allowed' });
   }
 
   const { recipientEmail, subject, htmlContent } = req.body;
 
   if (!recipientEmail || !subject || !htmlContent) {
-    return res.status(400).json({ message: "Missing required fields" });
+    return res.status(400).json({ message: 'Missing required fields' });
   }
 
   try {
-    // Send mail with defined transport object
-    const info = await transporter.sendMail({
-      from: `"CryptoCourier" <${process.env.SMTP_USER}>`,
+    const msg = {
       to: recipientEmail,
+      from: process.env.SENDGRID_VERIFIED_SENDER as string,
       subject: subject,
       html: htmlContent,
-    });
+    };
 
-    console.log("Message sent: %s", info.messageId);
-    res.status(200).json({ message: "Email sent successfully", messageId: info.messageId });
+    await sgMail.send(msg);
+
+    console.log('Email sent successfully');
+    res.status(200).json({ message: 'Email sent successfully' });
   } catch (error) {
-    console.error("Error sending email:", error);
-    res.status(500).json({ message: "Error sending email" });
+    console.error('Error sending email:', error);
+    res.status(500).json({ message: 'Error sending email' });
   }
 }
