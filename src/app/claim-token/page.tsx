@@ -58,14 +58,6 @@ function ClaimToken() {
       }
     }
   };
-  // const handleClaim = async () => {
-  //   if (!authenticated) {
-  //     await login();
-  //   }
-  //   if (authenticated && user?.wallet?.address) {
-  //     router.push(`/dashboard/${user.wallet.address}`);
-  //   }
-  // };
 
   if (!ready) {
     return <div className="flex justify-center items-center h-[100vh]"> <Image src={spin} alt="Loading..." width={100}/></div>;
@@ -145,10 +137,6 @@ function ClaimToken() {
     </div>
   );
 }
-
-// interface PrivyWrapperProps {
-//   children: React.ReactNode;
-// }
 
 const PrivyWrapper: React.FC = () => {
   return (
