@@ -11,7 +11,7 @@ import { ChevronDown, LogOut, ExternalLink } from "lucide-react";
 import trx from "../../../assets/trx.png";
 import { sendEmail } from "../../../components/Email/Emailer";
 import { renderEmailToString } from "../../../components/Email/renderEmailToString";
-import { usePrivy, useLogout } from "@privy-io/react-auth";
+import { usePrivy, useLogout, PrivyProvider } from "@privy-io/react-auth";
 import toast from "react-hot-toast";
 import { TokenDetails, Transaction } from "../../../types/types";
 
@@ -35,11 +35,33 @@ const WalletAddressPage: React.FC = () => {
   const [tokenAddress, setTokenAddress] = useState("");
   const [tokenDetails, setTokenDetails] = useState<TokenDetails | null>(null);
   const [bttBalance, setBttBalance] = useState<string>("0");
+  const [isWalletReady, setIsWalletReady] = useState(false);;
   // const [error, setError] = useState(null);
 
   const { theme } = useTheme();
 
   const walletAddress = params?.walletAddress as string;
+
+  useEffect(() => {
+    let mounted = true;
+
+    const initializeWallet = async () => {
+      // Wait for Privy to be ready and user to be authenticated
+      if (ready && authenticated && user) {
+        // Add a small delay to ensure wallet state is properly initialized
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        if (mounted) {
+          setIsWalletReady(true);
+        }
+      }
+    };
+
+    initializeWallet();
+
+    return () => {
+      mounted = false;
+    };
+  }, [ready, authenticated, user]);
 
   const signOut = async () => {
     try {
@@ -50,18 +72,18 @@ const WalletAddressPage: React.FC = () => {
     }
   };
 
-  // const isAuthenticated = ready && authenticated;
-  // const hasEmbeddedWallet = user?.linkedAccounts?.find(
-  //   (account) => account.type === 'wallet' && account.walletClient === 'privy'
-  // );
+  const isAuthenticated = ready && authenticated;
+  const hasEmbeddedWallet = user?.linkedAccounts?.find(
+    (account) => account.type === 'wallet' && account.walletClient === 'privy'
+  );
+
+  const canExportWallet = isAuthenticated && hasEmbeddedWallet && isWalletReady;
 
   useEffect(() => {
     if (walletAddress) {
       fetchBTTBalance(walletAddress);
     }
   }, [walletAddress]);
-
-  const canExportWallet = true;
 
   useEffect(() => {
     console.log("Privy state:", { ready, authenticated, user });
@@ -83,24 +105,21 @@ const WalletAddressPage: React.FC = () => {
   };
 
   const handleExportWallet = async () => {
-    console.log("Export wallet button clicked");
+    if (!canExportWallet) {
+      toast.error("Please wait for wallet initialization to complete");
+      return;
+    }
+
     setExportStatus("Exporting wallet...");
     try {
-      console.log("Calling exportWallet function...");
       await exportWallet();
-      console.log("Wallet exported successfully");
       setExportStatus("Wallet exported successfully");
       toast.success("Wallet exported successfully.");
-    } catch (error: unknown) {
+    } catch (error) {
       console.error("Error exporting wallet:", error);
-      let errorMessage = "An unknown error occurred";
-      if (error instanceof Error) {
-        errorMessage = error.message;
-      } else if (typeof error === "string") {
-        errorMessage = error;
-      }
+      let errorMessage = error instanceof Error ? error.message : "An unknown error occurred";
       setExportStatus(`Export failed: ${errorMessage}`);
-      toast.error("Failed to export wallet. Refresh page and try again.");
+      toast.error("Failed to export wallet. Please try again.");
     }
   };
 
@@ -243,9 +262,8 @@ const WalletAddressPage: React.FC = () => {
       <div className="txbg ">
         <div className="max-w-6xl w-[90%] mx-auto my-[60px]">
           <div
-            className={`flex justify-between border-black border-b-0 p-[30px] ${
-              theme === "dark" ? "bg-black" : "bg-white"
-            } rounded-tl-[40px] rounded-tr-[40px] items-center`}
+            className={`flex justify-between border-black border-b-0 p-[30px] ${theme === "dark" ? "bg-black" : "bg-white"
+              } rounded-tl-[40px] rounded-tr-[40px] items-center`}
           >
             <div
               className="relative"
@@ -254,18 +272,17 @@ const WalletAddressPage: React.FC = () => {
               ref={dropdownRef}
             >
               <div
-                className={`flex items-center space-x-3 p-2 rounded-[10px] ${
-                  theme === "dark"
+                className={`flex items-center space-x-3 p-2 rounded-[10px] ${theme === "dark"
                     ? "bg-[#1C1C1C] border border-[#A2A2A2]"
                     : "bg-[#F4F3F3] border border-[#C6C6C6]"
-                }`}
+                  }`}
               >
                 <div className="w-10 h-10 bg-gray-300 rounded-full hidden lg:flex md:flex sm:flex"></div>
                 <span className="font-semibold px-2 text-[12px] lg:text-[15px] md:text-[15px] sm:text-[15px]">
                   {walletAddress
                     ? `${walletAddress.slice(0, 10)}...${walletAddress.slice(
-                        -4
-                      )}`
+                      -4
+                    )}`
                     : "Connect Wallet"}
                 </span>
                 <ChevronDown size={20} />
@@ -273,21 +290,17 @@ const WalletAddressPage: React.FC = () => {
 
               {isDropdownOpen && (
                 <div className="absolute top-full left-0 w-full rounded-md shadow-lg z-10">
-                  <div
-                    className={` mt-1  rounded-md ${
-                      theme === "dark"
-                        ? "bg-[#1C1C1C] text-white border border-[#A2A2A2]"
-                        : "bg-white text-black border border-[#C6C6C6]"
-                    }`}
-                  >
+                  <div className={` mt-1  rounded-md ${theme === "dark"
+                      ? "bg-[#1C1C1C] text-white border border-[#A2A2A2]"
+                      : "bg-white text-black border border-[#C6C6C6]"
+                    }`}>
                     <div className="p-2">
                       <button
                         onClick={handleExportWallet}
-                        className={`flex items-center w-full px-4 py-2 text-sm rounded-md ${
-                          canExportWallet
+                        className={`flex items-center w-full px-4 py-2 text-sm rounded-md ${canExportWallet
                             ? "hover:bg-gray-100 hover:text-gray-900"
                             : "opacity-50 cursor-not-allowed"
-                        }`}
+                          }`}
                       >
                         <ExternalLink size={16} className="mr-2" />
                         Export Wallet
@@ -311,11 +324,10 @@ const WalletAddressPage: React.FC = () => {
                   Your BTT Balance
                 </div>
                 <div
-                  className={`text-[25px] font-bold   py-1 px-3 rounded-[10px] ${
-                    theme === "dark"
+                  className={`text-[25px] font-bold   py-1 px-3 rounded-[10px] ${theme === "dark"
                       ? "text-[#FFE500] border border-[#A2A2A2] bg-[#1C1C1C]"
                       : "text-[#E265FF] border border-gray"
-                  }`}
+                    }`}
                 >
                   {bttBalance} BTT
                 </div>
@@ -334,17 +346,15 @@ const WalletAddressPage: React.FC = () => {
           </div>
 
           <div
-            className={`${
-              theme === "dark"
+            className={`${theme === "dark"
                 ? "bg-[#0A0A0A]/80 backdrop-blur-[80px]"
                 : "bg-white/80 backdrop-blur-[80px]"
-            } rounded-br-[40px] rounded-bl-[40px] md:flex-row space-y-6 md:space-y-0 md:space-x-6 lg:py-[30px] lg:px-[30px] md:py-[50px] md:px-[30px] sm:py-[50px] sm:px-[30px] justify-between items-start py-[30px] px-[30px]`}
+              } rounded-br-[40px] rounded-bl-[40px] md:flex-row space-y-6 md:space-y-0 md:space-x-6 lg:py-[30px] lg:px-[30px] md:py-[50px] md:px-[30px] sm:py-[50px] sm:px-[30px] justify-between items-start py-[30px] px-[30px]`}
           >
             <div className="space-y-3">
               <h3
-                className={`font-medium text-[17px] lg:text-[20px] md:text-[20px] sm:text-[20px] ${
-                  theme === "dark" ? "text-[#DEDEDE]" : "text-[#696969]"
-                }`}
+                className={`font-medium text-[17px] lg:text-[20px] md:text-[20px] sm:text-[20px] ${theme === "dark" ? "text-[#DEDEDE]" : "text-[#696969]"
+                  }`}
               >
                 Transaction history
               </h3>
@@ -361,19 +371,17 @@ const WalletAddressPage: React.FC = () => {
                   transactions.map((tx, index) => (
                     <div
                       key={index}
-                      className={`flex justify-between items-center bg-opacity-50 p-3 rounded-xl mt-2 mx-3 ${
-                        theme === "dark"
+                      className={`flex justify-between items-center bg-opacity-50 p-3 rounded-xl mt-2 mx-3 ${theme === "dark"
                           ? "bg-[#000000]/20 border border-[#5C5C5C]"
                           : "bg-[#FFFCFC]/20 border border-[#FFFFFF]"
-                      }`}
+                        }`}
                     >
                       <div className="flex items-center space-x-3">
                         <span
-                          className={`rounded-[10px] text-[15px]  ${
-                            theme === "dark"
+                          className={`rounded-[10px] text-[15px]  ${theme === "dark"
                               ? "border border-[#FE660A] text-[#FE660A] bg-[#181818] py-1 px-2"
                               : "border border-[#FE660A] text-[#FE660A] bg-white py-1 px-2"
-                          }`}
+                            }`}
                         >
                           {tx.tokenAmount} {tx.tokenSymbol}
                         </span>
@@ -381,11 +389,10 @@ const WalletAddressPage: React.FC = () => {
                           <>
                             <span className="text-[15px] ">to</span>
                             <span
-                              className={`rounded-[10px] text-[15px] ${
-                                theme === "dark"
+                              className={`rounded-[10px] text-[15px] ${theme === "dark"
                                   ? "border border-[#E265FF] text-[#E265FF] bg-[#181818] py-1 px-2"
                                   : "border border-[#0052FF] text-[#0052FF] bg-white py-1 px-2"
-                              }`}
+                                }`}
                             >
                               {tx.recipientEmail}
                             </span>
@@ -394,11 +401,10 @@ const WalletAddressPage: React.FC = () => {
                           <>
                             <span className="text-[15px] ">from</span>
                             <span
-                              className={`rounded-[10px] text-[15px] ${
-                                theme === "dark"
+                              className={`rounded-[10px] text-[15px] ${theme === "dark"
                                   ? "border border-[#E265FF] text-[#E265FF] bg-[#181818] py-1 px-2"
                                   : "border border-[#0052FF] text-[#0052FF] bg-white py-1 px-2"
-                              }`}
+                                }`}
                             >
                               {`${tx.senderWallet.slice(
                                 0,
@@ -443,4 +449,21 @@ const WalletAddressPage: React.FC = () => {
     </div>
   );
 };
-export default WalletAddressPage;
+const PrivyWrapper: React.FC = () => {
+  return (
+    <PrivyProvider
+      appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID || ""}
+      config={{
+        loginMethods: ['email'],
+        appearance: {
+          theme: 'light',
+          accentColor: '#676FFF',
+        },
+      }}
+    >
+      <WalletAddressPage />
+    </PrivyProvider>
+  );
+};
+
+export default PrivyWrapper;

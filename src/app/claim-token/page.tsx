@@ -13,6 +13,7 @@ function ClaimToken() {
   const { theme } = useTheme();
   const { login, authenticated, ready, user } = usePrivy();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isRedirecting, setIsRedirecting] = useState(false);
   const searchparams=useSearchParams();
   const router = useRouter();
   const amount=searchparams?.get('amount');
@@ -34,14 +35,37 @@ function ClaimToken() {
     }
   }, [ready, authenticated]);
 
+  useEffect(() => {
+    const handleAuthenticationAndRedirect = async () => {
+      if (ready && authenticated && user?.wallet?.address && !isRedirecting) {
+        setIsRedirecting(true);
+        // Add a small delay to ensure wallet state is properly initialized
+        await new Promise(resolve => setTimeout(resolve, 500));
+        router.push(`/dashboard/${user.wallet.address}`);
+      }
+    };
+
+    handleAuthenticationAndRedirect();
+  }, [ready, authenticated, user, router, isRedirecting])
+
   const handleClaim = async () => {
     if (!authenticated) {
-      await login();
-    }
-    if (authenticated && user?.wallet?.address) {
-      router.push(`/dashboard/${user.wallet.address}`);
+      try {
+        await login();
+      } catch (error) {
+        console.error("Login failed:", error);
+        setIsRedirecting(false);
+      }
     }
   };
+  // const handleClaim = async () => {
+  //   if (!authenticated) {
+  //     await login();
+  //   }
+  //   if (authenticated && user?.wallet?.address) {
+  //     router.push(`/dashboard/${user.wallet.address}`);
+  //   }
+  // };
 
   if (!ready) {
     return <div className="flex justify-center items-center h-[100vh]"> <Image src={spin} alt="Loading..." width={100}/></div>;
@@ -92,7 +116,7 @@ function ClaimToken() {
                 theme === "dark" ? "bg-[#FF336A]" : "bg-[#0052FF]"
               } w-[50%] text-white py-2 rounded-[10px] flex items-center justify-center mb-6 mx-auto`}
               >
-                {isAuthenticated ? `Go to Dashboard` : "Login to Claim"}
+                Login to Claim
               </button>
 
               <div

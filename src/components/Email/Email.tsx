@@ -65,7 +65,7 @@ const Email: React.FC<EmailProps> = ({
 
       <div style={{ textAlign: "center" }}>
         <a
-          href="https://courier-by-crypto-courier.vercel.app/claim-token"
+          href="https://courier-by-crypto-courier.vercel.app//claim-token"
           target="_blank"
           rel="noopener noreferrer"
           style={{
