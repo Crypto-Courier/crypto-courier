@@ -63,25 +63,25 @@ const TxDetails: React.FC<TxDetailsProps> = ({
     }
   };
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
       <div
         className={`rounded-[10px] max-w-lg w-full mx-4 relative ${
           theme === "dark"
-            ? "bg-[#111111] border-red-500 border backdrop-blur-[10px]"
+            ? "bg-[#111111] border-[#FE660A] border backdrop-blur-[10px]"
             : "bg-[#FFFCFC] border border-[#FE005B]/60"
         }`}
       >
         <button
           onClick={onClose}
-          className="absolute top-2 right-[1rem] text-gray-500 hover:text-gray-700 text-[25px]"
+          className="absolute top-2 right-[1rem]  p-1 hover:opacity-[0.6]"
         >
-          <X size={24} />
+          <X size={20} className="text-[#FF005C]"/>
         </button>
 
         <div
           className={`flex justify-center items-center p-6 rounded-tr-[10px] rounded-tl-[10px] ${
             theme === "dark"
-              ? "bg-[#000000] border-b-2 border-red-500"
+              ? "bg-[#000000] border-b-2 border-[#FE660A]"
               : "bg-white border-b-2 border-[#FE005B]"
           }`}
         >
@@ -175,7 +175,7 @@ const TxDetails: React.FC<TxDetailsProps> = ({
                   onClick={onClose}
                   className={`${
                     theme === "dark"
-                      ? "border border-[#FF336A]"
+                      ? "border border-[#FE660A]"
                       : "border border-[#0052FF] text-[#0052FF]"
                   } w-full text-white py-3 rounded-[50px] flex items-center justify-center font-semibold `}
                 >
@@ -184,8 +184,8 @@ const TxDetails: React.FC<TxDetailsProps> = ({
                 <button
                   onClick={handleConfirm}
                   className={`${
-                    theme === "dark" ? "bg-[#FF336A]" : "bg-[#0052FF]"
-                  } w-full text-white py-3 rounded-[50px] flex items-center justify-center font-semibold `}
+                    theme === "dark" ? "bg-[#FE660A]" : "bg-[#0052FF]"
+                  } w-full text-white py-3 rounded-[50px] flex items-center justify-center font-semibold hover:scale-110 duration-500 transition 0.1`}
                 >
                   Confirm
                 </button>

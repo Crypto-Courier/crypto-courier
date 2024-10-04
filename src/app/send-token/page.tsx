@@ -355,7 +355,7 @@ const SendToken = () => {
               theme === "dark"
                 ? "bg-[#0A0A0A]/80 backdrop-blur-[80px]"
                 : "bg-white/80 backdrop-blur-[80px]"
-            } rounded-br-[40px] rounded-bl-[40px] flex flex-col-reverse md:flex-col-reverse lg:flex-row space-y-6 md:space-y-0  lg:py-[40px] px-[30px]  md:py-[20px] py-[20px] justify-between items-start gap-[20px]`}
+            } rounded-br-[40px] rounded-bl-[40px] flex flex-col-reverse md:flex-col-reverse lg:flex-row space-y-6 md:space-y-0  lg:py-[40px] px-[30px]  md:py-[20px] py-[20px] justify-between items-end gap-[20px]`}
           >
             {" "}
             <div className="w-full md:w-[100%] ">
@@ -488,7 +488,7 @@ const SendToken = () => {
                     />
                     <button
                       onClick={handleMaxClick}
-                      className={`text-[12px] border  border-gray rounded-[5px] px-3 py-1 font-bold ${
+                      className={`text-[12px] border  border-gray rounded-[5px] px-3 py-1 font-bold opacity-1 hover:opacity-[0.7] ${
                         theme === "dark" ? "text-[#E265FF]" : "text-[#FF336A]"
                       }`}
                     >
@@ -557,14 +557,14 @@ const SendToken = () => {
                 />
               </div>
 
-              <div className="flex  pt-6 space-x-7">
-                <button className="px-6 py-3 rounded-full border border-[#FF336A] text-[#FF336A] font-medium ">
+              <div className="flex  pt-3 space-x-7">
+                <button className="px-10 py-2 rounded-full border border-[#FF336A] text-[#FF336A] font-medium ">
                   CANCEL
                 </button>
                 <button
                   onClick={() => setIsPopupOpen(true)}
                   disabled={isLoading}
-                  className="hover:scale-110 duration-500 transition 0.3 px-9 py-3 rounded-full border border-red-300 text-white font-medium bg-[#FF336A]"
+                  className="hover:scale-110 duration-500 transition 0.3 px-10 py-2 rounded-full border border-red-300 text-white font-medium bg-[#FF336A]"
                 >
                   {isLoading ? "SEND" : "SEND"}
                 </button>

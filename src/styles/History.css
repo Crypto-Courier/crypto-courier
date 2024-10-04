@@ -9,8 +9,19 @@
   flex-direction: column;
   justify-content: center;
 }
-.txbgg {
+.txbgg1 {
   background-image: url("../assets//glassbg.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+
+  /* height: 80vh; */
+  /* display: flex; */
+  flex-direction: column;
+  justify-content: center;
+}
+.txbgg2 {
+  background-image: url("../assets//glassbg2.png");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
