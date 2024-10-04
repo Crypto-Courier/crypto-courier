@@ -9,7 +9,28 @@
   flex-direction: column;
   justify-content: center;
 }
+.txbgg {
+  background-image: url("../assets//glassbg.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 
+  /* height: 80vh; */
+  /* display: flex; */
+  flex-direction: column;
+  justify-content: center;
+}
+.subBg {
+  background-image: url("../assets//darkbg.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+
+  /* height: 80vh; */
+  /* display: flex; */
+  flex-direction: column;
+  justify-content: center;
+}
 .scroll {
   --sb-track-color: linear-gradient(to right, #da619c, #ff844a), #0a11b5;
   --sb-thumb-color: white;

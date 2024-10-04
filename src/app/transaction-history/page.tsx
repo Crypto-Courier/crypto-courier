@@ -10,7 +10,7 @@ import Image from "next/image";
 import trx from "../../assets/trx.png";
 import { sendEmail } from "../../components/Email/Emailer";
 import { renderEmailToString } from "../../components/Email/renderEmailToString";
-import { Transaction, TokenDetails} from "../../types/types"
+import { Transaction, TokenDetails } from "../../types/types";
 
 const TxHistory: React.FC = () => {
   const router = useRouter();
@@ -200,7 +200,7 @@ const TxHistory: React.FC = () => {
                 {isLoading ? (
                   <SkeletonLoader />
                 ) : error ? (
-                  <div className="text-red-700 h-[40vh] flex justify-center items-center text-[10rem]">
+                  <div className="text-red-700 h-[40vh] flex justify-center items-center text-[20px]">
                     {error}
                   </div>
                 ) : transactions.length === 0 ? (
