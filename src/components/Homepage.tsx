@@ -22,7 +22,7 @@ function Homepage() {
     if (isConnected) {
       router.push("/transaction-history");
     } else {
-      alert("Please connect with MetaMask first to send tokens.");
+      alert("Please connect with Wallet first to send tokens.");
     }
   };
   return (
@@ -71,7 +71,7 @@ function Homepage() {
                 />
               )}
             </div>
-            <div>email to anyone</div>
+            <div>Email to anyone</div>
           </div>
         </div>
 
