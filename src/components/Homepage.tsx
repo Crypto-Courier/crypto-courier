@@ -20,6 +20,7 @@ function Homepage() {
   const { theme } = useTheme();
   const { isConnected } = useAccount();
   const [showHelp, setShowHelp] = useState(false);
+  const [tooltipVisible, setTooltipVisible] = useState(false);
   const helpRef = useRef<HTMLDivElement | null>(null); // Define the type for the ref
 
 
@@ -117,12 +118,13 @@ function Homepage() {
       </div>
       <Footer />
 
-      {/* Sticky Help Button */}
       <button
-        className={`fixed bottom-4 right-4 bg-[#FF3333]  text-white font-bold w-12 h-12 rounded-full shadow-lg flex items-center justify-center text-2xl z-50 ${
+        className={`fixed bottom-4 right-4 bg-[#FF3333] text-white font-bold w-12 h-12 rounded-full shadow-lg flex items-center justify-center text-2xl z-50 ${
           !showHelp ? "animate-pulse" : ""
         }`}
         onClick={toggleHelp}
+        onMouseEnter={() => setTooltipVisible(true)} // Show tooltip on hover
+        onMouseLeave={() => setTooltipVisible(false)} // Hide tooltip when not hovering
       >
         {showHelp ? (
           <X className="w-6 h-6" /> // Close icon when popup is open
@@ -131,11 +133,17 @@ function Homepage() {
         )}
       </button>
 
+      {/* Tooltip */}
+      {tooltipVisible && !showHelp && (
+        <div className= {`absolute bottom-16 right-1 text-sm rounded-lg px-3 py-1 z-50 shadow-lg mb-2 ${theme==="dark"?"bg-[#FFFFFF] text-blue-700":"bg-[#1C1C1C] text-[#FFE500]"}`}>
+          Help Center
+        </div>
+      )}
     {/* Help Popup */}
 {showHelp && (
   <div
   ref={helpRef}
-    className="border border-[#FF3333] fixed bg-black p-6 rounded-lg shadow-lg w-[90%] sm:w-[70%] md:w-[50%] lg:w-[35%] h-[50vh] sm:h-[60vh] md:h-[70vh] lg:h-[60vh] z-50 overflow-y-auto scroll"
+    className= {`border border-[#FF3333] fixed  p-6 rounded-lg shadow-lg w-[90%] sm:w-[70%] md:w-[50%] lg:w-[35%] h-[50vh] sm:h-[60vh] md:h-[70vh] lg:h-[60vh] z-50 overflow-y-auto scroll ${theme==="dark"?"bg-black":"bg-white"}`}
     style={{
       position: "absolute",
       top: "30%", // Slightly adjusted top for better viewing on smaller screens
@@ -143,7 +151,7 @@ function Homepage() {
     }}
   >
     <div>
-    <div className="w-[9rem] sm:w-40 md:w-48 lg:w-56 logo" style={{marginLeft:"-15px"}}>
+    <div className="w-[9rem] sm:w-40 md:w-48 lg:w-56 logo" style={{marginLeft:"-17px"}}>
             {theme === "light" ? (
               <Image
                 src={dLogo}
@@ -163,17 +171,17 @@ function Homepage() {
             )}
           </div>
 <div>
-      <h2 className="text-xl font-bold mb-4 text-white">Help Information</h2>
-      <p className="text-white">
+      <h2 className="text-xl font-bold mb-4 ">Help Information</h2>
+      <p className="">
         CryptoCourier allows you to send tokens to anyone using their email address. Here's how it works:
       </p>
-      <ul className="list-disc list-inside mt-2 mb-4 text-white">
+      <ul className="list-disc list-inside mt-2 mb-4 ">
         <li>Connect your wallet</li>
         <li>Click the "Send" button</li>
         <li>Enter the recipient's email and the amount of tokens</li>
         <li>Confirm the transaction</li>
       </ul>
-      <p className="text-white">
+      <p className="">
         The recipient will receive an email with instructions on how to claim their tokens.
       </p>
       
