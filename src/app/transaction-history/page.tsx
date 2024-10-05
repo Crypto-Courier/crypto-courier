@@ -1,5 +1,5 @@
 "use client";
-import react, { useState, useEffect } from "react";
+import react, { useState, useEffect ,useRef} from "react";
 import { useRouter } from "next/navigation";
 import "../../styles/History.css";
 import Navbar from "../../components/Navbar";
@@ -12,6 +12,9 @@ import { sendEmail } from "../../components/Email/Emailer";
 import { renderEmailToString } from "../../components/Email/renderEmailToString";
 import { Transaction, TokenDetails } from "../../types/types";
 import toast from "react-hot-toast";
+import lLogo from "../../assets/lLogo.png"
+import dLogo from "../../assets/dLogo.png"
+import { X } from "lucide-react"; // You can replace this with an actual icon library
 
 const TxHistory: React.FC = () => {
   const router = useRouter();
@@ -19,7 +22,9 @@ const TxHistory: React.FC = () => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-
+  const [showHelp, setShowHelp] = useState(false);
+  const [tooltipVisible, setTooltipVisible] = useState(false);
+  const helpRef = useRef<HTMLDivElement | null>(null); // Define the type for the ref
   const [tokenAddress, setTokenAddress] = useState("");
   const [tokenDetails, setTokenDetails] = useState<TokenDetails | null>(null);
   // const [error, setError] = useState(null);
@@ -132,6 +137,28 @@ const TxHistory: React.FC = () => {
       ))}
     </div>
   );
+  
+  const toggleHelp = () => {
+    setShowHelp(!showHelp);
+  };
+
+
+   // Close the help popup if clicking outside of it
+   useEffect(() => {
+    function handleClickOutside(event:MouseEvent) {
+      if (helpRef.current && !helpRef.current.contains(event.target as Node)) {
+        setShowHelp(false); // Close the popup
+      }
+    }
+    if (showHelp) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showHelp]);
 
   return (
     <div className="main">
@@ -299,7 +326,77 @@ const TxHistory: React.FC = () => {
       </div>
 
       <Footer />
-      <div></div>
+      <button
+        className={`fixed bottom-4 right-4 bg-[#000000] text-white font-bold w-12 h-12 rounded-full shadow-lg flex items-center justify-center text-2xl z-50 ${
+          !showHelp ? "animate-pulse" : ""
+        }`}
+        onClick={toggleHelp}
+        onMouseEnter={() => setTooltipVisible(true)} // Show tooltip on hover
+        onMouseLeave={() => setTooltipVisible(false)} // Hide tooltip when not hovering
+      >
+        {showHelp ? (
+          <X className="w-6 h-6" /> // Close icon when popup is open
+        ) : (
+          "?" // Pulsing Question mark icon when popup is closed
+        )}
+      </button>
+
+      {/* Tooltip */}
+      {tooltipVisible && !showHelp && (
+        <div className= {`absolute bottom-16 right-1 text-sm rounded-lg px-3 py-1 z-50 shadow-lg mb-2 ${theme==="dark"?"bg-[#FFFFFF] text-blue-700":"bg-[#1C1C1C] text-[#FFE500]"}`}>
+          Help Center
+        </div>
+      )}
+    {/* Help Popup */}
+{showHelp && (
+  <div
+  ref={helpRef}
+    className= {`border border-[#FF3333] fixed  p-6 rounded-lg shadow-lg w-[90%] sm:w-[70%] md:w-[50%] lg:w-[35%] h-[50vh] sm:h-[60vh] md:h-[70vh] lg:h-[60vh] z-50 overflow-y-auto scroll ${theme==="dark"?"bg-black":"bg-white"}`}
+    style={{
+      position: "absolute",
+      top: "30%", // Slightly adjusted top for better viewing on smaller screens
+      right: "10px", // Aligns with the button's right side
+    }}
+  >
+    <div>
+    <div className="w-[9rem] sm:w-40 md:w-48 lg:w-56 logo" style={{marginLeft:"-17px"}}>
+            {theme === "light" ? (
+              <Image
+                src={dLogo}
+                alt="CRYPTO-COURIER Dark Logo"
+                width={400}
+                height={400}
+                className="w-full h-auto "
+              />
+            ) : (
+              <Image
+                src={lLogo}
+                alt="CRYPTO-COURIER Light Logo"
+                width={400}
+                height={400}
+                className="w-full h-auto "
+              />
+            )}
+          </div>
+<div>
+      <h2 className="text-xl font-bold mb-4 ">Help Information</h2>
+      <p className="">
+        CryptoCourier allows you to send tokens to anyone using their email address. Here's how it works:
+      </p>
+      <ul className="list-disc list-inside mt-2 mb-4 ">
+        <li>Connect your wallet</li>
+        <li>Click the "Send" button</li>
+        <li>Enter the recipient's email and the amount of tokens</li>
+        <li>Confirm the transaction</li>
+      </ul>
+      <p className="">
+        The recipient will receive an email with instructions on how to claim their tokens.
+      </p>
+      
+    </div>
+  </div>
+  </div>
+)}
     </div>
   );
 };
