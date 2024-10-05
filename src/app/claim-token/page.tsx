@@ -146,7 +146,7 @@ function ClaimToken() {
         <div  className={`z-50 absolute top-[70px] left-1/2  border border-red-300 rounded-lg p-3 w-[50%] m-auto  ${
           theme === "dark"
             ? "bg-[#000000]  text-white text-sm"
-            : ""
+            : "bg-[#FFFFFF]  text-black text-sm z-50"
         }`}>
 When you click on the Button then you will be authenticated through privy.
 Make sure to enter the email in which you got tokens.        </div>
