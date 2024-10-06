@@ -14,6 +14,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const client = await clientPromise;
       const db = client.db('tokenDatabase');
 
+      // Check if the token already exists in the database
+      const existingToken = await db.collection('tokens').findOne({
+        $or: [
+          { contractAddress: newToken.contractAddress },
+          { symbol: newToken.symbol }
+        ]
+      });
+
+      if (existingToken) {
+        return res.status(409).json({ message: 'Token already exists.' });
+      }
+
+      // If the token doesn't exist, add it to the database
       const result = await db.collection('tokens').insertOne(newToken);
 
       res.status(200).json({ message: 'Token added successfully', result });

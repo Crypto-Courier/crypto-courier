@@ -3,9 +3,6 @@ import { X, Copy, CheckCircle } from "lucide-react";
 import wallet from "../assets/wallet.png";
 import Image from "next/image";
 import { useTheme } from "next-themes";
-import add from "../assets/wAdd.png";
-import spin from "../assets/spinner.gif";
-
 import trx2 from "../assets/trx2.png";
 import {TxDetailsProps} from "../types/types"
 
@@ -127,7 +124,6 @@ const TxDetails: React.FC<TxDetailsProps> = ({
               <div className="flex gap-4 mb-4 flex-col w-[80%] m-auto">
                 <div className="item-start font-semibold">Send</div>
 
-                {/* <p className={`text-md ${theme === "dark" ? "text-white" : "text-black"}`}>to</p> */}
                 <p
                   className={` text-md rounded-[12px] text-md py-2 px-4 font-bold ${
                     theme === "dark"
@@ -135,7 +131,7 @@ const TxDetails: React.FC<TxDetailsProps> = ({
                       : "text-black border border-[#0052FF]"
                   }`}
                 >
-                  ${tokenAmount} to {recipientEmail}
+                  {tokenAmount} {tokenSymbol} to {recipientEmail}
                 </p>
                 <div className="item-start font-semibold">
                   {" "}
@@ -166,8 +162,7 @@ const TxDetails: React.FC<TxDetailsProps> = ({
                     )}
                   </button>
                 </p>
-                <p>You can check out transaction for surity.</p>
-                {/* <Image src={spin} alt="Loading..." width={100}/> */}
+                <p>You can check out transaction for transparency.</p>
               </div>
 
               <div className="flex gap-5 w-[80%] m-auto">

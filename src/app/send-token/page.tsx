@@ -1,19 +1,14 @@
 "use client";
 import React, { useRef, useEffect, useState } from "react";
 import { renderToString } from "react-dom/server";
-import { Search } from "lucide-react";
 import "../../styles/History.css";
-import { ChevronDown } from "lucide-react";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
-import { useAccount, useSendTransaction, useBalance } from "wagmi";
+import { useAccount, useSendTransaction } from "wagmi";
 import { parseUnits } from "viem";
 import { toast, Toaster } from "react-hot-toast";
 import { Copy, CheckCircle } from "lucide-react";
-import token from "../../assets/assets.png";
 import { useTheme } from "next-themes";
-import profile from "../../assets/profile.png";
-import defaultTokenImage from "../../assets/assets.png"; // Add this import
 import { useRouter } from "next/navigation";
 import { sendEmail } from "../../components/Email/Emailer";
 import Email from "../../components/Email/Email";
@@ -23,17 +18,16 @@ import Image from "next/image";
 import lLogo from "../../assets/lLogo.png"
 import dLogo from "../../assets/dLogo.png"
 import { X } from "lucide-react"; // You can replace this with an actual icon library
-import { NewToken, LinkedAccount, TokenWithBalance, ApiResponse } from "../../types/types";
+import { NewToken, TokenWithBalance } from "../../types/types";
 
 const SendToken = () => {
   const { address, isConnected } = useAccount();
-  const { chain } = useAccount();
   const [copied, setCopied] = useState(false);
   const router = useRouter();
-  const totalBalance = useBalance({ address });
   const { data: hash, sendTransaction } = useSendTransaction();
   const [tokens, setTokens] = useState<TokenWithBalance[]>([]);
   const [selectedToken, setSelectedToken] = useState<string>("");
+  const [selectedTokenSymbol, setSelectedTokenSymbol] = useState<string>("");
   const [tokenAmount, setTokenAmount] = useState("");
   const [recipientEmail, setRecipientEmail] = useState("");
   const [recipientWalletAddress, setRecipientWalletAddress] = useState("");
@@ -45,35 +39,26 @@ const SendToken = () => {
   const [showHelp, setShowHelp] = useState(false);
   const [tooltipVisible, setTooltipVisible] = useState(false);
   const helpRef = useRef<HTMLDivElement | null>(null); // Define the type for the ref
-  const [tokenDetails, setTokenDetails] = useState(null);
-  const [error, setError] = useState<string | null>(null);
-  const [isFetching, setIsFetching] = useState(false);
 
-  // const [txHash, setTxHash] = useState("");
   const OpenHistory = () => {
-    router.push("/transaction-history"); // Replace "/send" with the route you want to navigate to
+    router.push("/transaction-history"); 
   };
 
-  const popupRef = useRef(null); // Reference for the popup element
-
-  const [newToken, setNewToken] = useState<{
-    contractAddress: string;
-    name: string;
-    symbol: string;
-    decimals: number | null; // Allow both null and number
-  }>({
-    contractAddress: "",
-    name: "",
-    symbol: "",
-    decimals: null, // Initial value is null
-  });
-
+  // Constantly fetching tokens from the database
   useEffect(() => {
     if (address) {
       fetchTokens();
     }
   }, [address]);
 
+  useEffect(() => {
+    const selectedTokenData = tokens.find(t => t.contractAddress === selectedToken);
+    if (selectedTokenData) {
+      setSelectedTokenSymbol(selectedTokenData.symbol);
+    }
+  }, [tokens, selectedToken]);
+  
+  // When hash is available for txn, email should be sent to receiver
   useEffect(() => {
     if (hash) {
       const selectedTokenData = tokens.find(
@@ -105,12 +90,14 @@ const SendToken = () => {
     }
   }, [hash]);
 
+  // Update the max amount 
   useEffect(() => {
     if (selectedToken) {
       updateMaxAmount();
     }
   }, [selectedToken, tokens]);
 
+  // Update token amount in form to max amount
   const updateMaxAmount = () => {
     const selectedTokenData = tokens.find(
       (t) => t.contractAddress === selectedToken
@@ -120,6 +107,7 @@ const SendToken = () => {
     }
   };
 
+  // Fetch token details for available token from database 
   const fetchTokens = async () => {
     if (!address) {
       console.error("No address available");
@@ -133,20 +121,15 @@ const SendToken = () => {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const tokenData = await response.json();
-      console.log("Fetched token data:", tokenData);
 
       if (Array.isArray(tokenData) && tokenData.length > 0) {
         setTokens(tokenData);
         setSelectedToken(tokenData[0].contractAddress);
+        setSelectedTokenSymbol(tokenData[0].symbol);
       } else {
         console.warn("No tokens found or invalid data structure");
         setTokens([]);
       }
-
-      // setTokens(Array.isArray(tokenData) ? tokenData : []);
-      // if (tokenData.length > 0) {
-      //   setSelectedToken(tokenData[0].contractAddress);
-      // }
     } catch (error) {
       console.error("Error fetching tokens:", error);
       toast.error("Failed to fetch tokens");
@@ -163,6 +146,7 @@ const SendToken = () => {
     );
     if (selectedTokenData) {
       setTokenAmount(selectedTokenData.balance);
+      setSelectedTokenSymbol(selectedTokenData.symbol);
     }
   };
 
@@ -170,6 +154,7 @@ const SendToken = () => {
     setTokenAmount(maxAmount);
   };
 
+  // Copy transaction hash for transaction
   const copyToClipboard = () => {
     if (hash) {
       navigator.clipboard.writeText(hash);
@@ -179,6 +164,7 @@ const SendToken = () => {
     }
   };
 
+  // Store txn data to show txn history
   const StoreTransactionData = async (
     walletAddress: string,
     address: string,
@@ -202,7 +188,6 @@ const SendToken = () => {
     });
 
     if (storeResponse.ok) {
-      console.log("Transaction stored successfully");
       toast.success(
         "Transaction completed! Email sent to recipient successfully."
       );
@@ -214,26 +199,24 @@ const SendToken = () => {
     }
   };
 
+  // Handler for sending transaction
   const handleSend = async (walletAddress: string) => {
     try {
       setIsLoading(true);
       const selectedTokenData = tokens.find(
         (t) => t.contractAddress === selectedToken
       );
-      console.log("Selected token data:", selectedTokenData);
       if (!selectedTokenData) {
         throw new Error("Selected token not found");
       }
 
       const amountInWei = parseUnits(tokenAmount, selectedTokenData.decimals);
-      console.log("Amount in Wei:", amountInWei);
 
       const tx = await sendTransaction({
         to: walletAddress as `0x${string}`,
         value: amountInWei,
       });
 
-      console.log("Transaction sent:", tx);
       setRecipientWalletAddress(walletAddress);
     } catch (error) {
       console.error("Error sending transaction:", error);
@@ -243,6 +226,7 @@ const SendToken = () => {
     }
   };
 
+  // Handler for adding token into database
   const handleAddToken = async (newToken: NewToken) => {
     try {
       const response = await fetch("/api/add-token", {
@@ -323,19 +307,6 @@ const SendToken = () => {
               </span>
             </div>
             <div className="text-right flex items-end">
-              {/* <div>
-                <div className="text-[18px] text-black-600 py-1 font-[500] text-start">
-                  Your balance
-                </div>
-                <div
-                  className={`text-[25px] font-bold   py-1 px-3 rounded-[10px] ${theme === "dark"
-                    ? "text-[#FFE500] border border-[#A2A2A2] bg-[#1C1C1C]"
-                    : "text-[#E265FF] border border-gray"
-                    }`}
-                >
-                  $1234.56
-                </div>
-              </div> */}
 
               <button
                 className={`px-[30px] py-[10px] rounded-full lg:mx-7 md:mx-7 sm:mx-7 hover:scale-110 duration-500 transition 0.3 mx-0 text-[12px] lg:text-[15px] md:text-[15px] sm:text-[15px] ${theme === "dark"
@@ -374,29 +345,6 @@ const SendToken = () => {
                   Add Token
                 </button>
               </div>
-              {/* <div className="flex justify-center items-center mt-6">
-                <div className="relative w-full max-w-md">
-                  <input
-                    type="text"
-                    placeholder="Search..."
-                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
-                  />
-                  <div className="absolute inset-y-0 left-0 flex items-center pl-3">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5 text-gray-400"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        d="M12.293 12.293a1 1 0 011.414 0l4.29 4.29a1 1 0 01-1.414 1.415l-4.29-4.29a1 1 0 010-1.414zM8.5 14a5.5 5.5 0 100-11 5.5 5.5 0 000 11zm0 1a6.5 6.5 0 110-13 6.5 6.5 0 010 13z"
-                        clip-rule="evenodd"
-                      />
-                    </svg>
-                  </div>
-                </div>
-              </div> */}
 
               <div className="h-[30vh] overflow-y-auto scroll mt-[15px]">
                 {isLoading ? (
@@ -427,9 +375,6 @@ const SendToken = () => {
                         <div className="font-bold">
                           {parseFloat(token.balance).toFixed(4)}
                         </div>
-                        {/* <div className="text-xs text-gray-600">
-                          {token.rawBalance}
-                        </div> */}
                       </div>
                     </div>
                   ))
@@ -581,7 +526,7 @@ const SendToken = () => {
             isOpen={isPopupOpen}
             onClose={() => setIsPopupOpen(false)}
             tokenAmount={tokenAmount}
-            tokenSymbol={selectedToken}
+            tokenSymbol={selectedTokenSymbol}
             recipientEmail={recipientEmail}
             onConfirm={handleSend}
           />
