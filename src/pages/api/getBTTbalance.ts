@@ -31,7 +31,7 @@ export default async function handler(
 
     if (data.status === '1') {
       const balanceInBTT = parseFloat(data.result) / 1e18;
-      return res.status(200).json({ balance: balanceInBTT.toFixed(6) });
+      return res.status(200).json({ balance: balanceInBTT.toFixed(2) });
     } else {
       console.error('Error fetching BTT balance:', data.message);
       return res.status(500).json({ message: 'Error fetching BTT balance' });

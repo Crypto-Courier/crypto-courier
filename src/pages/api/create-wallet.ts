@@ -27,7 +27,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             });
 
             const data = await response.json();
-            console.log(data);
+            // console.log(data);
             return res.status(response.status).json(data);
         } catch (error) {
             console.error('Error creating wallet:', error);

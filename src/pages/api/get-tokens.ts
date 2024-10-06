@@ -12,14 +12,14 @@ async function fetchWithRetry(url: string, retries = 3, delayMs = 1000) {
         return await response.json();
       }
       if (response.status === 429) {
-        console.log(`Rate limited, retrying in ${delayMs}ms...`);
+        // console.log(`Rate limited, retrying in ${delayMs}ms...`);
         await delay(delayMs);
         continue;
       }
       throw new Error(`HTTP error! status: ${response.status}`);
     } catch (error) {
       if (i === retries - 1) throw error;
-      console.log(`Error fetching data, retrying in ${delayMs}ms...`);
+      // console.log(`Error fetching data, retrying in ${delayMs}ms...`);
       await delay(delayMs);
     }
   }
@@ -44,7 +44,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const db = client.db('tokenDatabase');
     const tokens = await db.collection('tokens').find({}).toArray();
 
-    console.log(`Found ${tokens.length} tokens in the database`);
+    // console.log(`Found ${tokens.length} tokens in the database`);
 
     const tokenBalances = [];
 
@@ -72,7 +72,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
     }
 
-    console.log(`Returning ${tokenBalances.length} token balances`);
+    // console.log(`Returning ${tokenBalances.length} token balances`);
     return res.status(200).json(tokenBalances);
   } catch (error) {
     console.error("Error in token fetching process:", error);

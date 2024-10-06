@@ -86,11 +86,6 @@ const WalletAddressPage: React.FC = () => {
     }
   }, [walletAddress]);
 
-  useEffect(() => {
-    console.log("Privy state:", { ready, authenticated, user });
-    console.log("Export wallet function:", exportWallet);
-  }, [ready, authenticated, user, exportWallet]);
-
   const fetchBTTBalance = async (address: string) => {
     try {
       const response = await fetch(`/api/getBTTbalance?address=${address}`);

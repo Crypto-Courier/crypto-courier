@@ -32,7 +32,7 @@ export default async function handler(
 
     await sgMail.send(msg);
 
-    console.log('Email sent successfully');
+    // console.log('Email sent successfully');
     res.status(200).json({ message: 'Email sent successfully' });
   } catch (error) {
     console.error('Error sending email:', error);

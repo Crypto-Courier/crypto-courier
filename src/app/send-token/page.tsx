@@ -41,7 +41,7 @@ const SendToken = () => {
   const helpRef = useRef<HTMLDivElement | null>(null); // Define the type for the ref
 
   const OpenHistory = () => {
-    router.push("/transaction-history"); 
+    router.push("/transaction-history");
   };
 
   // Constantly fetching tokens from the database
@@ -57,7 +57,7 @@ const SendToken = () => {
       setSelectedTokenSymbol(selectedTokenData.symbol);
     }
   }, [tokens, selectedToken]);
-  
+
   // When hash is available for txn, email should be sent to receiver
   useEffect(() => {
     if (hash) {
@@ -597,16 +597,27 @@ const SendToken = () => {
                 CryptoCourier makes it easy for you to send tokens to anyone using just their email address,
                 even if they are new to crypto.
               </p>
+              <p className="mt-2"><strong> About the Page: </strong></p>
               <ul className="list-disc list-inside mt-2 mb-4 ">
-                <li>Connect your wallet</li>
-                <li>Click the "Send" button</li>
-                <li>Enter the recipient's email and the amount of tokens</li>
-                <li>Confirm the transaction</li>
+                <li>
+                  You can add token you want to send by click on add token.
+                </li>
+                <li>
+                  You have to add contract address of token and we will fetch details for you.
+                </li>
+                <li>
+                  You can send token to anyone using their email id.
+                </li>
+                <li>
+                  Enter token amount, select token and enter email address then click on send.
+                </li>
+                <li>
+                  We create a new wallet for Receiver and click on confirm button will pop up one transaction in connected wallet.
+                </li>
+                <li>
+                  Click on confirm or approve to send token.
+                </li>
               </ul>
-              <p className="">
-                The recipient will receive an email with instructions on how to claim their tokens.
-              </p>
-
             </div>
           </div>
         </div>
