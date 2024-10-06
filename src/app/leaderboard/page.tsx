@@ -2,19 +2,13 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import "../../styles/History.css";
-import Navbar from "../../components/Navbar";
+import Navbar from "../dashboard/[walletAddress]/newNavbar";
 import Footer from "../../components/Footer";
 import { useTheme } from "next-themes";
 import Image from "next/image";
 import trophy from "../../assets/trophy.png";
 import rankImage from "../../assets/rank.png";
-import glassbg from "../../assets/glassbg2.png"
-
-interface LeaderboardEntry {
-  address: string;
-  invites: number;
-  claims: number;
-}
+import { LeaderboardEntry } from "../../types/types"
 
 const LeaderBoard: React.FC = () => {
   const router = useRouter();
@@ -80,9 +74,9 @@ const LeaderBoard: React.FC = () => {
                         <div className={`grid grid-cols-4 gap-2 p-2  rounded-md mb-2 ${theme==="dark"?"bg-[#090406] border border-[#FE660A]":"bg-[#FFFCFC] border border-[#FFFFFF]"}`}>
                           {[
                             "Rank",
-                            "Contract Address",
-                            "Invited User",
-                            "Claimed User",
+                            "Gifter",
+                            "Claimer",
+                            "Claim Rate",
                           ].map((header, index) => (
                             <div
                               key={index}

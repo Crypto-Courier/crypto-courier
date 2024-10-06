@@ -84,3 +84,9 @@ export interface ApiResponse {
     has_accepted_terms: boolean;
     is_guest: boolean;
 }
+
+export interface LeaderboardEntry {
+    address: string;
+    invites: number;
+    claims: number;
+  }

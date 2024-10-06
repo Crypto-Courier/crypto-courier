@@ -5,7 +5,6 @@ import "../../../styles/History.css";
 import NewNavbar from "./newNavbar";
 import Footer from "../../../components/Footer";
 import { useTheme } from "next-themes";
-import { useAccount } from "wagmi";
 import Image from "next/image";
 import { ChevronDown, LogOut, ExternalLink } from "lucide-react";
 import lLogo from "../../../assets/lLogo.png"
@@ -16,7 +15,7 @@ import { sendEmail } from "../../../components/Email/Emailer";
 import { renderEmailToString } from "../../../components/Email/renderEmailToString";
 import { usePrivy, useLogout, PrivyProvider } from "@privy-io/react-auth";
 import toast from "react-hot-toast";
-import { TokenDetails, Transaction } from "../../../types/types";
+import { Transaction } from "../../../types/types";
 
 const WalletAddressPage: React.FC = () => {
   const router = useRouter();
@@ -275,7 +274,17 @@ const WalletAddressPage: React.FC = () => {
                   : "bg-[#F4F3F3] border border-[#C6C6C6]"
                   }`}
               >
-                <div className="w-10 h-10 bg-gray-300 rounded-full hidden lg:flex md:flex sm:flex"></div>
+                <div
+                  className={`w-10 h-10 rounded-full flex items-center justify-center border-2 transition duration-300 hover:scale-110 ${theme === "dark"
+                    ? "border-white bg-transparent"
+                    : "border-gray-500 bg-transparent"
+                    }`}
+                >
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center ${theme === "dark" ? "bg-[#FFE500] text-[#363535]"
+                    : "bg-[#E265FF] text-white"
+                    }`}>
+                  </div>
+                </div>
                 <span className="font-semibold px-2 text-[12px] lg:text-[15px] md:text-[15px] sm:text-[15px]">
                   {walletAddress
                     ? `${walletAddress.slice(0, 10)}...${walletAddress.slice(
@@ -497,18 +506,75 @@ const WalletAddressPage: React.FC = () => {
             <div>
               <h2 className="text-xl font-bold mb-4 ">Help Information</h2>
               <p className="">
-                CryptoCourier allows you to send tokens to anyone using their email address. Here's how it works:
-              </p>
+                CryptoCourier makes it easy for you to send tokens to anyone using just their email address,
+                even if they are new to crypto.              </p>
+              <p className="mt-2"><strong> About the Page: </strong></p>
               <ul className="list-disc list-inside mt-2 mb-4 ">
-                <li>Connect your wallet</li>
-                <li>Click the "Send" button</li>
-                <li>Enter the recipient's email and the amount of tokens</li>
-                <li>Confirm the transaction</li>
+                <li>
+                  You can view your transactions directly on this page.
+                </li>
+                <li>
+                  You can see your transaction history for all the transactions you've made using the platform.
+                </li>
+                <li>
+                  If you want control over your wallet then click on address then export wallet. Read below instructions for more.
+                </li>
+                <li>
+                  If you want to invite your friends then click on Invite button but for that export wallet first.
+                </li>
+                <li>
+                  If you want to sign out then click on wallet then sign out button.
+                </li>
               </ul>
-              <p className="">
-                The recipient will receive an email with instructions on how to claim their tokens.
-              </p>
+              <p className="mt-2"><strong> What is Exporting Your Wallet? </strong></p>
+              <ul className="list-disc list-inside mt-2 mb-4 ">
+                <li>Exporting your wallet means saving the private keys or recovery phrase associated with your wallet.</li>
+                <li>This allows you to access your wallet from any device.</li>
+                <li>It's important to keep your private keys safe, as anyone with access to them can control your wallet and the assets within it.</li>
+              </ul>
+              <p className="mt-2"><strong>To export your wallet:</strong></p>
+              <ul className="list-disc list-inside mt-2 mb-4 ">
+                <li> Click on wallet address.</li>
+                <li>Find the "Export Wallet" option in dropdown.</li>
+                <li>Copy and save your private key or recovery phrase.</li>
+                <li><span className="text-red-400">Make sure to secure your private key or recovery phrase because it is type of password for your wallet but you can't forget or change it.</span></li>
+              </ul>
+              <p className="mt-2"><strong>Download a Wallet:</strong></p>
+              <p className="mb-2">If you don't have a wallet yet, you can download one from the below links:</p>
+              <ul className="list-disc list-inside mt-2 mb-4">
+                <li>
+                  <a href="https://metamask.io/download/" target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">
+                    MetaMask
+                  </a> - Recommanded for New User.
+                </li>
+                <li>
+                  <a href="https://rainbow.me/download/" target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">
+                    Rainbow Wallet
+                  </a>
+                </li>
+                <li>
+                  <a href="https://www.coinbase.com/wallet/downloads/" target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">
+                    Coinbase wallet
+                  </a>
+                </li>
+              </ul>
+              <p className="mt-2"><strong>What is Importing Your Wallet?</strong></p>
+              <ul className="list-disc list-inside mt-2 mb-4 ">
+                <li>Importing your wallet means restoring access to your existing wallet on a new device by using your private key or recovery phrase.</li>
+                <li>This process is essential when switching devices or recovering access to your wallet.</li>
+                <li>Importing a wallet ensures you can continue managing your tokens and assets securely.</li>
+              </ul>
+              <p className="mt-2"><strong>How to Import Your Wallet:</strong></p>
+              <ul className="list-disc list-inside mt-2 mb-4">
+                <li>Open your wallet application (such as MetaMask).</li>
+                <li>Select the "Import Wallet" option from the menu.</li>
+                <li>Enter your private key  recovery phrase that you saved during the export process.</li>
+                <li>Confirm the import and access your wallet on the new device.</li>
+              </ul>
 
+              <p className="mt-2">
+                By importing your wallet, you can access your tokens and assets from any device, allowing for easy management and secure access.
+              </p>
             </div>
           </div>
         </div>
