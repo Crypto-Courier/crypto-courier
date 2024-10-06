@@ -120,40 +120,6 @@ const SendToken = () => {
     }
   };
 
-  const fetchTokenDetails = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setError(null);
-    setIsFetching(true);
-
-    try {
-      const res = await fetch("/api/getTokenDetails", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ tokenAddress: newToken.contractAddress }),
-      });
-
-      const data = await res.json();
-
-      if (res.status === 200) {
-        setTokenDetails(data);
-        setNewToken({
-          ...newToken,
-          name: data.name,
-          symbol: data.symbol,
-          decimals: Number(data.decimals),
-        });
-      } else {
-        setError(data.message || "Error fetching token details");
-      }
-    } catch (err) {
-      setError("An unexpected error occurred");
-    } finally {
-      setIsFetching(false);
-    }
-  };
-
   const fetchTokens = async () => {
     if (!address) {
       console.error("No address available");

@@ -135,32 +135,6 @@ const WalletAddressPage: React.FC = () => {
   //   }
   // }, [user, walletAddress, router]);
 
-  const fetchTokenDetails = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setError(null);
-    setTokenDetails(null);
-
-    try {
-      const res = await fetch("/api/getTokenDetails", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ tokenAddress }),
-      });
-
-      const data = await res.json();
-
-      if (res.status === 200) {
-        setTokenDetails(data);
-      } else {
-        setError(data.message || "Error fetching token details");
-      }
-    } catch (err) {
-      setError("An unexpected error occurred");
-    }
-  };
-
   useEffect(() => {
     const fetchTransactions = async () => {
       if (!walletAddress) return;

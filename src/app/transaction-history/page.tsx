@@ -10,11 +10,12 @@ import Image from "next/image";
 import trx from "../../assets/trx.png";
 import { sendEmail } from "../../components/Email/Emailer";
 import { renderEmailToString } from "../../components/Email/renderEmailToString";
-import { Transaction, TokenDetails } from "../../types/types";
-import toast from "react-hot-toast";
+import { Transaction } from "../../types/types";
+import toast, { Toaster } from "react-hot-toast";
 import lLogo from "../../assets/lLogo.png"
 import dLogo from "../../assets/dLogo.png"
 import { X } from "lucide-react"; // You can replace this with an actual icon library
+import loader from "../../assets/loading.gif"
 
 const TxHistory: React.FC = () => {
   const router = useRouter();
@@ -24,39 +25,12 @@ const TxHistory: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [showHelp, setShowHelp] = useState(false);
   const [tooltipVisible, setTooltipVisible] = useState(false);
-  const helpRef = useRef<HTMLDivElement | null>(null); // Define the type for the ref
-  const [tokenAddress, setTokenAddress] = useState("");
-  const [tokenDetails, setTokenDetails] = useState<TokenDetails | null>(null);
-  // const [error, setError] = useState(null);
+  const helpRef = useRef<HTMLDivElement | null>(null);
+  const [loadingTxId, setLoadingTxId] = useState<number | null>(null);
 
   const { theme } = useTheme();
 
-  const fetchTokenDetails = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setError(null);
-    setTokenDetails(null);
-
-    try {
-      const res = await fetch("/api/getTokenDetails", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ tokenAddress }),
-      });
-
-      const data = await res.json();
-
-      if (res.status === 200) {
-        setTokenDetails(data);
-      } else {
-        setError(data.message || "Error fetching token details");
-      }
-    } catch (err) {
-      setError("An unexpected error occurred");
-    }
-  };
-
+  // Condition routing to send token page
   const SendToken = () => {
     if (isConnected) {
       router.push("/send-token");
@@ -65,6 +39,7 @@ const TxHistory: React.FC = () => {
     }
   };
 
+  // useEffect to fetch the transaction detail from database
   useEffect(() => {
     const fetchTransactions = async () => {
       if (!address) return;
@@ -95,7 +70,9 @@ const TxHistory: React.FC = () => {
     window.open(url, "_blank", "noreferrer");
   };
 
-  const handleResend = async (tx: Transaction) => {
+  // Resend email
+  const handleResend = async (tx: Transaction, index: number) => {
+    setLoadingTxId(index);
     try {
       const subject =
         "Nothing to worry! Your Crypto token is in your inbox again 📩";
@@ -112,14 +89,16 @@ const TxHistory: React.FC = () => {
         tokenAmount: tx.tokenAmount,
         tokenSymbol: tx.tokenSymbol,
       });
-
       toast.success("Email resent successfully!");
     } catch (error) {
       console.error("Error resending email:", error);
       toast.error("Failed to resend email. Please try again.");
+    }finally {
+      setLoadingTxId(null); // Reset the loading state once done
     }
   };
 
+  // Skeleton Laoding 
   const SkeletonLoader = () => (
     <div className="space-y-3 animate-pulse">
       {[...Array(3)].map((_, index) => (
@@ -195,18 +174,6 @@ const TxHistory: React.FC = () => {
             </div>
             <div className="text-right flex items-end">
               <div>
-                {/* <div className="text-[18px] text-black-600 py-1 font-[500] text-start">
-                  Your balance
-                </div>
-                <div
-                  className={`text-[25px] font-bold py-1 px-3 rounded-[10px] ${
-                    theme === "dark"
-                      ? "text-[#FFE500] border border-[#A2A2A2] bg-[#1C1C1C]"
-                      : "text-[#E265FF] border border-gray"
-                  }`}
-                >
-                  $2230.1044
-                </div> */}
               </div>
               <button
                 className={`px-[30px] py-[10px] rounded-full lg:mx-7 md:mx-7 sm:mx-7 hover:scale-110 duration-500 transition 0.3 mx-0 text-[12px] lg:text-[15px] md:text-[15px] sm:text-[15px] ${theme === "dark"
@@ -239,10 +206,10 @@ const TxHistory: React.FC = () => {
                     <SkeletonLoader />
                   ) : error ? (
                     <div className="text-red-700 h-[40vh] flex justify-center items-center text-[20px]">
-                      {error}
+                      No transactions found for your wallet address.
                     </div>
                   ) : transactions.length === 0 ? (
-                    <p>No transactions found.</p>
+                    <p>No transactions found for your wallet address.</p>
                   ) : (
                     transactions.map((tx, index) => (
                       <div
@@ -293,12 +260,16 @@ const TxHistory: React.FC = () => {
                         <div className="flex gap-3">
                           {tx.senderWallet === address && (
                             <div className="bg-[#FF336A] hover:scale-110 duration-500 transition 0.3 text-white px-5 py-2 rounded-full text-[12px] flex items-center gap-2">
-                              <button
-                                onClick={() => handleResend(tx)}
-                                className="text-[15px] "
-                              >
-                                Resend
-                              </button>
+                              {loadingTxId === index ? (
+                                <Image src={loader} alt="Loading..." className="w-6 h-6" />
+                              ) : (
+                                <button
+                                  onClick={() => handleResend(tx, index)} // Pass the index to identify transaction
+                                  className="text-[15px] "
+                                >
+                                  Resend
+                                </button>
+                              )}
                             </div>
                           )}
                           <div className="bg-[#FF336A] hover:scale-110 duration-500 transition 0.3 text-white px-5 py-2 rounded-full text-[12px] flex item-center gap-2">
@@ -398,6 +369,9 @@ const TxHistory: React.FC = () => {
                   If you sent tokens to someone and they didn’t receive the email or accidentally deleted it,
                   don't worry! You can click on the "Resend" button to send the claim token email again, so they can still receive their tokens.
                 </li>
+                <li>
+                  Not able to see any transaction details? Just invite or send token to other.
+                </li>
               </ul>
               <p><strong>What is a Transaction?</strong></p>
               <ul className="list-disc list-inside mt-2 mb-4 ">
@@ -422,6 +396,7 @@ const TxHistory: React.FC = () => {
           </div>
         </div>
       )}
+      <Toaster position="top-center" reverseOrder={false} />
     </div>
   );
 };
