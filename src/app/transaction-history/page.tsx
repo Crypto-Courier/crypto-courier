@@ -1,5 +1,5 @@
 "use client";
-import react, { useState, useEffect ,useRef} from "react";
+import react, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import "../../styles/History.css";
 import Navbar from "../../components/Navbar";
@@ -137,15 +137,15 @@ const TxHistory: React.FC = () => {
       ))}
     </div>
   );
-  
+
   const toggleHelp = () => {
     setShowHelp(!showHelp);
   };
 
 
-   // Close the help popup if clicking outside of it
-   useEffect(() => {
-    function handleClickOutside(event:MouseEvent) {
+  // Close the help popup if clicking outside of it
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
       if (helpRef.current && !helpRef.current.contains(event.target as Node)) {
         setShowHelp(false); // Close the popup
       }
@@ -178,8 +178,8 @@ const TxHistory: React.FC = () => {
             >
               <div
                 className={`w-10 h-10 rounded-full flex items-center justify-center border-2 transition duration-300 hover:scale-110 ${theme === "dark"
-                    ? "border-white bg-transparent"
-                    : "border-gray-500 bg-transparent"
+                  ? "border-white bg-transparent"
+                  : "border-gray-500 bg-transparent"
                   }`}
               >
                 <div className={`w-8 h-8 rounded-full flex items-center justify-center ${theme === "dark" ? "bg-[#FFE500] text-[#363535]"
@@ -234,91 +234,91 @@ const TxHistory: React.FC = () => {
                 Transaction history
               </h3>
               <div className="h-[40vh] overflow-y-auto scroll">
-              {isConnected ? (
-                isLoading ? (
-                  <SkeletonLoader />
-                ) : error ? (
-                  <div className="text-red-700 h-[40vh] flex justify-center items-center text-[20px]">
-                    {error}
-                  </div>
-                ) : transactions.length === 0 ? (
-                  <p>No transactions found.</p>
-                ) : (
-                  transactions.map((tx, index) => (
-                    <div
-                      key={index}
-                      className={`flex justify-between items-center bg-opacity-50 p-3 rounded-xl mt-2 mx-3 ${theme === "dark"
-                        ? "bg-[#000000]/20 border border-[#5C5C5C]"
-                        : "bg-[#FFFCFC]/20 border border-[#FFFFFF]"
-                        }`}
-                    >
-                      <div className="flex items-center space-x-3">
-                        <span
-                          className={`rounded-[10px] text-[15px] ${theme === "dark"
-                            ? "border border-[#FE660A] text-[#FE660A] bg-[#181818] py-1 px-2"
-                            : "border border-[#FE660A] text-[#FE660A] bg-white py-1 px-2"
-                            }`}
-                        >
-                          {tx.tokenAmount} {tx.tokenSymbol}
-                        </span>
-                        {tx.senderWallet === address ? (
-                          <>
-                            <span className="text-[15px]">to</span>
-                            <span
-                              className={`rounded-[10px]text-[15px] ${theme === "dark"
-                                ? "border border-[#E265FF] text-[#E265FF] bg-[#181818] py-1 px-2"
-                                : "border border-[#0052FF] text-[#0052FF] bg-white py-1 px-2"
-                                }`}
-                            >
-                              {tx.recipientEmail}
-                            </span>
-                          </>
-                        ) : (
-                          <>
-                            <span className="text-[15px]">from</span>
-                            <span
-                              className={`rounded-[10px] text-[15px] ${theme === "dark"
-                                ? "border border-[#E265FF] text-[#E265FF] bg-[#181818] py-1 px-2"
-                                : "border border-[#0052FF] text-[#0052FF] bg-white py-1 px-2"
-                                }`}
-                            >
-                              {`${tx.senderWallet.slice(
-                                0,
-                                15
-                              )}...${tx.senderWallet.slice(-4)}`}
-                            </span>
-                          </>
-                        )}
-                      </div>
-                      <div className="flex gap-3">
-                        {tx.senderWallet === address && (
-                          <div className="bg-[#FF336A] hover:scale-110 duration-500 transition 0.3 text-white px-5 py-2 rounded-full text-[12px] flex items-center gap-2">
+                {isConnected ? (
+                  isLoading ? (
+                    <SkeletonLoader />
+                  ) : error ? (
+                    <div className="text-red-700 h-[40vh] flex justify-center items-center text-[20px]">
+                      {error}
+                    </div>
+                  ) : transactions.length === 0 ? (
+                    <p>No transactions found.</p>
+                  ) : (
+                    transactions.map((tx, index) => (
+                      <div
+                        key={index}
+                        className={`flex justify-between items-center bg-opacity-50 p-3 rounded-xl mt-2 mx-3 ${theme === "dark"
+                          ? "bg-[#000000]/20 border border-[#5C5C5C]"
+                          : "bg-[#FFFCFC]/20 border border-[#FFFFFF]"
+                          }`}
+                      >
+                        <div className="flex items-center space-x-3">
+                          <span
+                            className={`rounded-[10px] text-[15px] ${theme === "dark"
+                              ? "border border-[#FE660A] text-[#FE660A] bg-[#181818] py-1 px-2"
+                              : "border border-[#FE660A] text-[#FE660A] bg-white py-1 px-2"
+                              }`}
+                          >
+                            {tx.tokenAmount} {tx.tokenSymbol}
+                          </span>
+                          {tx.senderWallet === address ? (
+                            <>
+                              <span className="text-[15px]">to</span>
+                              <span
+                                className={`rounded-[10px]text-[15px] ${theme === "dark"
+                                  ? "border border-[#E265FF] text-[#E265FF] bg-[#181818] py-1 px-2"
+                                  : "border border-[#0052FF] text-[#0052FF] bg-white py-1 px-2"
+                                  }`}
+                              >
+                                {tx.recipientEmail}
+                              </span>
+                            </>
+                          ) : (
+                            <>
+                              <span className="text-[15px]">from</span>
+                              <span
+                                className={`rounded-[10px] text-[15px] ${theme === "dark"
+                                  ? "border border-[#E265FF] text-[#E265FF] bg-[#181818] py-1 px-2"
+                                  : "border border-[#0052FF] text-[#0052FF] bg-white py-1 px-2"
+                                  }`}
+                              >
+                                {`${tx.senderWallet.slice(
+                                  0,
+                                  15
+                                )}...${tx.senderWallet.slice(-4)}`}
+                              </span>
+                            </>
+                          )}
+                        </div>
+                        <div className="flex gap-3">
+                          {tx.senderWallet === address && (
+                            <div className="bg-[#FF336A] hover:scale-110 duration-500 transition 0.3 text-white px-5 py-2 rounded-full text-[12px] flex items-center gap-2">
+                              <button
+                                onClick={() => handleResend(tx)}
+                                className="text-[15px] "
+                              >
+                                Resend
+                              </button>
+                            </div>
+                          )}
+                          <div className="bg-[#FF336A] hover:scale-110 duration-500 transition 0.3 text-white px-5 py-2 rounded-full text-[12px] flex item-center gap-2">
+                            <Image src={trx} alt="" />
                             <button
-                              onClick={() => handleResend(tx)}
                               className="text-[15px] "
+                              onClick={() =>
+                                openTransactionReciept(tx.customizedLink)
+                              }
                             >
-                              Resend
+                              View Tx
                             </button>
                           </div>
-                        )}
-                        <div className="bg-[#FF336A] hover:scale-110 duration-500 transition 0.3 text-white px-5 py-2 rounded-full text-[12px] flex item-center gap-2">
-                          <Image src={trx} alt="" />
-                          <button
-                            className="text-[15px] "
-                            onClick={() =>
-                              openTransactionReciept(tx.customizedLink)
-                            }
-                          >
-                            View Tx
-                          </button>
                         </div>
                       </div>
-                    </div>
-                  ))
-                )) : (<div className={`text-center font-medium text-[17px] lg:text-[20px] md:text-[20px] sm:text-[20px] ${theme === "dark" ? "text-[#DEDEDE]" : "text-[#696969]"
-                  }`}>
-                  Connect your wallet to view your transactions.
-                </div>)}
+                    ))
+                  )) : (<div className={`text-center font-medium text-[17px] lg:text-[20px] md:text-[20px] sm:text-[20px] ${theme === "dark" ? "text-[#DEDEDE]" : "text-[#696969]"
+                    }`}>
+                    Connect your wallet to view your transactions.
+                  </div>)}
               </div>
             </div>
           </div>
@@ -327,9 +327,8 @@ const TxHistory: React.FC = () => {
 
       <Footer />
       <button
-        className={`fixed bottom-4 right-4 bg-[#000000] text-white font-bold w-12 h-12 rounded-full shadow-lg flex items-center justify-center text-2xl z-50 ${
-          !showHelp ? "animate-pulse" : ""
-        }`}
+        className={`fixed bottom-4 right-4 bg-[#000000] text-white font-bold w-12 h-12 rounded-full shadow-lg flex items-center justify-center text-2xl z-50 ${!showHelp ? "animate-pulse" : ""
+          }`}
         onClick={toggleHelp}
         onMouseEnter={() => setTooltipVisible(true)} // Show tooltip on hover
         onMouseLeave={() => setTooltipVisible(false)} // Hide tooltip when not hovering
@@ -343,60 +342,86 @@ const TxHistory: React.FC = () => {
 
       {/* Tooltip */}
       {tooltipVisible && !showHelp && (
-        <div className= {`absolute bottom-16 right-1 text-sm rounded-lg px-3 py-1 z-50 shadow-lg mb-2 ${theme==="dark"?"bg-[#FFFFFF] text-blue-700":"bg-[#1C1C1C] text-[#FFE500]"}`}>
+        <div className={`absolute bottom-16 right-1 text-sm rounded-lg px-3 py-1 z-50 shadow-lg mb-2 ${theme === "dark" ? "bg-[#FFFFFF] text-blue-700" : "bg-[#1C1C1C] text-[#FFE500]"}`}>
           Help Center
         </div>
       )}
-    {/* Help Popup */}
-{showHelp && (
-  <div
-  ref={helpRef}
-    className= {`border border-[#FF3333] fixed  p-6 rounded-lg shadow-lg w-[90%] sm:w-[70%] md:w-[50%] lg:w-[35%] h-[50vh] sm:h-[60vh] md:h-[70vh] lg:h-[60vh] z-50 overflow-y-auto scroll ${theme==="dark"?"bg-black":"bg-white"}`}
-    style={{
-      position: "absolute",
-      top: "30%", // Slightly adjusted top for better viewing on smaller screens
-      right: "10px", // Aligns with the button's right side
-    }}
-  >
-    <div>
-    <div className="w-[9rem] sm:w-40 md:w-48 lg:w-56 logo" style={{marginLeft:"-17px"}}>
-            {theme === "light" ? (
-              <Image
-                src={dLogo}
-                alt="CRYPTO-COURIER Dark Logo"
-                width={400}
-                height={400}
-                className="w-full h-auto "
-              />
-            ) : (
-              <Image
-                src={lLogo}
-                alt="CRYPTO-COURIER Light Logo"
-                width={400}
-                height={400}
-                className="w-full h-auto "
-              />
-            )}
+      {/* Help Popup */}
+      {showHelp && (
+        <div
+          ref={helpRef}
+          className={`border border-[#FF3333] fixed  p-6 rounded-lg shadow-lg w-[90%] sm:w-[70%] md:w-[50%] lg:w-[35%] h-[50vh] sm:h-[60vh] md:h-[70vh] lg:h-[60vh] z-50 overflow-y-auto scroll ${theme === "dark" ? "bg-black" : "bg-white"}`}
+          style={{
+            position: "absolute",
+            top: "30%", // Slightly adjusted top for better viewing on smaller screens
+            right: "10px", // Aligns with the button's right side
+          }}
+        >
+          <div>
+            <div className="w-[9rem] sm:w-40 md:w-48 lg:w-56 logo" style={{ marginLeft: "-17px" }}>
+              {theme === "light" ? (
+                <Image
+                  src={dLogo}
+                  alt="CRYPTO-COURIER Dark Logo"
+                  width={400}
+                  height={400}
+                  className="w-full h-auto "
+                />
+              ) : (
+                <Image
+                  src={lLogo}
+                  alt="CRYPTO-COURIER Light Logo"
+                  width={400}
+                  height={400}
+                  className="w-full h-auto "
+                />
+              )}
+            </div>
+            <div>
+              <h2 className="text-xl font-bold mb-4 ">Help Information</h2>
+              <p className="">
+                CryptoCourier makes it easy for you to send tokens to anyone using just their email address,
+                even if they are new to crypto.
+              </p>
+              <p className="mt-2"><strong> About the Page: </strong></p>
+              <ul className="list-disc list-inside mt-2 mb-4 ">
+                <li>
+                  You can view your transactions directly on this page.
+                </li>
+                <li>
+                  You can see your transaction history for all the transactions you've made using the platform.
+                </li>
+                <li>
+                  Each transaction comes with a "View Tx" button. When you click it, you’ll be taken to a block explorer for Txn details.
+                </li>
+                <li>
+                  If you sent tokens to someone and they didn’t receive the email or accidentally deleted it,
+                  don't worry! You can click on the "Resend" button to send the claim token email again, so they can still receive their tokens.
+                </li>
+              </ul>
+              <p><strong>What is a Transaction?</strong></p>
+              <ul className="list-disc list-inside mt-2 mb-4 ">
+                <li> A transaction in crypto is when you send tokens from your wallet to someone else. </li>
+                <li> In the traditional banking world, it’s similar to sending money to another
+                  bank account. </li>
+                <li> In the world of blockchain, transactions are recorded on a decentralized
+                  system, which means no one controls the data, and everything is secure and transparent. </li>
+              </ul>
+              <p><strong>What’s a Block Explorer?</strong></p>
+              <p>
+                A block explorer is like a public search engine for the blockchain. It allows you to track your transactions by showing details like
+                <ul className="list-disc list-inside mt-2 mb-4 ">
+                  <li> Time when it was confirmed </li>
+                  <li> Amount sent </li>
+                  <li> Sender and receiver wallet address </li>
+                  <li> Fees that sender paid for confirm transaction </li>
+                </ul>
+                This gives you full transparency and peace of mind, knowing that your tokens are safely transferred.
+              </p>
+            </div>
           </div>
-<div>
-      <h2 className="text-xl font-bold mb-4 ">Help Information</h2>
-      <p className="">
-        CryptoCourier allows you to send tokens to anyone using their email address. Here's how it works:
-      </p>
-      <ul className="list-disc list-inside mt-2 mb-4 ">
-        <li>Connect your wallet</li>
-        <li>Click the "Send" button</li>
-        <li>Enter the recipient's email and the amount of tokens</li>
-        <li>Confirm the transaction</li>
-      </ul>
-      <p className="">
-        The recipient will receive an email with instructions on how to claim their tokens.
-      </p>
-      
-    </div>
-  </div>
-  </div>
-)}
+        </div>
+      )}
     </div>
   );
 };

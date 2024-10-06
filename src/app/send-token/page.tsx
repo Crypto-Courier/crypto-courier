@@ -307,9 +307,9 @@ const SendToken = () => {
   };
 
 
-   // Close the help popup if clicking outside of it
-   useEffect(() => {
-    function handleClickOutside(event:MouseEvent) {
+  // Close the help popup if clicking outside of it
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
       if (helpRef.current && !helpRef.current.contains(event.target as Node)) {
         setShowHelp(false); // Close the popup
       }
@@ -335,8 +335,8 @@ const SendToken = () => {
           >
             <div
               className={`flex items-center space-x-3 p-2 rounded-[10px] ${theme === "dark"
-                  ? "bg-[#1C1C1C] border border-[#A2A2A2]"
-                  : "bg-[#F4F3F3] border border-[#C6C6C6]"
+                ? "bg-[#1C1C1C] border border-[#A2A2A2]"
+                : "bg-[#F4F3F3] border border-[#C6C6C6]"
                 }`}
             >
               <div
@@ -373,8 +373,8 @@ const SendToken = () => {
 
               <button
                 className={`px-[30px] py-[10px] rounded-full lg:mx-7 md:mx-7 sm:mx-7 hover:scale-110 duration-500 transition 0.3 mx-0 text-[12px] lg:text-[15px] md:text-[15px] sm:text-[15px] ${theme === "dark"
-                    ? "bg-[#FFE500] text-[#363535]"
-                    : "bg-[#E265FF] text-white"
+                  ? "bg-[#FFE500] text-[#363535]"
+                  : "bg-[#E265FF] text-white"
                   }`}
                 onClick={OpenHistory}
               >
@@ -384,8 +384,8 @@ const SendToken = () => {
           </div>
           <div
             className={`${theme === "dark"
-                ? "bg-[#0A0A0A]/80 backdrop-blur-[80px]"
-                : "bg-white/80 backdrop-blur-[80px]"
+              ? "bg-[#0A0A0A]/80 backdrop-blur-[80px]"
+              : "bg-white/80 backdrop-blur-[80px]"
               } rounded-br-[40px] rounded-bl-[40px] flex flex-col-reverse md:flex-col-reverse lg:flex-row space-y-6 md:space-y-0  lg:py-[40px] px-[30px]  md:py-[20px] py-[20px] justify-between items-end gap-[20px]`}
           >
             {" "}
@@ -401,8 +401,8 @@ const SendToken = () => {
                 <button
                   onClick={() => setShowAddTokenForm(true)}
                   className={` hover:scale-110 duration-500 transition 0.3 ${theme === "dark"
-                      ? "bg-[#FFE500] text-[#363535]"
-                      : "bg-[#E265FF] text-white"
+                    ? "bg-[#FFE500] text-[#363535]"
+                    : "bg-[#E265FF] text-white"
                     }  px-4 py-2 rounded-full text-sm`}
                 >
                   Add Token
@@ -444,8 +444,8 @@ const SendToken = () => {
                     <div
                       key={index}
                       className={`${theme === "dark"
-                          ? "bg-[#000000]/50 border border-white"
-                          : " bg-[#FFFCFC]"
+                        ? "bg-[#000000]/50 border border-white"
+                        : " bg-[#FFFCFC]"
                         } flex justify-between items-center bg-opacity-50 rounded-xl shadow-sm py-2 px-5 my-4 mx-4`}
                     >
                       <div className="flex items-center space-x-2">
@@ -473,7 +473,7 @@ const SendToken = () => {
                       className={` ${theme === "dark" ? "text-[#DEDEDE]" : "text-[#696969]"
                         } text-center text-gray-500 text-[18px]`}
                     >
-                      {isConnected ? `No Tokens Found`:`Connect wallet first`}
+                      {isConnected ? `No Tokens Found` : `Connect wallet first`}
                     </span>
                   </div>
                 )}
@@ -490,8 +490,8 @@ const SendToken = () => {
                 <div className="flex space-x-2 justify-end">
                   <div
                     className={`flex-grow bg-opacity-50 rounded-xl p-3 mb-3 flex justify-between items-center ${theme === "dark"
-                        ? "bg-[#000000]/50 border border-white"
-                        : " bg-[#FFFCFC] border border-gray-700"
+                      ? "bg-[#000000]/50 border border-white"
+                      : " bg-[#FFFCFC] border border-gray-700"
                       }`}
                   >
                     <input
@@ -515,8 +515,8 @@ const SendToken = () => {
                       value={selectedToken}
                       onChange={handleChange}
                       className={`flex-grow bg-opacity-50 rounded-xl p-3 mb-3 flex justify-between items-center  outline-none ${theme === "dark"
-                          ? "bg-[#000000]/50 border border-white"
-                          : " bg-[#FFFCFC] border border-gray-700"
+                        ? "bg-[#000000]/50 border border-white"
+                        : " bg-[#FFFCFC] border border-gray-700"
                         }`}
                     >
                       <option
@@ -524,8 +524,8 @@ const SendToken = () => {
                         disabled
                         selected
                         className={` text-black hover:bg-gray-200 bg-opacity-50 ${theme === "dark"
-                            ? "bg-[#000000]/100 border border-white text-white"
-                            : " bg-[#FFFCFC] border border-gray-700 text-black "
+                          ? "bg-[#000000]/100 border border-white text-white"
+                          : " bg-[#FFFCFC] border border-gray-700 text-black "
                           }`}
                       >
                         Select a token
@@ -536,8 +536,8 @@ const SendToken = () => {
                             key={token.contractAddress}
                             value={token.contractAddress}
                             className={` text-black hover:bg-gray-200 bg-opacity-50 ${theme === "dark"
-                                ? "bg-[#000000]/100 border border-white text-white"
-                                : "bg-[#FFFCFC] border border-gray-700 text-black "
+                              ? "bg-[#000000]/100 border border-white text-white"
+                              : "bg-[#FFFCFC] border border-gray-700 text-black "
                               }`}
                           >
                             {token.symbol}
@@ -561,8 +561,8 @@ const SendToken = () => {
                   onChange={(e) => setRecipientEmail(e.target.value)}
                   placeholder="recipient's email address"
                   className={`w-full bg-opacity-50 rounded-xl p-3 mb-3 r  outline-none${theme === "dark"
-                      ? "bg-[#000000]/50 border border-white"
-                      : " bg-[#FFFCFC] border border-gray-700"
+                    ? "bg-[#000000]/50 border border-white"
+                    : " bg-[#FFFCFC] border border-gray-700"
                     }`}
                 />
               </div>
@@ -589,8 +589,8 @@ const SendToken = () => {
                   </label>
                   <div
                     className={`flex-grow bg-opacity-50 rounded-xl p-3 mb-3 flex justify-between items-center ${theme === "dark"
-                        ? "bg-[#000000]/50 border border-white"
-                        : " bg-[#FFFCFC]"
+                      ? "bg-[#000000]/50 border border-white"
+                      : " bg-[#FFFCFC]"
                       }`}
                   >
                     {hash ? `${hash.slice(0, 20)}...${hash.slice(-7)}` : ""}
@@ -630,9 +630,8 @@ const SendToken = () => {
       </div>
       <Footer />
       <button
-        className={`fixed bottom-4 right-4 bg-[#FF3333] text-white font-bold w-12 h-12 rounded-full shadow-lg flex items-center justify-center text-2xl z-50 ${
-          !showHelp ? "animate-pulse" : ""
-        }`}
+        className={`fixed bottom-4 right-4 bg-[#FF3333] text-white font-bold w-12 h-12 rounded-full shadow-lg flex items-center justify-center text-2xl z-50 ${!showHelp ? "animate-pulse" : ""
+          }`}
         onClick={toggleHelp}
         onMouseEnter={() => setTooltipVisible(true)} // Show tooltip on hover
         onMouseLeave={() => setTooltipVisible(false)} // Hide tooltip when not hovering
@@ -646,60 +645,61 @@ const SendToken = () => {
 
       {/* Tooltip */}
       {tooltipVisible && !showHelp && (
-        <div className= {`absolute bottom-16 right-1 text-sm rounded-lg px-3 py-1 z-50 shadow-lg mb-2 ${theme==="dark"?"bg-[#FFFFFF] text-blue-700":"bg-[#1C1C1C] text-[#FFE500]"}`}>
+        <div className={`absolute bottom-16 right-1 text-sm rounded-lg px-3 py-1 z-50 shadow-lg mb-2 ${theme === "dark" ? "bg-[#FFFFFF] text-blue-700" : "bg-[#1C1C1C] text-[#FFE500]"}`}>
           Help Center
         </div>
       )}
-    {/* Help Popup */}
-{showHelp && (
-  <div
-  ref={helpRef}
-    className= {`border border-[#FF3333] fixed  p-6 rounded-lg shadow-lg w-[90%] sm:w-[70%] md:w-[50%] lg:w-[35%] h-[50vh] sm:h-[60vh] md:h-[70vh] lg:h-[60vh] z-50 overflow-y-auto scroll ${theme==="dark"?"bg-black":"bg-white"}`}
-    style={{
-      position: "absolute",
-      top: "30%", // Slightly adjusted top for better viewing on smaller screens
-      right: "10px", // Aligns with the button's right side
-    }}
-  >
-    <div>
-    <div className="w-[9rem] sm:w-40 md:w-48 lg:w-56 logo" style={{marginLeft:"-17px"}}>
-            {theme === "light" ? (
-              <Image
-                src={dLogo}
-                alt="CRYPTO-COURIER Dark Logo"
-                width={400}
-                height={400}
-                className="w-full h-auto "
-              />
-            ) : (
-              <Image
-                src={lLogo}
-                alt="CRYPTO-COURIER Light Logo"
-                width={400}
-                height={400}
-                className="w-full h-auto "
-              />
-            )}
+      {/* Help Popup */}
+      {showHelp && (
+        <div
+          ref={helpRef}
+          className={`border border-[#FF3333] fixed  p-6 rounded-lg shadow-lg w-[90%] sm:w-[70%] md:w-[50%] lg:w-[35%] h-[50vh] sm:h-[60vh] md:h-[70vh] lg:h-[60vh] z-50 overflow-y-auto scroll ${theme === "dark" ? "bg-black" : "bg-white"}`}
+          style={{
+            position: "absolute",
+            top: "30%", // Slightly adjusted top for better viewing on smaller screens
+            right: "10px", // Aligns with the button's right side
+          }}
+        >
+          <div>
+            <div className="w-[9rem] sm:w-40 md:w-48 lg:w-56 logo" style={{ marginLeft: "-17px" }}>
+              {theme === "light" ? (
+                <Image
+                  src={dLogo}
+                  alt="CRYPTO-COURIER Dark Logo"
+                  width={400}
+                  height={400}
+                  className="w-full h-auto "
+                />
+              ) : (
+                <Image
+                  src={lLogo}
+                  alt="CRYPTO-COURIER Light Logo"
+                  width={400}
+                  height={400}
+                  className="w-full h-auto "
+                />
+              )}
+            </div>
+            <div>
+              <h2 className="text-xl font-bold mb-4 ">Help Information</h2>
+              <p className="">
+                CryptoCourier makes it easy for you to send tokens to anyone using just their email address,
+                even if they are new to crypto.
+              </p>
+              <ul className="list-disc list-inside mt-2 mb-4 ">
+                <li>Connect your wallet</li>
+                <li>Click the "Send" button</li>
+                <li>Enter the recipient's email and the amount of tokens</li>
+                <li>Confirm the transaction</li>
+              </ul>
+              <p className="">
+                The recipient will receive an email with instructions on how to claim their tokens.
+              </p>
+
+            </div>
           </div>
-<div>
-      <h2 className="text-xl font-bold mb-4 ">Help Information</h2>
-      <p className="">
-        CryptoCourier allows you to send tokens to anyone using their email address. Here's how it works:
-      </p>
-      <ul className="list-disc list-inside mt-2 mb-4 ">
-        <li>Connect your wallet</li>
-        <li>Click the "Send" button</li>
-        <li>Enter the recipient's email and the amount of tokens</li>
-        <li>Confirm the transaction</li>
-      </ul>
-      <p className="">
-        The recipient will receive an email with instructions on how to claim their tokens.
-      </p>
-      
-    </div>
-  </div>
-  </div>
-)}
+        </div>
+      )}
 
       <Toaster
         toastOptions={{

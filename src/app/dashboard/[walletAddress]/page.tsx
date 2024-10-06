@@ -8,8 +8,8 @@ import { useTheme } from "next-themes";
 import { useAccount } from "wagmi";
 import Image from "next/image";
 import { ChevronDown, LogOut, ExternalLink } from "lucide-react";
-import lLogo from "../../assets/lLogo.png"
-import dLogo from "../../assets/dLogo.png"
+import lLogo from "../../../assets/lLogo.png"
+import dLogo from "../../../assets/dLogo.png"
 import { X } from "lucide-react"; // You can replace this with an actual icon library
 import trx from "../../../assets/trx.png";
 import { sendEmail } from "../../../components/Email/Emailer";
