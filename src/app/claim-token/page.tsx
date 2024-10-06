@@ -58,6 +58,26 @@ function ClaimToken() {
         setIsRedirecting(true);
         // Add a small delay to ensure wallet state is properly initialized
         await new Promise(resolve => setTimeout(resolve, 500));
+
+        try {
+          const response = await fetch('/api/auth-status', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              walletAddress: user.wallet.address,
+              authenticated: true
+            }),
+          });
+          
+          if (!response.ok) {
+            throw new Error('Failed to update authentication status');
+          }
+        } catch (error) {
+          console.error('Error updating authentication status:', error);
+        }
+
         router.push(`/dashboard/${user.wallet.address}`);
       }
     };

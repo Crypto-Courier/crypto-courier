@@ -23,7 +23,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         recipientEmail,
         transactionHash,
         createdAt: new Date(),
-        customizedLink: `https://testnet.bttcscan.com/tx/${transactionHash}`
+        customizedLink: `https://testnet.bttcscan.com/tx/${transactionHash}`,
+        authenticated: false
       });
 
       res.status(200).json({ message: 'Transaction stored successfully', transactionId: result.insertedId });

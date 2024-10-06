@@ -15,7 +15,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const senderData = new Map();
 
       transactions.forEach(transaction => {
-        const { senderWallet, recipientWallet, recipientEmail } = transaction;
+        const { senderWallet, recipientWallet, recipientEmail, authenticated } = transaction;
         
         if (!senderData.has(senderWallet)) {
           senderData.set(senderWallet, { 
@@ -30,8 +30,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         // Add to invites
         senderInfo.invites.add(recipientWallet);
 
-        // Only count claim if the email is unique and authenticated
-        if (recipientEmail && !senderInfo.uniqueEmails.has(recipientEmail)) {
+        // Only count claim if the email is unique and the transaction is authenticated
+        if (recipientEmail && authenticated && !senderInfo.uniqueEmails.has(recipientEmail)) {
           senderInfo.uniqueEmails.add(recipientEmail);
           senderInfo.claims.add(recipientEmail);
         }
@@ -41,7 +41,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const leaderboardData = Array.from(senderData, ([address, data]) => ({
         address,
         invites: data.invites.size,
-        claims: Math.min(data.claims.size, data.invites.size) // Ensure claims don't exceed invites
+        claims: data.claims.size // No need to cap claims now, as we're only counting authenticated transactions
       })).sort((a, b) => b.claims - a.claims);
 
       // Take top 10
