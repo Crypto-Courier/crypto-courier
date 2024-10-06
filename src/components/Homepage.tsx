@@ -28,7 +28,6 @@ function Homepage() {
     setShowHelp(!showHelp);
   };
 
-
   // Close the help popup if clicking outside of it
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -192,7 +191,6 @@ function Homepage() {
                 tokens easily and securely, just like sending an email. By linking your wallet, you ensure
                 that only you have access to your funds, making your transactions safe and hassle-free.
               </p>
-
             </div>
           </div>
         </div>

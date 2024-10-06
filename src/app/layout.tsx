@@ -18,7 +18,7 @@ import { ThemeProvider } from "next-themes";
 export const metadata: Metadata = {
   title: "Crypto-Courier",
   description:
-    "Crypto-Courier gifting and claiming cryptocurrency via email on the Tron blockchain",
+    "Gift token as easy as sending email",
 };
 
 export default function RootLayout({

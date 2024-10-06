@@ -22,7 +22,6 @@ const WalletAddressPage: React.FC = () => {
   const router = useRouter();
   const params = useParams();
   const { ready, authenticated, user, exportWallet } = usePrivy();
-  const { address } = useAccount();
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -38,11 +37,8 @@ const WalletAddressPage: React.FC = () => {
   });
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
-  const [tokenAddress, setTokenAddress] = useState("");
-  const [tokenDetails, setTokenDetails] = useState<TokenDetails | null>(null);
   const [bttBalance, setBttBalance] = useState<string>("0");
   const [isWalletReady, setIsWalletReady] = useState(false);;
-  // const [error, setError] = useState(null);
 
   const { theme } = useTheme();
 
@@ -224,9 +220,9 @@ const WalletAddressPage: React.FC = () => {
   };
 
 
-   // Close the help popup if clicking outside of it
-   useEffect(() => {
-    function handleClickOutside(event:MouseEvent) {
+  // Close the help popup if clicking outside of it
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
       if (helpRef.current && !helpRef.current.contains(event.target as Node)) {
         setShowHelp(false); // Close the popup
       }
@@ -275,8 +271,8 @@ const WalletAddressPage: React.FC = () => {
             >
               <div
                 className={`flex items-center space-x-3 p-2 rounded-[10px] ${theme === "dark"
-                    ? "bg-[#1C1C1C] border border-[#A2A2A2]"
-                    : "bg-[#F4F3F3] border border-[#C6C6C6]"
+                  ? "bg-[#1C1C1C] border border-[#A2A2A2]"
+                  : "bg-[#F4F3F3] border border-[#C6C6C6]"
                   }`}
               >
                 <div className="w-10 h-10 bg-gray-300 rounded-full hidden lg:flex md:flex sm:flex"></div>
@@ -293,15 +289,15 @@ const WalletAddressPage: React.FC = () => {
               {isDropdownOpen && (
                 <div className="absolute top-full left-0 w-full rounded-md shadow-lg z-10">
                   <div className={` mt-1  rounded-md ${theme === "dark"
-                      ? "bg-[#1C1C1C] text-white border border-[#A2A2A2]"
-                      : "bg-white text-black border border-[#C6C6C6]"
+                    ? "bg-[#1C1C1C] text-white border border-[#A2A2A2]"
+                    : "bg-white text-black border border-[#C6C6C6]"
                     }`}>
                     <div className="p-2">
                       <button
                         onClick={handleExportWallet}
                         className={`flex items-center w-full px-4 py-2 text-sm rounded-md ${canExportWallet
-                            ? "hover:bg-gray-100 hover:text-gray-900"
-                            : "opacity-50 cursor-not-allowed"
+                          ? "hover:bg-gray-100 hover:text-gray-900"
+                          : "opacity-50 cursor-not-allowed"
                           }`}
                       >
                         <ExternalLink size={16} className="mr-2" />
@@ -327,8 +323,8 @@ const WalletAddressPage: React.FC = () => {
                 </div>
                 <div
                   className={`text-[25px] font-bold   py-1 px-3 rounded-[10px] ${theme === "dark"
-                      ? "text-[#FFE500] border border-[#A2A2A2] bg-[#1C1C1C]"
-                      : "text-[#E265FF] border border-gray"
+                    ? "text-[#FFE500] border border-[#A2A2A2] bg-[#1C1C1C]"
+                    : "text-[#E265FF] border border-gray"
                     }`}
                 >
                   {bttBalance} BTT
@@ -349,8 +345,8 @@ const WalletAddressPage: React.FC = () => {
 
           <div
             className={`${theme === "dark"
-                ? "bg-[#0A0A0A]/80 backdrop-blur-[80px]"
-                : "bg-white/80 backdrop-blur-[80px]"
+              ? "bg-[#0A0A0A]/80 backdrop-blur-[80px]"
+              : "bg-white/80 backdrop-blur-[80px]"
               } rounded-br-[40px] rounded-bl-[40px] md:flex-row space-y-6 md:space-y-0 md:space-x-6 lg:py-[30px] lg:px-[30px] md:py-[50px] md:px-[30px] sm:py-[50px] sm:px-[30px] justify-between items-start py-[30px] px-[30px]`}
           >
             <div className="space-y-3">
@@ -374,15 +370,15 @@ const WalletAddressPage: React.FC = () => {
                     <div
                       key={index}
                       className={`flex justify-between items-center bg-opacity-50 p-3 rounded-xl mt-2 mx-3 ${theme === "dark"
-                          ? "bg-[#000000]/20 border border-[#5C5C5C]"
-                          : "bg-[#FFFCFC]/20 border border-[#FFFFFF]"
+                        ? "bg-[#000000]/20 border border-[#5C5C5C]"
+                        : "bg-[#FFFCFC]/20 border border-[#FFFFFF]"
                         }`}
                     >
                       <div className="flex items-center space-x-3">
                         <span
                           className={`rounded-[10px] text-[15px]  ${theme === "dark"
-                              ? "border border-[#FE660A] text-[#FE660A] bg-[#181818] py-1 px-2"
-                              : "border border-[#FE660A] text-[#FE660A] bg-white py-1 px-2"
+                            ? "border border-[#FE660A] text-[#FE660A] bg-[#181818] py-1 px-2"
+                            : "border border-[#FE660A] text-[#FE660A] bg-white py-1 px-2"
                             }`}
                         >
                           {tx.tokenAmount} {tx.tokenSymbol}
@@ -392,8 +388,8 @@ const WalletAddressPage: React.FC = () => {
                             <span className="text-[15px] ">to</span>
                             <span
                               className={`rounded-[10px] text-[15px] ${theme === "dark"
-                                  ? "border border-[#E265FF] text-[#E265FF] bg-[#181818] py-1 px-2"
-                                  : "border border-[#0052FF] text-[#0052FF] bg-white py-1 px-2"
+                                ? "border border-[#E265FF] text-[#E265FF] bg-[#181818] py-1 px-2"
+                                : "border border-[#0052FF] text-[#0052FF] bg-white py-1 px-2"
                                 }`}
                             >
                               {tx.recipientEmail}
@@ -404,8 +400,8 @@ const WalletAddressPage: React.FC = () => {
                             <span className="text-[15px] ">from</span>
                             <span
                               className={`rounded-[10px] text-[15px] ${theme === "dark"
-                                  ? "border border-[#E265FF] text-[#E265FF] bg-[#181818] py-1 px-2"
-                                  : "border border-[#0052FF] text-[#0052FF] bg-white py-1 px-2"
+                                ? "border border-[#E265FF] text-[#E265FF] bg-[#181818] py-1 px-2"
+                                : "border border-[#0052FF] text-[#0052FF] bg-white py-1 px-2"
                                 }`}
                             >
                               {`${tx.senderWallet.slice(
@@ -448,9 +444,8 @@ const WalletAddressPage: React.FC = () => {
       </div>
       <Footer />
       <button
-        className={`fixed bottom-4 right-4 bg-[#000000] text-white font-bold w-12 h-12 rounded-full shadow-lg flex items-center justify-center text-2xl z-50 ${
-          !showHelp ? "animate-pulse" : ""
-        }`}
+        className={`fixed bottom-4 right-4 bg-[#000000] text-white font-bold w-12 h-12 rounded-full shadow-lg flex items-center justify-center text-2xl z-50 ${!showHelp ? "animate-pulse" : ""
+          }`}
         onClick={toggleHelp}
         onMouseEnter={() => setTooltipVisible(true)} // Show tooltip on hover
         onMouseLeave={() => setTooltipVisible(false)} // Hide tooltip when not hovering
@@ -464,60 +459,60 @@ const WalletAddressPage: React.FC = () => {
 
       {/* Tooltip */}
       {tooltipVisible && !showHelp && (
-        <div className= {`absolute bottom-16 right-1 text-sm rounded-lg px-3 py-1 z-50 shadow-lg mb-2 ${theme==="dark"?"bg-[#FFFFFF] text-blue-700":"bg-[#1C1C1C] text-[#FFE500]"}`}>
+        <div className={`absolute bottom-16 right-1 text-sm rounded-lg px-3 py-1 z-50 shadow-lg mb-2 ${theme === "dark" ? "bg-[#FFFFFF] text-blue-700" : "bg-[#1C1C1C] text-[#FFE500]"}`}>
           Help Center
         </div>
       )}
-    {/* Help Popup */}
-{showHelp && (
-  <div
-  ref={helpRef}
-    className= {`border border-[#FF3333] fixed  p-6 rounded-lg shadow-lg w-[90%] sm:w-[70%] md:w-[50%] lg:w-[35%] h-[50vh] sm:h-[60vh] md:h-[70vh] lg:h-[60vh] z-50 overflow-y-auto scroll ${theme==="dark"?"bg-black":"bg-white"}`}
-    style={{
-      position: "absolute",
-      top: "30%", // Slightly adjusted top for better viewing on smaller screens
-      right: "10px", // Aligns with the button's right side
-    }}
-  >
-    <div>
-    <div className="w-[9rem] sm:w-40 md:w-48 lg:w-56 logo" style={{marginLeft:"-17px"}}>
-            {theme === "light" ? (
-              <Image
-                src={dLogo}
-                alt="CRYPTO-COURIER Dark Logo"
-                width={400}
-                height={400}
-                className="w-full h-auto "
-              />
-            ) : (
-              <Image
-                src={lLogo}
-                alt="CRYPTO-COURIER Light Logo"
-                width={400}
-                height={400}
-                className="w-full h-auto "
-              />
-            )}
+      {/* Help Popup */}
+      {showHelp && (
+        <div
+          ref={helpRef}
+          className={`border border-[#FF3333] fixed  p-6 rounded-lg shadow-lg w-[90%] sm:w-[70%] md:w-[50%] lg:w-[35%] h-[50vh] sm:h-[60vh] md:h-[70vh] lg:h-[60vh] z-50 overflow-y-auto scroll ${theme === "dark" ? "bg-black" : "bg-white"}`}
+          style={{
+            position: "absolute",
+            top: "30%", // Slightly adjusted top for better viewing on smaller screens
+            right: "10px", // Aligns with the button's right side
+          }}
+        >
+          <div>
+            <div className="w-[9rem] sm:w-40 md:w-48 lg:w-56 logo" style={{ marginLeft: "-17px" }}>
+              {theme === "light" ? (
+                <Image
+                  src={dLogo}
+                  alt="CRYPTO-COURIER Dark Logo"
+                  width={400}
+                  height={400}
+                  className="w-full h-auto "
+                />
+              ) : (
+                <Image
+                  src={lLogo}
+                  alt="CRYPTO-COURIER Light Logo"
+                  width={400}
+                  height={400}
+                  className="w-full h-auto "
+                />
+              )}
+            </div>
+            <div>
+              <h2 className="text-xl font-bold mb-4 ">Help Information</h2>
+              <p className="">
+                CryptoCourier allows you to send tokens to anyone using their email address. Here's how it works:
+              </p>
+              <ul className="list-disc list-inside mt-2 mb-4 ">
+                <li>Connect your wallet</li>
+                <li>Click the "Send" button</li>
+                <li>Enter the recipient's email and the amount of tokens</li>
+                <li>Confirm the transaction</li>
+              </ul>
+              <p className="">
+                The recipient will receive an email with instructions on how to claim their tokens.
+              </p>
+
+            </div>
           </div>
-<div>
-      <h2 className="text-xl font-bold mb-4 ">Help Information</h2>
-      <p className="">
-        CryptoCourier allows you to send tokens to anyone using their email address. Here's how it works:
-      </p>
-      <ul className="list-disc list-inside mt-2 mb-4 ">
-        <li>Connect your wallet</li>
-        <li>Click the "Send" button</li>
-        <li>Enter the recipient's email and the amount of tokens</li>
-        <li>Confirm the transaction</li>
-      </ul>
-      <p className="">
-        The recipient will receive an email with instructions on how to claim their tokens.
-      </p>
-      
-    </div>
-  </div>
-  </div>
-)}    </div>
+        </div>
+      )}    </div>
   );
 };
 const PrivyWrapper: React.FC = () => {
