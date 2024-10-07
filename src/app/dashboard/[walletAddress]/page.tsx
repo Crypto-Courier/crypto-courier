@@ -197,9 +197,10 @@ const WalletAddressPage: React.FC = () => {
       ))}
     </div>
   );
-  // const invite = async () => {
-  //   router.push("/");
-  // };
+
+  const invite = async () => {
+    router.push("/");
+  };
 
   const handleMouseEnter = () => {
     setIsDropdownOpen(true);
@@ -334,7 +335,7 @@ const WalletAddressPage: React.FC = () => {
                   {bttBalance} BTT
                 </div>
               </div>
-              {/* <button
+              <button
                 onClick={invite}
                 className={`px-[30px] py-[10px] rounded-full mx-7 hover:scale-110 duration-500 transition 0.3 ${
                   theme === "dark"
@@ -343,7 +344,7 @@ const WalletAddressPage: React.FC = () => {
                 }`}
               >
                 Invite Your Friends
-              </button> */}
+              </button>
             </div>
           </div>
 
@@ -577,14 +578,15 @@ const WalletAddressPage: React.FC = () => {
   );
 };
 const PrivyWrapper: React.FC = () => {
+  const { theme } = useTheme();
   return (
     <PrivyProvider
       appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID || ""}
       config={{
         loginMethods: ['email'],
         appearance: {
-          theme: 'light',
-          accentColor: '#676FFF',
+          theme: theme === 'dark' ? 'dark' : 'light',
+          accentColor: theme === 'dark' ? '#FFE500' : '#E265FF',
         },
       }}
     >

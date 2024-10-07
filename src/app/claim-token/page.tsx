@@ -249,14 +249,16 @@ function ClaimToken() {
 }
 
 const PrivyWrapper: React.FC = () => {
+
+  const { theme } = useTheme();
   return (
     <PrivyProvider
       appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID || ""}
       config={{
         loginMethods: ['email'],
         appearance: {
-          theme: 'light',
-          accentColor: '#676FFF',
+          theme: theme === 'dark' ? 'dark' : 'light',
+          accentColor: theme === 'dark' ? '#FFE500' : '#E265FF',
         },
       }}
     >
