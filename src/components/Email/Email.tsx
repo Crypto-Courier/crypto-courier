@@ -1,5 +1,5 @@
 import React from "react";
-import { EmailProps } from "../../types/types"
+import { EmailProps } from "../../types/types";
 
 const Email: React.FC<EmailProps> = ({
   recipientEmail,
@@ -33,9 +33,15 @@ const Email: React.FC<EmailProps> = ({
       </div>
 
       <div style={{ textAlign: "center", marginBottom: "4px" }}>
-        <div style={{ fontSize: "16px", margin:"8px 4px"}}>Hey 👋</div>
+        <div style={{ fontSize: "16px", margin: "8px 4px" }}>Hey 👋</div>
         <div style={{ fontSize: "16px" }}>
-          <pre>You just received <strong>{tokenAmount} {tokenSymbol}</strong> Token </pre>
+          <pre>
+            You just received{" "}
+            <strong>
+              {tokenAmount} {tokenSymbol}
+            </strong>{" "}
+            Token{" "}
+          </pre>
         </div>
       </div>
 
@@ -63,7 +69,7 @@ const Email: React.FC<EmailProps> = ({
 
       <div style={{ textAlign: "center" }}>
         <a
-          href="https://courier-by-crypto-courier.vercel.app/claim-token"
+          href="https://localhost:3000/claim-token"
           target="_blank"
           rel="noopener noreferrer"
           style={{
