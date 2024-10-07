@@ -24,19 +24,19 @@ function ClaimToken() {
   const helpRef = useRef<HTMLDivElement | null>(null); // Define the type for the ref
   const [runTour5, setRunTour5] = useState(false); // Initially set to false
 
-  const steps = [
-    {
-      target: ".login",
-      disableBeacon: true,
-      content: "This is where you connect your wallet.",
-    },
+  // const steps = [
+  //   {
+  //     target: ".login",
+  //     disableBeacon: true,
+  //     content: "Click here to verify your identity and claim token.",
+  //   },
 
-    {
-      target: ".showhelp",
-      disableBeacon: true,
-      content: "Need help? Click here for assistance.",
-    },
-  ];
+  //   {
+  //     target: ".showhelp",
+  //     disableBeacon: true,
+  //     content: "Need help? Click here for assistance.",
+  //   },
+  // ];
 
   // Check if the tour has been completed previously
   useEffect(() => {
@@ -323,7 +323,7 @@ function ClaimToken() {
       )}
       {/* Joyride for the tour */}
       <Joyride
-        steps={steps}
+        // steps={steps}
         run={runTour5} // Only run if tour is not completed
         continuous
         showSkipButton

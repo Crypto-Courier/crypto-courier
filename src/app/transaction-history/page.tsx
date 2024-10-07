@@ -29,6 +29,7 @@ const TxHistory: React.FC = () => {
   const helpRef = useRef<HTMLDivElement | null>(null);
   const [loadingTxId, setLoadingTxId] = useState<number | null>(null);
   const [runTour2, setRunTour2] = useState(false); // Initially set to false
+  const [pageLoaded, setPageLoaded] = useState(false);
 
   const { theme } = useTheme();
 
@@ -36,12 +37,12 @@ const TxHistory: React.FC = () => {
     {
       target: ".resend",
       disableBeacon: true,
-      content: "This is where you connect your wallet.",
+      content: "Click here to resend email to receiver",
     },
     {
       target: ".trx",
       disableBeacon: true,
-      content: "Need help? Click here for assistance.",
+      content: "Click here to show transaction data in block explorer.",
     },
     {
       target: ".showhelp",
@@ -53,18 +54,18 @@ const TxHistory: React.FC = () => {
   // Check if the tour has been completed previously
   useEffect(() => {
     const tourCompleted = localStorage.getItem("tourCompleted2");
-    if (!tourCompleted) {
-      setRunTour2(true); // Run the tour if it hasn't been completed
+    if (!tourCompleted && pageLoaded) {
+      setRunTour2(true);
     }
-  }, []);
+  }, [pageLoaded]);
 
   // Handle the completion of the tour
   const handleTourCallback = (data: any) => {
     const { status } = data;
     const finishedStatuses = ["finished", "skipped"];
     if (finishedStatuses.includes(status)) {
-      localStorage.setItem("tourCompleted2", "true"); // Set tour as completed
-      setRunTour2(false); // Stop running the tour
+      localStorage.setItem("tourCompleted2", "true");
+      setRunTour2(false);
     }
   };
   // Condition routing to send token page
@@ -77,6 +78,12 @@ const TxHistory: React.FC = () => {
       );
     }
   };
+
+  useEffect(() => {
+    if (!isLoading && (transactions.length > 0 || error)) {
+      setPageLoaded(true);
+    }
+  }, [isLoading, transactions, error]);
 
   // useEffect to fetch the transaction detail from database
   useEffect(() => {
@@ -495,17 +502,17 @@ const TxHistory: React.FC = () => {
       {/* Joyride for the tour */}
       <Joyride
         steps={steps}
-        run={runTour2} // Only run if tour is not completed
+        run={runTour2 && pageLoaded}// Only run if tour is not completed
         continuous
         showSkipButton
         showProgress
         styles={{
           options: {
             zIndex: 1000,
-            primaryColor: "#1890ff", // Customize button color to match your theme
+            primaryColor: "#FF3333", // Customize button color to match your theme
           },
           buttonNext: {
-            backgroundColor: "#1890ff",
+            backgroundColor: "#FF3333",
             color: "#fff",
           },
         }}

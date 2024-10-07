@@ -50,17 +50,17 @@ const WalletAddressPage: React.FC = () => {
     {
       target: ".Export",
       disableBeacon: true,
-      content: "This is where you connect your wallet.",
+      content: "Click here to export your wallet.",
     },
     {
       target: ".logout",
       disableBeacon: true,
-      content: "Need help? Click here for assistance.",
+      content: "Click here to logout.",
     },
     {
       target: ".invite",
       disableBeacon: true,
-      content: "Need help? Click here for assistance.",
+      content: "Click here to invite your friends.",
     },
     {
       target: ".showhelp",
@@ -737,10 +737,10 @@ const WalletAddressPage: React.FC = () => {
         styles={{
           options: {
             zIndex: 1000,
-            primaryColor: "#1890ff", // Customize button color to match your theme
+            primaryColor: "#FF3333", // Customize button color to match your theme
           },
           buttonNext: {
-            backgroundColor: "#1890ff",
+            backgroundColor: "#FF3333",
             color: "#fff",
           },
         }}

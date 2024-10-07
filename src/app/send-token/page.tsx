@@ -46,12 +46,12 @@ const SendToken = () => {
     {
       target: ".send",
       disableBeacon: true,
-      content: "This is where you connect your wallet.",
+      content: "Click here to send token to your friend after enter the details.",
     },
     {
       target: ".addtoken",
       disableBeacon: true,
-      content: "Need help? Click here for assistance.",
+      content: "Click here to add your custom token or token that you want to send.",
     },
     {
       target: ".showhelp",
@@ -724,10 +724,10 @@ const SendToken = () => {
         styles={{
           options: {
             zIndex: 1000,
-            primaryColor: "#1890ff", // Customize button color to match your theme
+            primaryColor: "#FF3333", // Customize button color to match your theme
           },
           buttonNext: {
-            backgroundColor: "#1890ff",
+            backgroundColor: "#FF3333",
             color: "#fff",
           },
         }}
