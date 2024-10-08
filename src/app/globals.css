@@ -51,10 +51,7 @@ body::-webkit-scrollbar-thumb {
   flex-direction: column;
   justify-content: space-between;
 }
-button:focus,
-a:focus {
-  outline: none;
-}
+
 * {
   box-sizing: border-box;
 }

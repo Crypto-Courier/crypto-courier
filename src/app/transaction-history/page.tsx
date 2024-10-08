@@ -309,7 +309,7 @@ const TxHistory: React.FC = () => {
                         </div>
                         <div className="flex gap-3">
                           {tx.senderWallet === address && (
-                            <div className="bg-[#FF336A] hover:scale-110 duration-500 transition 0.3 text-white px-5 py-2 rounded-full text-[12px] flex items-center gap-2">
+                            <div className="resend bg-[#FF336A] hover:scale-110 duration-500 transition 0.3 text-white px-5 py-2 rounded-full text-[12px] flex items-center gap-2">
                               {loadingTxId === index ? (
                                 <Image
                                   src={loader}
@@ -319,17 +319,17 @@ const TxHistory: React.FC = () => {
                               ) : (
                                 <button
                                   onClick={() => handleResend(tx, index)} // Pass the index to identify transaction
-                                  className="resend text-[15px] "
+                                  className=" text-[15px] "
                                 >
                                   Resend
                                 </button>
                               )}
                             </div>
                           )}
-                          <div className="bg-[#FF336A] hover:scale-110 duration-500 transition 0.3 text-white px-5 py-2 rounded-full text-[12px] flex item-center gap-2">
+                          <div className="trx bg-[#FF336A] hover:scale-110 duration-500 transition 0.3 text-white px-5 py-2 rounded-full text-[12px] flex item-center gap-2">
                             <Image src={trx} alt="" />
                             <button
-                              className="trx text-[15px] "
+                              className=" text-[15px] "
                               onClick={() =>
                                 openTransactionReciept(tx.customizedLink)
                               }
@@ -343,7 +343,7 @@ const TxHistory: React.FC = () => {
                   )
                 ) : (
                   <div
-                    className={`text-center font-medium text-[17px] lg:text-[20px] md:text-[20px] sm:text-[20px] ${
+                    className={`text-center font-medium text-[17px] lg:text-[20px] md:text-[20px] sm:text-[20px] h-[40vh] flex justify-center items-center text-[20px] ${
                       theme === "dark" ? "text-[#DEDEDE]" : "text-[#696969]"
                     }`}
                   >
@@ -502,10 +502,10 @@ const TxHistory: React.FC = () => {
         styles={{
           options: {
             zIndex: 1000,
-            primaryColor: "#1890ff", // Customize button color to match your theme
+            primaryColor: "#FF3333", // Customize button color to match your theme
           },
           buttonNext: {
-            backgroundColor: "#1890ff",
+            backgroundColor: "#FF3333",
             color: "#fff",
           },
         }}

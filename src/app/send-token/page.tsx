@@ -724,10 +724,10 @@ const SendToken = () => {
         styles={{
           options: {
             zIndex: 1000,
-            primaryColor: "#1890ff", // Customize button color to match your theme
+            primaryColor: "#FF3333", // Customize button color to match your theme
           },
           buttonNext: {
-            backgroundColor: "#1890ff",
+            backgroundColor: "#FF3333",
             color: "#fff",
           },
         }}

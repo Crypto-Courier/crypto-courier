@@ -6,7 +6,7 @@ import useMediaQuery from "../hooks/useMediaQuery "; // Custom hook to detect sc
 
 export function ThemeToggle() {
   const [mounted, setMounted] = useState(false);
-  const { theme, setTheme } = useTheme();
+  const { theme, setTheme, systemTheme } = useTheme();
   const isMobile = useMediaQuery("(max-width: 640px)"); // Mobile screen detection (sm breakpoint)
 
   useEffect(() => {
@@ -16,6 +16,7 @@ export function ThemeToggle() {
   if (!mounted) {
     return null;
   }
+  const currentTheme = theme === "system" ? systemTheme : theme;
 
   const toggleTheme = () => {
     setTheme(theme === "dark" ? "light" : "dark");
