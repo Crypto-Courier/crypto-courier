@@ -16,10 +16,10 @@ export function ThemeToggle() {
   if (!mounted) {
     return null;
   }
-  const currentTheme = theme === "system" ? systemTheme : theme;
+  // const currentTheme = theme === "system" ? systemTheme : theme;
 
   const toggleTheme = () => {
-    setTheme(theme === "dark" ? "light" : "dark");
+    setTheme(theme === "dark" ? "" : "dark");
   };
 
   return (

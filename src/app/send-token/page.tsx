@@ -46,12 +46,14 @@ const SendToken = () => {
     {
       target: ".send",
       disableBeacon: true,
-      content: "Click here to send token to your friend after enter the details.",
+      content:
+        "Click here to send token to your friend after enter the details.",
     },
     {
       target: ".addtoken",
       disableBeacon: true,
-      content: "Click here to add your custom token or token that you want to send.",
+      content:
+        "Click here to add your custom token or token that you want to send.",
     },
     {
       target: ".showhelp",
@@ -320,28 +322,28 @@ const SendToken = () => {
         <div className="max-w-6xl w-[90%] mx-auto my-[4rem] ">
           <div
             className={`flex justify-between border-black border-b-0 px-[30px] py-[20px] ${
-              theme === "dark" ? "bg-black" : "bg-white"
+              theme === "dark" ? "bg-black" : "bg-black"
             } rounded-tl-[40px] rounded-tr-[40px] items-center }`}
           >
             <div
               className={`flex items-center space-x-3 p-2 rounded-[10px] ${
                 theme === "dark"
                   ? "bg-[#1C1C1C] border border-[#A2A2A2]"
-                  : "bg-[#F4F3F3] border border-[#C6C6C6]"
+                  : "bg-[#1C1C1C] border border-[#A2A2A2]"
               }`}
             >
               <div
                 className={`w-10 h-10 rounded-full flex items-center justify-center border-2 transition duration-300 hover:scale-110 ${
                   theme === "dark"
                     ? "border-white bg-transparent"
-                    : "border-gray-500 bg-transparent"
+                    : "border-white bg-transparent"
                 }`}
               >
                 <div
                   className={`w-8 h-8 rounded-full flex items-center justify-center ${
                     theme === "dark"
                       ? "bg-[#FFE500] text-[#363535]"
-                      : "bg-[#E265FF] text-white"
+                      : "bg-[#FFE500] text-[#363535]"
                   }`}
                 ></div>
               </div>
@@ -356,7 +358,7 @@ const SendToken = () => {
                 className={`px-[30px] py-[10px] rounded-full lg:mx-7 md:mx-7 sm:mx-7 hover:scale-110 duration-500 transition 0.3 mx-0 text-[12px] lg:text-[15px] md:text-[15px] sm:text-[15px] ${
                   theme === "dark"
                     ? "bg-[#FFE500] text-[#363535]"
-                    : "bg-[#E265FF] text-white"
+                    : "bg-[#FFE500] text-[#363535]"
                 }`}
                 onClick={OpenHistory}
               >
@@ -368,7 +370,7 @@ const SendToken = () => {
             className={`${
               theme === "dark"
                 ? "bg-[#0A0A0A]/80 backdrop-blur-[80px]"
-                : "bg-white/80 backdrop-blur-[80px]"
+                : "bg-[#0A0A0A]/80 backdrop-blur-[80px]"
             } rounded-br-[40px] rounded-bl-[40px] flex flex-col-reverse md:flex-col-reverse lg:flex-row space-y-6 md:space-y-0  lg:py-[40px] px-[30px]  md:py-[20px] py-[20px] justify-between items-center gap-[20px]`}
           >
             {" "}
@@ -377,7 +379,7 @@ const SendToken = () => {
                 {" "}
                 <h3
                   className={`text-[20px] font-medium   ${
-                    theme === "dark" ? "text-[#DEDEDE]" : "text-[#696969]"
+                    theme === "dark" ? "text-[#DEDEDE]" : "text-[#DEDEDE]"
                   }`}
                 >
                   All assets
@@ -387,7 +389,7 @@ const SendToken = () => {
                   className={`addtoken hover:scale-110 duration-500 transition 0.3 ${
                     theme === "dark"
                       ? "bg-[#FFE500] text-[#363535]"
-                      : "bg-[#E265FF] text-white"
+                      : "bg-[#FFE500] text-[#363535]"
                   }  px-4 py-2 rounded-full text-sm`}
                 >
                   Add Token
@@ -408,13 +410,13 @@ const SendToken = () => {
                       className={`${
                         theme === "dark"
                           ? "bg-[#000000]/50 border border-white"
-                          : " bg-[#FFFCFC]"
+                          : " bg-[#000000]/50 border border-white"
                       } flex justify-between items-center bg-opacity-50 rounded-xl shadow-sm py-2 px-5 my-4 mx-4`}
                     >
                       <div className="flex items-center space-x-2">
                         <span
                           className={` font-bold ${
-                            theme === "dark" ? "text-white" : "text-black"
+                            theme === "dark" ? "text-white" : "text-white"
                           }`}
                         >
                           {token.symbol}
@@ -432,7 +434,7 @@ const SendToken = () => {
                   <div className="flex items-center justify-center h-full">
                     <span
                       className={` ${
-                        theme === "dark" ? "text-[#DEDEDE]" : "text-[#696969]"
+                        theme === "dark" ? "text-[#DEDEDE]" : "text-[#DEDEDE]"
                       } text-center text-gray-500 text-[18px]`}
                     >
                       {isConnected ? `No Tokens Found` : `Connect wallet first`}
@@ -445,7 +447,7 @@ const SendToken = () => {
               <div>
                 <label
                   className={`block text-lg font-[500]  mb-1 ${
-                    theme === "dark" ? "text-[#DEDEDE]" : "text-black"
+                    theme === "dark" ? "text-[#DEDEDE]" : "text-[#DEDEDE]"
                   }`}
                 >
                   Enter token amount to send
@@ -455,7 +457,7 @@ const SendToken = () => {
                     className={`flex-grow bg-opacity-50 rounded-xl p-3 mb-3 flex justify-between items-center ${
                       theme === "dark"
                         ? "bg-[#000000]/50 border border-white"
-                        : " bg-[#FFFCFC] border border-gray-700"
+                        : " bg-[#000000]/50 border border-white"
                     }`}
                   >
                     <input
@@ -464,13 +466,13 @@ const SendToken = () => {
                       value={tokenAmount}
                       onChange={(e) => setTokenAmount(e.target.value)}
                       className={`w-full bg-transparent outline-none ${
-                        theme === "dark" ? "text-white" : "text-gray-800 "
+                        theme === "dark" ? "text-white" : "text-white"
                       } `}
                     />
                     <button
                       onClick={handleMaxClick}
                       className={`text-[12px] border  border-gray rounded-[5px] px-3 py-1 font-bold opacity-1 hover:opacity-[0.7] ${
-                        theme === "dark" ? "text-[#E265FF]" : "text-[#FF336A]"
+                        theme === "dark" ? "text-[#E265FF]" : "text-[#E265FF]"
                       }`}
                     >
                       Max
@@ -483,7 +485,7 @@ const SendToken = () => {
                       className={`flex-grow bg-opacity-50 rounded-xl p-3 mb-3 flex justify-between items-center  outline-none ${
                         theme === "dark"
                           ? "bg-[#000000]/50 border border-white"
-                          : " bg-[#FFFCFC] border border-gray-700"
+                          : " bg-[#000000]/50 border border-white"
                       }`}
                     >
                       <option
@@ -493,7 +495,7 @@ const SendToken = () => {
                         className={` text-black hover:bg-gray-200 bg-opacity-50 ${
                           theme === "dark"
                             ? "bg-[#000000]/100 border border-white text-white"
-                            : " bg-[#FFFCFC] border border-gray-700 text-black "
+                            : " bg-[#000000]/100 border border-white text-white"
                         }`}
                       >
                         Select a token
@@ -506,7 +508,7 @@ const SendToken = () => {
                             className={` text-black hover:bg-gray-200 bg-opacity-50 ${
                               theme === "dark"
                                 ? "bg-[#000000]/100 border border-white text-white"
-                                : "bg-[#FFFCFC] border border-gray-700 text-black "
+                                : "bg-[#000000]/100 border border-white text-white"
                             }`}
                           >
                             {token.symbol}
@@ -520,7 +522,7 @@ const SendToken = () => {
               <div>
                 <label
                   className={`block text-lg font-[500]  mb-1 ${
-                    theme === "dark" ? "text-[#DEDEDE]" : "text-black"
+                    theme === "dark" ? "text-[#DEDEDE]" : "text-[#DEDEDE]"
                   }`}
                 >
                   Enter recipient's email
@@ -533,7 +535,7 @@ const SendToken = () => {
                   className={`w-full bg-opacity-50 rounded-xl p-3 mb-3 r  outline-none${
                     theme === "dark"
                       ? "bg-[#000000]/50 border border-white"
-                      : " bg-[#FFFCFC] border border-gray-700"
+                      : " bg-[#000000]/50 border border-white"
                   }`}
                 />
               </div>
@@ -557,7 +559,7 @@ const SendToken = () => {
                 <div className="mt-5">
                   <label
                     className={`block text-lg font-[500]  mb-1 ${
-                      theme === "dark" ? "text-[#DEDEDE]" : "text-black"
+                      theme === "dark" ? "text-[#DEDEDE]" : "text-[#DEDEDE]"
                     }`}
                   >
                     Txn Hash:
@@ -566,7 +568,7 @@ const SendToken = () => {
                     className={`flex-grow bg-opacity-50 rounded-xl p-3 mb-3 flex justify-between items-center ${
                       theme === "dark"
                         ? "bg-[#000000]/50 border border-white"
-                        : " bg-[#FFFCFC]"
+                        : " bg-[#000000]/50 border border-white"
                     }`}
                   >
                     {hash ? `${hash.slice(0, 20)}...${hash.slice(-7)}` : ""}
@@ -620,14 +622,13 @@ const SendToken = () => {
           "?" // Pulsing Question mark icon when popup is closed
         )}
       </button>
-
       {/* Tooltip */}
       {tooltipVisible && !showHelp && (
         <div
           className={`absolute bottom-16 right-1 text-sm rounded-lg px-3 py-1 z-50 shadow-lg mb-2 ${
             theme === "dark"
               ? "bg-[#FFFFFF] text-blue-700"
-              : "bg-[#1C1C1C] text-[#FFE500]"
+              : "bg-[#FFFFFF] text-blue-700"
           }`}
         >
           Help Center
@@ -638,7 +639,7 @@ const SendToken = () => {
         <div
           ref={helpRef}
           className={`border border-[#FF3333] fixed  p-6 rounded-lg shadow-lg w-[90%] sm:w-[70%] md:w-[50%] lg:w-[35%] h-[50vh] sm:h-[60vh] md:h-[70vh] lg:h-[60vh] z-50 overflow-y-auto scroll ${
-            theme === "dark" ? "bg-black" : "bg-white"
+            theme === "dark" ? "bg-black" : "bg-black"
           }`}
           style={{
             position: "absolute",
@@ -653,8 +654,8 @@ const SendToken = () => {
             >
               {theme === "light" ? (
                 <Image
-                  src={dLogo}
-                  alt="CRYPTO-COURIER Dark Logo"
+                  src={lLogo}
+                  alt="CRYPTO-COURIER Light Logo"
                   width={400}
                   height={400}
                   className="w-full h-auto "
@@ -701,20 +702,18 @@ const SendToken = () => {
           </div>
         </div>
       )}
-
       <Toaster
         toastOptions={{
           style: {
             border: "1px solid transparent",
 
             borderImageSlice: 1,
-            background: theme === "dark" ? "white" : "black",
-            color: theme === "dark" ? "black" : "white",
+            background: theme === "dark" ? "white" : "white",
+            color: theme === "dark" ? "black" : "black",
           },
         }}
       />
 
-      {/* Joyride for the tour */}
       <Joyride
         steps={steps}
         run={runTour3} // Only run if tour is not completed

@@ -43,7 +43,7 @@ body::-webkit-scrollbar-thumb {
 .dark body {
   background-image: url("..//assets//darkbg.png");
   color: white;
-  background-color: #171717;
+  background-color: #171717 !important;
 }
 .main {
   height: 100vh;

@@ -18,7 +18,24 @@ const LeaderBoard: React.FC = () => {
   );
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
+  // Skeleton Laoding
+  const SkeletonLoader = () => (
+    <div className="space-y-3 animate-pulse">
+      {[...Array(3)].map((_, index) => (
+        <div
+          key={index}
+          className="flex justify-between items-center bg-opacity-50 p-3 rounded-xl border border-gray-300"
+        >
+          <div className="flex items-center space-x-3">
+            <div className="h-8 w-24 bg-gray-300 rounded-[10px]"></div>
+            <div className="h-6 w-6 bg-gray-300 rounded"></div>
+            <div className="h-8 w-32 bg-gray-300 rounded-[10px]"></div>
+          </div>
+          <div className="h-8 w-24 bg-gray-300 rounded-full"></div>
+        </div>
+      ))}
+    </div>
+  );
   useEffect(() => {
     const fetchLeaderboardData = async () => {
       try {
@@ -49,7 +66,7 @@ const LeaderBoard: React.FC = () => {
 
       <div className={`${theme === "dark" ? "txbgg1" : "txbgg2"}`}>
         <div
-          className={`${
+          className={`h-[80vh] ${
             theme === "dark"
               ? "bg-gradient-to-t to-[#0052FF]/[0.23] from-[#FF005C]/[0.23] py-[30px] backdrop-blur-[20px] h-full"
               : "bg-gradient-to-t to-[#FF005C]/[0.23] from-[#FE660A]/[0.23] py-[30px] backdrop-blur-[20px] h-full"
@@ -70,8 +87,8 @@ const LeaderBoard: React.FC = () => {
 
               <div className="w-full lg:w-2/3  h-[60vh]">
                 {isLoading ? (
-                  <div className="h-40 md:h-60 lg:h-80 flex justify-center items-center text-lg md:text-xl">
-                    Loading...
+                  <div className="w-full max-w-4xl mx-auto ">
+                    <SkeletonLoader />
                   </div>
                 ) : error ? (
                   <div className="text-red-700 h-40 md:h-60 lg:h-80 flex justify-center items-center text-lg md:text-xl">
@@ -82,10 +99,10 @@ const LeaderBoard: React.FC = () => {
                     <div className="w-full max-w-4xl mx-auto flex justify-end mb-4">
                       <button
                         onClick={invite}
-                        className={`invite px-[30px] py-[10px] rounded-full hover:scale-110 duration-500 transition 0.3 ${
+                        className={`invite px-[30px] py-[10px] rounded-full hover:scale-110 duration-500 transition 0.2 animate-pulse ${
                           theme === "dark"
                             ? "bg-[#FFE500] text-[#363535]"
-                            : "bg-[#FFFFFF] text-black"
+                            : "bg-[#FFE500] text-[#363535]"
                         }`}
                       >
                         Invite Your Friends

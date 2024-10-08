@@ -192,28 +192,28 @@ const TxHistory: React.FC = () => {
         <div className="max-w-6xl w-[90%] mx-auto my-[60px] ">
           <div
             className={`flex justify-between border-black border-b-0 p-[30px] shadow-lg ${
-              theme === "dark" ? "bg-black" : "bg-white"
+              theme === "dark" ? "bg-black" : "bg-black"
             } rounded-tl-[40px] rounded-tr-[40px] items-center }`}
           >
             <div
               className={`flex items-center space-x-3 p-2 rounded-[10px] ${
                 theme === "dark"
                   ? "bg-[#1C1C1C] border border-[#A2A2A2]"
-                  : "bg-[#F4F3F3] border border-[#C6C6C6]"
+                  : "bg-[#1C1C1C] border border-[#A2A2A2]"
               }`}
             >
               <div
                 className={`w-10 h-10 rounded-full flex items-center justify-center border-2 transition duration-300 hover:scale-110 ${
                   theme === "dark"
                     ? "border-white bg-transparent"
-                    : "border-gray-500 bg-transparent"
+                    : "border-white bg-transparent"
                 }`}
               >
                 <div
                   className={`w-8 h-8 rounded-full flex items-center justify-center ${
                     theme === "dark"
                       ? "bg-[#FFE500] text-[#363535]"
-                      : "bg-[#E265FF] text-white"
+                      : "bg-[#FFE500] text-[#363535]"
                   }`}
                 ></div>
               </div>
@@ -229,7 +229,7 @@ const TxHistory: React.FC = () => {
                 className={`px-[30px] py-[10px] rounded-full lg:mx-7 md:mx-7 sm:mx-7 hover:scale-110 duration-500 transition 0.3 mx-0 text-[12px] lg:text-[15px] md:text-[15px] sm:text-[15px] ${
                   theme === "dark"
                     ? "bg-[#FFE500] text-[#363535]"
-                    : "bg-[#E265FF] text-white"
+                    : "bg-[#FFE500] text-[#363535]"
                 }`}
                 onClick={SendToken}
               >
@@ -242,13 +242,13 @@ const TxHistory: React.FC = () => {
             className={`  ${
               theme === "dark"
                 ? "bg-[#0A0A0A]/80 backdrop-blur-[80px]"
-                : "bg-white/80 backdrop-blur-[80px]"
+                : "bg-[#0A0A0A]/80 backdrop-blur-[80px]"
             } rounded-br-[40px] rounded-bl-[40px] md:flex-row space-y-6 md:space-y-0 md:space-x-6 lg:py-[30px] lg:px-[30px] md:py-[50px] md:px-[30px] sm:py-[50px] sm:px-[30px] justify-between items-start py-[30px] px-[30px]`}
           >
             <div className="space-y-3 text-[12px] lg:text-[13px] md:text-[13px] sm:text-[13px]">
               <h3
                 className={` font-medium text-[17px] lg:text-[20px] md:text-[20px] sm:text-[20px] ${
-                  theme === "dark" ? "text-[#DEDEDE]" : "text-[#696969]"
+                  theme === "dark" ? "text-[#DEDEDE]" : "text-[#DEDEDE]"
                 }`}
               >
                 Transaction history
@@ -270,7 +270,7 @@ const TxHistory: React.FC = () => {
                         className={`flex justify-between items-center bg-opacity-50 p-3 rounded-xl mt-2 mx-3 ${
                           theme === "dark"
                             ? "bg-[#000000]/20 border border-[#5C5C5C]"
-                            : "bg-[#FFFCFC]/20 border border-[#FFFFFF]"
+                            : "bg-[#000000]/20 border border-[#5C5C5C]"
                         }`}
                       >
                         <div className="flex items-center space-x-3">
@@ -278,7 +278,7 @@ const TxHistory: React.FC = () => {
                             className={`rounded-[10px] text-[15px] ${
                               theme === "dark"
                                 ? "border border-[#FE660A] text-[#FE660A] bg-[#181818] py-1 px-2"
-                                : "border border-[#FE660A] text-[#FE660A] bg-white py-1 px-2"
+                                : "border border-[#FE660A] text-[#FE660A] bg-[#181818] py-1 px-2"
                             }`}
                           >
                             {tx.tokenAmount} {tx.tokenSymbol}
@@ -290,7 +290,7 @@ const TxHistory: React.FC = () => {
                                 className={`rounded-[10px]text-[15px] ${
                                   theme === "dark"
                                     ? "border border-[#E265FF] text-[#E265FF] bg-[#181818] py-1 px-2"
-                                    : "border border-[#0052FF] text-[#0052FF] bg-white py-1 px-2"
+                                    : "border border-[#E265FF] text-[#E265FF] bg-[#181818] py-1 px-2"
                                 }`}
                               >
                                 {tx.recipientEmail}
@@ -303,7 +303,7 @@ const TxHistory: React.FC = () => {
                                 className={`rounded-[10px] text-[15px] ${
                                   theme === "dark"
                                     ? "border border-[#E265FF] text-[#E265FF] bg-[#181818] py-1 px-2"
-                                    : "border border-[#0052FF] text-[#0052FF] bg-white py-1 px-2"
+                                    : "border border-[#E265FF] text-[#E265FF] bg-[#181818] py-1 px-2"
                                 }`}
                               >
                                 {`${tx.senderWallet.slice(
@@ -351,7 +351,7 @@ const TxHistory: React.FC = () => {
                 ) : (
                   <div
                     className={`text-center font-medium text-[17px] lg:text-[20px] md:text-[20px] sm:text-[20px] h-[40vh] flex justify-center items-center text-[20px] ${
-                      theme === "dark" ? "text-[#DEDEDE]" : "text-[#696969]"
+                      theme === "dark" ? "text-[#DEDEDE]" : "text-[#DEDEDE]"
                     }`}
                   >
                     Connect your wallet to view your transactions.
@@ -385,7 +385,7 @@ const TxHistory: React.FC = () => {
           className={`absolute bottom-16 right-1 text-sm rounded-lg px-3 py-1 z-50 shadow-lg mb-2 ${
             theme === "dark"
               ? "bg-[#FFFFFF] text-blue-700"
-              : "bg-[#1C1C1C] text-[#FFE500]"
+              : "bg-[#FFFFFF] text-blue-700"
           }`}
         >
           Help Center
@@ -396,7 +396,7 @@ const TxHistory: React.FC = () => {
         <div
           ref={helpRef}
           className={`border border-[#FF3333] fixed  p-6 rounded-lg shadow-lg w-[90%] sm:w-[70%] md:w-[50%] lg:w-[35%] h-[50vh] sm:h-[60vh] md:h-[70vh] lg:h-[60vh] z-50 overflow-y-auto scroll ${
-            theme === "dark" ? "bg-black" : "bg-white"
+            theme === "dark" ? "bg-black" : "bg-black"
           }`}
           style={{
             position: "absolute",
@@ -411,8 +411,8 @@ const TxHistory: React.FC = () => {
             >
               {theme === "light" ? (
                 <Image
-                  src={dLogo}
-                  alt="CRYPTO-COURIER Dark Logo"
+                  src={lLogo}
+                  alt="CRYPTO-COURIER Light Logo"
                   width={400}
                   height={400}
                   className="w-full h-auto "
@@ -502,7 +502,7 @@ const TxHistory: React.FC = () => {
       {/* Joyride for the tour */}
       <Joyride
         steps={steps}
-        run={runTour2 && pageLoaded}// Only run if tour is not completed
+        run={runTour2 && pageLoaded} // Only run if tour is not completed
         continuous
         showSkipButton
         showProgress
