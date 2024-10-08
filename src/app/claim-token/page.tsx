@@ -8,12 +8,16 @@ import { useRouter } from "next/navigation";
 import spin from "../../assets/spinner.gif";
 import lLogo from "../../assets/lLogo.png";
 import Image from "next/image";
+import Confetti from "react-confetti";
+
 import dLogo from "../../assets/dLogo.png";
 import { X } from "lucide-react"; // You can replace this with an actual icon library
 import Joyride from "react-joyride";
 
 function ClaimToken() {
   const { theme } = useTheme();
+  const [showConfetti, setShowConfetti] = useState(false); // Confetti state
+
   const { login, authenticated, ready, user } = usePrivy();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isRedirecting, setIsRedirecting] = useState(false);
@@ -85,11 +89,12 @@ function ClaimToken() {
       setIsAuthenticated(authenticated);
     }
   }, [ready, authenticated]);
-
   useEffect(() => {
     const handleAuthenticationAndRedirect = async () => {
       if (ready && authenticated && user?.wallet?.address && !isRedirecting) {
         setIsRedirecting(true);
+        setShowConfetti(true); // Show confetti on successful authentication
+
         // Add a small delay to ensure wallet state is properly initialized
         await new Promise((resolve) => setTimeout(resolve, 500));
 
@@ -209,6 +214,9 @@ function ClaimToken() {
           </div>
         </div>
       </div>
+      {showConfetti && (
+        <Confetti width={window.innerWidth} height={window.innerHeight} />
+      )}
 
       <Footer />
       <button
