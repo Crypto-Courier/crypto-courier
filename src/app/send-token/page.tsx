@@ -670,7 +670,7 @@ const SendToken = () => {
                 />
               )}
             </div>
-            <div>
+            <div className="font-sans">
               <h2 className="text-xl font-bold mb-4 ">Help Information</h2>
               <p className="">
                 CryptoCourier makes it easy for you to send tokens to anyone
