@@ -46,12 +46,12 @@ const SendToken = () => {
     {
       target: ".send",
       disableBeacon: true,
-      content: "This is where you connect your wallet.",
+      content: "Click here to send token to your friend after enter the details.",
     },
     {
       target: ".addtoken",
       disableBeacon: true,
-      content: "Need help? Click here for assistance.",
+      content: "Click here to add your custom token or token that you want to send.",
     },
     {
       target: ".showhelp",
