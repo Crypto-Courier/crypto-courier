@@ -555,7 +555,7 @@ const SendToken = () => {
                   </button>
                 </div>
               </div>
-              {hash && (
+              {/* {hash && (
                 <div className="mt-5">
                   <label
                     className={`block text-lg font-[500]  mb-1 ${
@@ -587,7 +587,7 @@ const SendToken = () => {
                     </button>
                   </div>
                 </div>
-              )}
+              )} */}
             </div>
           </div>
           <TxDetails

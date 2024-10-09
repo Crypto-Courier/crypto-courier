@@ -287,7 +287,7 @@ const TxHistory: React.FC = () => {
                             <>
                               <span className="text-[15px]">to</span>
                               <span
-                                className={`rounded-[10px]text-[15px] ${
+                                className={`rounded-[10px] text-[15px] ${
                                   theme === "dark"
                                     ? "border border-[#E265FF] text-[#E265FF] bg-[#181818] py-1 px-2"
                                     : "border border-[#E265FF] text-[#E265FF] bg-[#181818] py-1 px-2"

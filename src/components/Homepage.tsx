@@ -43,9 +43,9 @@ function Homepage() {
     };
   }, [showHelp]);
 
-  const OpenHistory = () => {
+  const SendToken = () => {
     if (isConnected) {
-      router.push("/transaction-history");
+      router.push("/send-token");
     } else {
       alert("Please connect with Wallet first to send tokens.");
     }
@@ -105,7 +105,7 @@ function Homepage() {
             <div className="s3subdiv flex justify-center">
               <button
                 className="hover:scale-110 duration-500 transition 0.3 send px-0 py-0 text-base sm:text-lg md:text-xl lg:text-2xl rounded-full  relative w-[50%] sm:w-[50%] md:w-[40%] lg:w-[25%] max-w-[300px] bg-[#FFFFFF]/25"
-                onClick={OpenHistory}
+                onClick={SendToken}
               >
                 Send
               </button>
@@ -147,7 +147,7 @@ function Homepage() {
         <div
           ref={helpRef}
           className={`border border-[#FF3333] fixed  p-6 rounded-lg shadow-lg w-[90%] sm:w-[70%] md:w-[50%] lg:w-[35%] h-[50vh] sm:h-[60vh] md:h-[70vh] lg:h-[60vh] z-50 overflow-y-auto scroll ${
-            theme === "dark" ? "bg-black" : "bg-white"
+            theme === "dark" ? "bg-black" : "bg-black"
           }`}
           style={{
             position: "absolute",
